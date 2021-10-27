@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.event.repository.owner.id == github.event.sender.id && github.actor != 'gedoor' }}
+    if: ${{ github.event.repository.owner.id == github.event.sender.id && github.actor != 'stax76' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -28,6 +28,6 @@ jobs:
         git remote add upstream https://github.com/stax76/mpv.net.git
         git remote -v
         git fetch upstream
-        git checkout master
+        git checkout -b master
         git merge --strategy-option=ours upstream/master
         git push -f origin master

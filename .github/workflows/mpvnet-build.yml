@@ -4,9 +4,16 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
       - ci
-      - 'release/**'
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '.gitattributes'
+      - 'docs/**'
+      - '.github/**'
+
 jobs:
   build:
     runs-on: windows-latest
