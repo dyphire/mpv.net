@@ -33,6 +33,7 @@
  SPACE             cycle pause                                           #menu: 文件 > 播放/暂停
  _                 stop                                                  #menu: 文件 > 停止
  T                 cycle ontop                                           #menu: 文件 > 开/关 置顶状态
+ ALT+b             cycle window-maximized                                #menu: 文件 > 开/关 最大化
  ENTER             cycle fullscreen                                      #menu: 文件 > 切换 全屏
  O                 no-osd cycle-values osd-level 3 1                     #menu: 文件 > 开/关 显示OSD时间轴
  i                 script-message mpv.net show-info                      #menu: 文件 > 显示简要信息
@@ -49,12 +50,12 @@
  CTRL+F8           script-binding playlistmanager/showplaylist           #menu: 导航 > OSD高级播放列表
  F9                show-text ${track-list} 5000                          #menu: 导航 > OSD轨道信息
  _                 ignore                                                #menu: 导航 > -
- F11               playlist-prev                                         #menu: 导航 > 上个文件
- F12               playlist-next                                         #menu: 导航 > 下个文件
+ <                 playlist-prev; show-text "${playlist-pos-1}/${playlist-count}"    #menu: 导航 > 上个文件
+ >                 playlist-next; show-text "${playlist-pos-1}/${playlist-count}"    #menu: 导航 > 下个文件
  _                 script-message mpv.net playlist-first                 #menu: 导航 > 首位的文件
  _                 script-message mpv.net playlist-last                  #menu: 导航 > 末位的文件
- ,                 frame-back-step                                       #menu: 导航 > 上一帧
- .                 frame-step                                            #menu: 导航 > 下一帧
+ ,                 frame-back-step; show-text "${estimated-frame-number}"            #menu: 导航 > 上一帧
+ .                 frame-step; show-text "${estimated-frame-number}"                 #menu: 导航 > 下一帧
  LEFT              seek -5                                               #menu: 导航 > 后退 5 秒
  RIGHT             seek  5                                               #menu: 导航 > 前进 5 秒
  DOWN              seek -30                                              #menu: 导航 > 后退 30 秒
@@ -65,25 +66,34 @@
  _                 ignore                                                #menu: 导航 > Titles
  _                 ignore                                                #menu: 导航 > Chapters
 
- CTRL+-            add video-zoom -0.1                                   #menu: 画面 > 缩小
- CTRL+=            add video-zoom  0.1                                   #menu: 画面 > 放大
- w                 cycle-values panscan 0.0 1.0                          #menu: 画面 > 开/关 裁切填充
- _                 cycle-values video-rotate 0 270 180 90                #menu: 画面 > 左旋转
- _                 cycle-values video-rotate 0 90 180 270                #menu: 画面 > 右旋转
- CTRL+BS           set video-zoom 0; set panscan 0; set video-rotate 0   #menu: 画面 > 重置
- _                 ignore                                                #menu: 画面 > -
  a                 cycle-values video-aspect 16:9 4:3 2.35:1 -1          #menu: 画面 > 切换 宽高比
  _                 ignore                                                #menu: 画面 > -
- ALT+`             script-message mpv.net window-scale 0.5               #menu: 画面 > 窗口缩放 >  50%
- ALT+1             script-message mpv.net window-scale 1.0               #menu: 画面 > 窗口缩放 > 100%
- ALT+2             script-message mpv.net window-scale 1.5               #menu: 画面 > 窗口缩放 > 150%
- ALT+3             script-message mpv.net window-scale 2.0               #menu: 画面 > 窗口缩放 > 200%
- ALT+-             script-message mpv.net scale-window 1.2               #menu: 画面 > 窗口缩放 > 递减
- ALT+=             script-message mpv.net scale-window 0.8               #menu: 画面 > 窗口缩放 > 递增
+ ALT+p             cycle-values panscan 0.0 1.0                          #menu: 画面 > 开/关 裁切填充
+ CTRL+LEFT         cycle-values video-rotate 0 270 180 90                #menu: 画面 > 左旋转
+ CTRL+RIGHT        cycle-values video-rotate 0 90 180 270                #menu: 画面 > 右旋转
+ CTRL+-            script-message mpv.net scale-window 0.8               #menu: 画面 > 缩小窗口
+ CTRL+=            script-message mpv.net scale-window 1.2               #menu: 画面 > 放大窗口
+ ALT+-             add video-zoom -0.1                                   #menu: 画面 > 画面缩放 > 画面缩小
+ ALT+=             add video-zoom  0.1                                   #menu: 画面 > 画面缩放 > 画面放大
+ ALT+LEFT          add video-pan-x -0.1                                  #menu: 画面 > 画面缩放 > 画面左移动
+ ALT+RIGHT         add video-pan-x  0.1                                  #menu: 画面 > 画面缩放 > 画面右移动
+ ALT+UP            add video-pan-y -0.1                                  #menu: 画面 > 画面缩放 > 画面上移动
+ ALT+DOWN          add video-pan-y  0.1                                  #menu: 画面 > 画面缩放 > 画面下移动
+ ALT+BS            set video-zoom 0 ; set panscan 0 ; set video-rotate 0 ; set video-pan-x 0 ; set video-pan-y 0      #menu: 画面 > 重置
+ _                 ignore                                                #menu: -
+ CTRL+I            cycle icc-profile-auto                                #menu: 画面 > 开/关 自动ICC校色
+ CTRL+g            cycle gamut-clipping                                  #menu: 画面 > 开/关 色域裁剪
+ CTRL+b            cycle scaler-resizes-only                             #menu: 画面 > 开/关 默认还原算法
+ G                 cycle-values gamma-factor 1.1 1.2 1.0                 #menu: 画面 > 切换 gamma环境系数
+ h                 cycle-values tone-mapping "mobius" "reinhard" "hable" "bt.2390" "gamma"     #menu: 画面 > 切换 hdr映射曲线 
+ ALT+h             cycle-values hdr-compute-peak yes no                  #menu: 画面 > 切换 hdr动态映射
  _                 ignore                                                #menu: -
 
-
- CTRL+h            cycle-values hwdec no yes auto-copy                   #menu: 视频 > 切换 软解/硬解/硬解增强
+ _                 cycle video                                           #menu: 视频 > 切换 视频轨
+ CTRL+h            cycle-values hwdec "auto"  "d3d11va-copy" "nvdec-copy" "cuda-copy" "no"  # 切换 解码方式
+ CTRL+p            cycle video-sync                                      #menu: 视频 > 切换 帧同步方式
+ ALT+i             cycle interpolation                                   #menu: 视频 > 开/关 抖动补偿
+ ALT+s             cycle sigmoid-upscaling                               #menu: 视频 > 开/关 非线性色彩转换 
  _                 cycle icc-profile-auto                                #menu: 视频 > 开/关 自动ICC校色
  1                 add contrast -1                                       #menu: 视频 > 调色 > 对比度 -1
  2                 add contrast  1                                       #menu: 视频 > 调色 > 对比度 +1
@@ -104,10 +114,17 @@
  s                 screenshot subtitles                                  #menu: 视频 > 截屏 > 源分辨率
  S                 screenshot video                                      #menu: 视频 > 截屏 > 同上 无字幕OSD
  CTRL+s            screenshot window                                     #menu: 视频 > 截屏 > 实际画面
+ CTRL+S            screenshot each-frame                                 #menu: 视频 > 截屏 > 逐帧
  d                 cycle deinterlace                                     #menu: 视频 > 开/关 去隔行扫描
  D                 cycle deband                                          #menu: 视频 > 开/关 去色带
+ ALT+z             add   deband-iterations +1                            #menu: 视频 > 去色带 > deband强度+1
+ ALT+x             add   deband-iterations -1                            #menu: 视频 > 去色带 > deband强度-1 
+ _                 ignore                                                #menu: -
 
- KP1               script-message mpv.net cycle-audio                    #menu: 音频 > 切换 下一个
+ y                 script-message mpv.net cycle-audio                          #menu: 音频 > 切换 下一个
+ CTRL+y            cycle audio-exclusive                                       #menu: 音频 > 开/关 音频独占
+ CTRL+Y            cycle hr-seek-framedrop                                     #menu: 音频 > 开/关 音频同步
+ ALT+y             cycle-values audio-channels "stereo" "auto-safe" "auto"     #menu: 音频 > 切换音频通道输出方式
  _                 ignore                                                #menu: 音频 > -
  -                 add volume -1                                         #menu: 音频 > 音量 -1
  =                 add volume  1                                         #menu: 音频 > 音量 +1
@@ -117,11 +134,24 @@
  CTRL+.            add audio-delay  0.1                                  #menu: 音频 > 延迟 +0.1
  _                 set audio-delay  0                                    #menu: 音频 > 延迟 重置
  _                 ignore                                                #menu: 音频 > -
- <                 script-binding cycle_adevice/back                     #menu: 音频 > 上个输出设备
- >                 script-binding cycle_adevice/next                     #menu: 音频 > 下个输出设备
+ F6                show-text ${audio-device-list} 5000                   #menu: 音频 > 音频设备列表
+ CTRL+a            script-binding cycle_adevice/back                     #menu: 音频 > 上个输出设备
+ ALT+a             script-binding cycle_adevice/next                     #menu: 音频 > 下个输出设备
 
- KP2               cycle sub                                             #menu: 字幕 > 切换 下一个
- _                 cycle sub-visibility                                  #menu: 字幕 > 切换 可见性
+ j                 cycle sub                                             #menu: 字幕 > 切换 下一个
+ k                 cycle secondary-sid                                   #menu: 字幕 > 加载次字幕
+ K                 cycle secondary-sid down                              #menu: 字幕 > 次字幕切换
+ v                 cycle sub-visibility                                  #menu: 字幕 > 切换 可见性
+ u                 cycle sub-ass-override                                #menu: 字幕 > 切换 渲染样式
+ F                 cycle sub-font-provider                               #menu: 字幕 > 兼容性 > 切换 字体渲染方式
+ J                 cycle sub-ass-vsfilter-color-compat                   #menu: 字幕 > 兼容性 > 切换 字幕颜色转换方式
+ B                 cycle sub-ass-vsfilter-blur-compat                    #menu: 字幕 > 兼容性 > 切换 blur 标签缩放方式
+ V                 cycle sub-ass-vsfilter-aspect-compat                  #menu: 字幕 > 兼容性 > 切换 vsfilter 系兼容
+ X                 cycle-values sub-ass-force-style "ScaledBorderAndShadow=yes" "ScaledBorderAndShadow=no"    #menu: 字幕 > 兼容性 > 切换 ass 字幕阴影边框缩放
+ H                 cycle sub-ass-force-margins                           #menu: 字幕 > 兼容性 > 开/关 ass 字幕输出到黑边
+ Z                 cycle sub-use-margins                                 #menu: 字幕 > 兼容性 > 开/关 srt 字幕输出到黑边 
+ P                 cycle stretch-image-subs-to-screen                    #menu: 字幕 > 兼容性 > 开/关 pgs 字幕输出到黑边 
+ p                 cycle sub-gray                                        #menu: 字幕 > 兼容性 > 开/关 pgs 字幕灰度转换
  _                 ignore                                                #menu: 字幕 > -
  CTRL+;            add sub-delay -0.1                                    #menu: 字幕 > 延迟 -0.1
  CTRL+'            add sub-delay  0.1                                    #menu: 字幕 > 延迟 +0.1
@@ -145,34 +175,17 @@
  ^                 vf toggle fps=fps=60/1.001                            #menu: 视频滤镜 > 开/关 强制帧数59.94
  &                 vf toggle colortemperature=temperature=6500           #menu: 视频滤镜 > 开/关 色温修正6500
 
- CTRL+`            change-list glsl-shaders clr ""                                               #menu: 着色器 > 清空
- _                 change-list glsl-shaders set "~~/shaders/Anime4K_Denoise_Bilateral_Mode.glsl;~~/shaders/Anime4K_Upscale_Deblur_DoG_x2.glsl"   #menu: 着色器 > 预设组 > A4k-DD
- _                 change-list glsl-shaders set "~~/shaders/Anime4K_Darken_HQ.glsl;~~/shaders/Anime4K_Thin_HQ.glsl;~~/shaders/Anime4K_Denoise_Bilateral_Mode.glsl;~~/shaders/Anime4K_Deblur_DoG.glsl"   #menu: 着色器 > 预设组 > A4k-DTDD
- _                 change-list glsl-shaders set "~~/shaders/cas_luma_0_5.glsl;~~/shaders/ravu-zoom-r3.glsl"   #menu: 着色器 > 预设组 > CAS05&RAVU3
- _                 change-list glsl-shaders set "~~/shaders/SSimSuperRes.glsl;~~/shaders/SSimDownscaler.glsl"   #menu: 着色器 > 预设组 > SSSR&DS
- _                 ignore                                                                         #menu: 着色器 > -
- CTRL+1            change-list glsl-shaders toggle "~~/shaders/ACNet_HDN_L1.glsl"                 #menu: 着色器 > 开/关 ACNet_HDN_L1
- CTRL+2            change-list glsl-shaders toggle "~~/shaders/adaptive-sharpen_2_0_anime.glsl"   #menu: 着色器 > 开/关 自适应锐化（2D）
- CTRL+3            change-list glsl-shaders toggle "~~/shaders/AiUpscale_Fast_2x_Photo.glsl"      #menu: 着色器 > 开/关 AiUpscale_Fast_2x_Photo
- CTRL+4            change-list glsl-shaders toggle "~~/shaders/Anime4K_Upscale_DTD_x2.glsl"       #menu: 着色器 > 开/关 Anime4K_Upscale_DTD_x2
- CTRL+5            change-list glsl-shaders toggle "~~/shaders/Anime4K_Restore_CNN_Moderate_M.glsl"   #menu: 着色器 > 开/关 A4K_线条重塑（中）
- CTRL+6            change-list glsl-shaders toggle "~~/shaders/FSRCNNX_x2_8-0-4-1_LineArt.glsl"   #menu: 着色器 > 开/关 FSRCNNX_x2_8041_LA
- CTRL+7            change-list glsl-shaders toggle "~~/shaders/KrigBilateral.glsl"                #menu: 着色器 > 开/关 KrigBilateral
- CTRL+8            change-list glsl-shaders toggle "~~/shaders/nnedi3-nns128-win8x4.glsl"         #menu: 着色器 > 开/关 NNEDI3_128
- CTRL+9            change-list glsl-shaders toggle "~~/shaders/ravu-zoom-r4.glsl"                 #menu: 着色器 > 开/关 ravu-zoom-r4
-
-
  _                 ignore                                                #menu: -
  _                 ignore                                                #menu: 其它 > Profile
  b                 cycle border                                          #menu: 其它 > 切换 边框模式
  _                 script-binding osc/visibility                         #menu: 其它 > 切换 OSC可见性
  `                 script-binding console/enable                         #menu: 其它 > 打开 控制台
 
- CTRL+M            script-message mpv.net show-conf-editor               #menu: 工具 > mpv 选项设置
- CTRL+I            script-message mpv.net show-input-editor              #menu: 工具 > input 编辑器
+ _                 script-message mpv.net show-conf-editor               #menu: 工具 > mpv 选项设置
+ _                 script-message mpv.net show-input-editor              #menu: 工具 > input 编辑器
  _                 script-message mpv.net open-conf-folder               #menu: 工具 > 打开 设置文件夹
- F1                script-message mpv.net show-command-palette           #menu: 工具 > 命令面板
- F2                script-message mpv.net show-properties                #menu: 工具 > 属性列表
+ F12               script-message mpv.net show-command-palette           #menu: 工具 > 命令面板
+ -                 script-message mpv.net show-properties                #menu: 工具 > 属性列表
  _                 script-message mpv.net show-media-info                #menu: 工具 > 输出文本 > MediaInfo
  _                 script-message mpv.net show-audio-devices             #menu: 工具 > 输出文本 > 音频设备列表
  _                 script-message mpv.net show-commands                  #menu: 工具 > 输出文本 > 命令列表
@@ -192,7 +205,8 @@
  _                 script-message mpv.net show-about                                                                     #menu: 帮助 > 关于
 
  _                 ignore                                                #menu: -
- CTRL+q            quit                                                  #menu: 退出程序
+ b                 cycle window-minimized                                #menu: 最小化
+ q                 quit                                                  #menu: 退出程序
  Q                 quit-watch-later                                      #menu: 退出并保存当前状态
 
  POWER             quit
