@@ -85,6 +85,16 @@ option  = yes
 option  = no
 
 [setting]
+name    = osc
+file    = mpv
+default = yes
+filter  = 功能
+help    = 使用内置OSC脚本的功能
+
+option  = yes
+option  = no
+
+[setting]
 name    = hidpi-window-scale
 file    = mpv
 default = no
@@ -234,9 +244,9 @@ option  = no
 [setting]
 name    = resume-playback-check-mtime
 file    = mpv
-default = yes
+default = no
 filter  = 功能
-help    = 如果文件的修改时间与保存时相同，则仅从watch_later配置子目录恢复播放位置\n这可以防止在具有不同内容的同名文件中的错误行为
+help    = 如果文件的修改时间与保存时相同，则从watch_later配置子目录恢复播放位置\n这可以防止在具有不同内容的同名文件中的错误行为
 
 option  = yes
 option  = no
@@ -286,6 +296,14 @@ filter  = OSD
 type    = string
 width   = 500
 help    = 开始播放时短暂显示的信息\n例：${filename} 
+
+[setting]
+name    = osd-status-msg
+file    = mpv
+filter  = OSD
+type    = string
+width   = 500
+help    = 跳转时OSD显示的信息\n例：${playback-time/full} / ${duration/full} (${percent-pos}%) 
 
 [setting]
 name    = osd-bar-w
@@ -637,16 +655,6 @@ name    = deband-grain
 file    = mpv
 filter  = 视频
 help    = <0-4096> 添加额外动态噪点，有助于掩盖剩余的量化伪影（默认48）
-
-[setting]
-name    = osc
-file    = mpv
-default = yes
-filter  = 高级
-help    = 使用内置OSC脚本的功能
-
-option  = yes
-option  = no
 
 [setting]
 name    = input-ipc-server
