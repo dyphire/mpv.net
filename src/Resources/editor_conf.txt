@@ -1,24 +1,3 @@
-
-[setting]
-name    = vo
-file    = mpv
-default = gpu
-filter  = 基础
-help    = 视频输出驱动程序
-
-option  = gpu                 通用且具有高度可定制化与扩展性的GPU加速视频输出驱动
-option  = libmpv
-
-[setting]
-name    = gpu-api
-file    = mpv
-default = d3d11
-filter  = 基础
-help    = 图形API
-
-option  = d3d11
-option  = vulkan
-
 [setting]
 name    = hwdec
 file    = mpv
@@ -35,6 +14,87 @@ option  = nvdec-copy          帕斯卡架构后的N卡首选
 option  = cuda-copy           兼容性较高
 
 [setting]
+name    = vo
+file    = mpv
+default = gpu
+filter  = 基础
+help    = 视频输出驱动程序
+
+option  = gpu                 通用且具有高度可定制化与扩展性的GPU加速视频输出驱动
+option  = direct3d
+option  = libmpv
+
+[setting]
+name    = gpu-api
+file    = mpv
+default = d3d11
+filter  = 基础
+help    = 图形API
+
+option  = auto
+option  = d3d11
+option  = vulkan
+option  = opengl
+
+[setting]
+name    = gpu-context
+file    = mpv
+default = auto
+filter  = 基础
+help    = 选择输出后端。此项通常由--gpu-api=<value>自动决定正确值\n--gpu-api=opengl时默认选用angle，此时最好改为win/dxinterop
+
+option  = auto
+option  = win
+option  = winvk
+option  = angle
+option  = dxinterop
+option  = d3d11
+
+[setting]
+name    = d3d11-exclusive-fs
+file    = mpv
+default = no
+filter  = 基础
+help    = --gpu-api=d3d11下的全屏独占功能，默认禁用
+
+option  = yes
+option  = no
+
+[setting]
+name    = d3d11-flip
+file    = mpv
+default = yes
+filter  = 基础
+help    = 启用翻转模型演示\n启用--d3d11-exclusive-fs参数产生冻屏效应时可尝试禁用此项解决
+
+option  = yes
+option  = no
+
+[setting]
+name    = d3d11va-zero-copy
+file    = mpv
+default = no
+filter  = 基础
+help    = 禁用解码采样copy，默认：no\n当解码卡顿掉帧时可启用此项尝试改善
+
+option  = yes
+option  = no
+
+[setting]
+name    = vd-lavc-threads
+file    = mpv
+filter  = 基础
+type    = string
+help    = 用于解码的线程数，是否实际支持线程取决于编解码器（默认值：0）\n0表示自动检测机器上的内核数并使用它，最多为16\n可以手动设置为超过16个线程
+
+[setting]
+name    = fbo-format
+file    = mpv
+filter  = 基础
+type    = string
+help    = 内处理精度。此项通常由 --gpu-api=<value> 自动决定正确值，默认首选16位及以上的精度\n例：auto,rgba16f,rgba16hf,rgba16,rgba32f,rgba32hf,rgba32,rgb10_a2,rgb10,rgba8
+
+[setting]
 name    = d3d11-adapter
 file    = mpv
 filter  = 基础
@@ -49,30 +109,6 @@ filter  = 基础
 type    = string
 width   = 500
 help    = （当--gpu-api=vulkan时）单显卡系统无需填写，双显卡笔记本留空自动选择系统或驱动指定的主渲染显卡，否则应指定具体显卡名\n例：NVIDIA GeForce RTX 2070 Super 或 Intel(R) UHD Graphics
-
-[setting]
-name    = icc-cache-dir
-file    = mpv
-filter  = 基础
-type    = string
-width   = 500
-help    = 指定目录存储和加载从ICC配置文件创建的3D LUT，可以用来加快加载速度。\n例："~~/icc_cache"
-
-[setting]
-name    = gpu-shader-cache-dir
-file    = mpv
-filter  = 基础
-type    = string
-width   = 500
-help    = 在此目录中存储和加载已编译的GLSL着色器缓存，可以提高启动性能。\n例："~~/shaders_cache"
-
-[setting]
-name    = log-file
-file    = mpv
-filter  = 基础
-type    = string
-width   = 500
-help    = 输出libmpv的日志，须指定文件名+（可选）相对/绝对路径\n例：~~desktop/mpvnet_CM.log\n（无路径将默认生成在程序目录下）
 
 [setting]
 name    = border
@@ -95,6 +131,16 @@ option  = yes
 option  = no
 
 [setting]
+name    = fullscreen
+file    = mpv
+default = no
+filter  = 功能
+help    = 以全屏状态启动播放器，默认禁用
+
+option  = yes
+option  = no
+
+[setting]
 name    = hidpi-window-scale
 file    = mpv
 default = no
@@ -109,7 +155,7 @@ name    = ontop
 file    = mpv
 default = no
 filter  = 功能
-help    = 窗口置顶
+help    = 窗口置顶\n当--gpu-api=vulkan时也有全屏独占作用
 
 option  = yes
 option  = no
@@ -362,7 +408,7 @@ name    = icc-profile-auto
 file    = mpv
 default = no
 filter  = 视频
-help    = 色彩管理。自动使用系统当前的ICC文件
+help    = 色彩管理。自动使用系统当前的ICC校色文件
 
 option  = yes
 option  = no
@@ -373,13 +419,21 @@ file    = mpv
 filter  = 视频
 type    = string
 width   = 500
-help    = 色彩管理。（不使用自动时可）手动指定ICC文件\n启用此选项将自动覆盖--target-prim、--target-trc和--icc-profile-auto\n由于mpv校色目标是BT.1886，建议优先使用此项指定gamma2.4的校色文件进行色彩管理
+help    = 色彩管理。手动指定ICC校色文件\n启用此选项将自动覆盖--target-prim、--target-trc和--icc-profile-auto\n由于mpv校色目标是BT.1886，建议优先使用此项指定gamma2.4的校色文件进行色彩管理
 
 [setting]
 name    = icc-3dlut-size
 file    = mpv
 filter  = 视频
 help    = <2-512> 色彩管理。根据ICC文件生成3dlut的每通道数量，默认：64x64x64\n（实际最大有效值由ICC视频卡伽马表的上限决定）
+
+[setting]
+name    = icc-cache-dir
+file    = mpv
+filter  = 视频
+type    = string
+width   = 500
+help    = 指定目录存储和加载从ICC配置文件创建的3D LUT，可以用来加快加载速度。\n例："~~/icc_cache"
 
 [setting]
 name    = icc-force-contrast
@@ -453,6 +507,12 @@ help    = 同步模式
 
 option  = audio               最佳兼容与性能模式
 option  = display-resample    重采样以匹配显示器刷新率
+option  = display-resample-vdrop
+option  = display-resample-desync
+option  = display-vdrop
+option  = display-adrop
+option  = display-desync
+option  = desync
 
 [setting]
 name    = interpolation
@@ -473,8 +533,10 @@ help    = 时间插值算法，启用前须使用--interpolation=yes
 
 option  = bicubic             最平滑（糊）
 option  = mitchell            综合下平衡的选择
-option  = sphinx
 option  = oversample          最清晰（卡），类SmoothMotion
+option  = sphinx
+option  = catmull_rom
+option  = box
 
 [setting]
 name    = tscale-radius
@@ -497,16 +559,18 @@ help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此
 [setting]
 name    = cscale
 file    = mpv
-default = ewa_hanning
+default = bilinear
 filter  = 视频
 help    = 色度还原算法(422/420→444)
 
 option  = bilinear            双线性（最快）
-option  = catmull_rom
+option  = catmull_rom         片源好时可使用
 option  = spline36
-option  = ewa_lanczos
-option  = ewa_hanning
-option  = ewa_lanczossoft
+option  = bicubic
+option  = gaussian
+option  = ewa_lanczos         jinc算法
+option  = ewa_hanning         类jinc，抑制振铃伪影
+option  = ewa_lanczossoft     类jinc，更柔和
 
 [setting]
 name    = cscale-antiring
@@ -517,19 +581,21 @@ help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此
 [setting]
 name    = scale
 file    = mpv
-default = ewa_hanning
+default = spline36
 filter  = 视频
 help    = 图像放大算法
 
 option  = nearest             最邻近算法只擅长整数倍缩放
 option  = bilinear
 option  = spline36
-option  = lanczos
 option  = sinc
-option  = ewa_lanczos
-option  = ewa_hanning
-option  = ewa_lanczossharp    类jinc
-option  = ewa_lanczossoft
+option  = bicubic             抑制瑕疵效果最好
+option  = gaussian
+option  = lanczos
+option  = ewa_lanczos         jinc算法
+option  = ewa_hanning         类jinc，抑制振铃伪影，推荐
+option  = ewa_lanczossharp    类jinc，更锐利
+option  = ewa_lanczossoft     类jinc，更柔和
 
 [setting]
 name    = scale-antiring
@@ -540,7 +606,7 @@ help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此
 [setting]
 name    = dscale
 file    = mpv
-default = ewa_hanning
+default = 
 filter  = 视频
 help    = 图像缩小算法。\n不选任何选项即（默认）跟随--scale的算法
 
@@ -548,10 +614,13 @@ option  = bilinear
 option  = spline36
 option  = mitchell
 option  = catmull_rom
+option  = bicubic             抑制瑕疵效果最好
+option  = gaussian
 option  = lanczos
-option  = ewa_lanczos
-option  = ewa_hanning
-option  = ewa_lanczossoft
+option  = ewa_lanczos         jinc算法
+option  = ewa_hanning         类jinc，抑制振铃伪影，推荐
+option  = ewa_lanczossharp    类jinc，更锐利
+option  = ewa_lanczossoft     类jinc，更柔和
 
 [setting]
 name    = dscale-antiring
@@ -657,19 +726,11 @@ filter  = 视频
 help    = <0-4096> 添加额外动态噪点，有助于掩盖剩余的量化伪影（默认48）
 
 [setting]
-name    = input-ipc-server
-file    = mpv
-filter  = 高级
-type    = string
-width   = 500
-help    = IPC支持，输入监听路径\n例：如需开启SVP Manager支持，填写：mpvpipe
-
-[setting]
 name    = load-scripts
 file    = mpv
 default = yes
 filter  = 高级
-help    = 自动挂载设置目录/scripts/中的外挂脚本
+help    = 自动挂载设置目录"~~/scripts"中的外挂脚本
 
 option  = yes
 option  = no
@@ -679,7 +740,7 @@ name    = input-builtin-bindings
 file    = mpv
 default = no
 filter  = 高级
-help    = 在启动期间禁用mpv内置键位绑定的加载。此选项不会影响外部加载脚本的键位绑定
+help    = 设为no时可禁用mpv内置键位。此选项不会影响外部加载脚本的键位绑定\nmpv.net此项必须设为no，防止预设键位冲突
 
 option  = yes
 option  = no
@@ -689,10 +750,18 @@ name    = input-default-bindings
 file    = mpv
 default = yes
 filter  = 高级
-help    = 禁用mpv内置键位及外部加载脚本的--mp.add_key_binding 键位绑定方案\n可以有效解决脚本快捷键冲突，启用后需在input.conf里指定所需快捷键
+help    = 设为no时可禁用mpv内置键位及外部加载脚本的--mp.add_key_binding键位绑定方案\n这可以有效解决外部脚本快捷键冲突，启用后需在input.conf里指定所需快捷键
 
 option  = yes
 option  = no
+
+[setting]
+name    = input-ipc-server
+file    = mpv
+filter  = 高级
+type    = string
+width   = 500
+help    = IPC支持，输入监听路径\n例：如需开启SVP Manager支持，填写：mpvpipe
 
 [setting]
 name    = vf
@@ -720,6 +789,22 @@ type    = string
 width   = 500
 help    = 跟随程序启动时加载的着色器
 url     = https://mpv.io/manual/master/#options-glsl-shaders
+
+[setting]
+name    = gpu-shader-cache-dir
+file    = mpv
+filter  = 高级
+type    = string
+width   = 500
+help    = 在此目录中存储和加载已编译的GLSL着色器缓存，可以提高启动性能。\n例："~~/shaders_cache"
+
+[setting]
+name    = log-file
+file    = mpv
+filter  = 高级
+type    = string
+width   = 500
+help    = 输出libmpv的日志，须指定文件名+（可选）相对/绝对路径\n例：~~desktop/mpvnet_CM.log\n（无路径将默认生成在程序目录下）
 
 [setting]
 name    = audio-device
@@ -828,7 +913,7 @@ help    = 字体渲染api选项，windows推荐使用auto，DirectWrite性能最
 
 option  = auto                 自动选择系统字体渲染接口
 option  = none                 忽略字幕指定字体，使用sub-font参数
-option  = fontconfig           使用mpv.conf目录下fonts.conf里的字体加载项
+option  = fontconfig           使用mpv.conf同目录下fonts.conf里的字体加载项。windows下不推荐，性能差
 
 [setting]
 name    = sub-ass-overrid
@@ -841,14 +926,14 @@ option  = no                  禁用
 option  = yes                 应用所有--sub-ass-*样式覆盖选项
 option  = force               强制应用所有--sub-*选项
 option  = scale               类似yes，但也适用--sub-scale
-option  = strip               去除所有 ASS 标签和样式，此项也会影响pgs和srt等格式字幕
+option  = strip               去除所有ass标签和样式，此项也会影响pgs和srt等格式字幕
 
 [setting]
 name    = embeddedfonts
 file    = mpv
 default = yes
 filter  = 字幕
-help    = 使用嵌入在 Matroska 容器文件和 ASS 脚本中的字体
+help    = 使用嵌入在Matroska容器文件和ASS文本中的字体
 
 option  = no
 option  = yes
@@ -899,6 +984,16 @@ file    = mpv
 default = no
 filter  = 字幕
 help    = ASS/SSA高级字幕尽可能输出黑边（当--blend-subtitles=yes/video时无效）
+
+option  = yes
+option  = no
+
+[setting]
+name    = sub-ass-scale-with-window
+file    = mpv
+default = no
+filter  = 字幕
+help    = 使ASS/SSA字幕字体大小相对于窗口，而不是视频（默认：no）\n当字幕输出到黑边时，启用此项或可改善观感
 
 option  = yes
 option  = no
@@ -1237,7 +1332,7 @@ file    = mpv
 type    = string
 width   = 500
 filter  = 特殊
-help    = 追加读取指定的配置文件
+help    = 追加读取指定的配置文件\n由于mpv.net图形编辑器的局限性，此项可用于读取额外的自定义参数及配置组的.conf配置文件\n例："~~/mpvown.conf"\n注意：此项参数必须位于主配置mpv.conf中的末尾，避免追加配置被覆盖
 
 [setting]
 name    = remember-volume
