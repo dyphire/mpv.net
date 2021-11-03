@@ -918,7 +918,7 @@ option  = fontconfig           使用mpv.conf同目录下fonts.conf里的字体�
 [setting]
 name    = sub-ass-overrid
 file    = mpv
-default = no
+default = yes
 filter  = 字幕
 help    = 设置字幕渲染方式，控制是否应用样式覆盖
 
@@ -1047,7 +1047,7 @@ file    = mpv
 type    = string
 width   = 500
 filter  = 字幕
-help    = 强制预更改ass/ssa字幕样式\n例如无视标记而不缩放边框和阴影（模仿vsfilter）：ScaledBorderAndShadow=no
+help    = 强制预更改ass/ssa字幕样式\n例如无视标记而不缩放边框和阴影（模仿vsfilter）：ScaledBorderAndShadow=no\n注：libass 0.15.2后的git版已修复该问题
 
 [setting]
 name    = sub-gauss
