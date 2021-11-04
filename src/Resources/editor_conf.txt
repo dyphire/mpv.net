@@ -21,6 +21,7 @@ filter  = 基础
 help    = 视频输出驱动程序
 
 option  = gpu                 通用且具有高度可定制化与扩展性的GPU加速视频输出驱动
+option  = gpu-next            基于libplaceb渲染器，尚未完成开发（只支持--gpu-api=vulkan），暂只支持软解，仅供测试
 option  = direct3d
 option  = libmpv
 
@@ -1317,10 +1318,88 @@ option  = yes
 option  = no
 
 [setting]
+name    = builtin-scalers
+file    = mpv
+default = yes
+filter  = 实验性
+help    = 使用更快的内置缩放来替换常见的缩放器，如nearest、bilinear和bicubic\n与普通的缩放器不同，这些具有不可配置的缺点。默认启用\n此选项仅影响--vo=gpu-next
+
+option  = yes
+option  = no
+
+[setting]
+name    = interpolation-preserve
+file    = mpv
+default = yes
+filter  = 实验性
+help    = 即使更改渲染器参数，也保留前一帧的插值结果。裁剪和视频放置相关的选项除外，它们总是使缓存无效\n启用此选项会使渲染器设置的动态更新更平滑，但代价是响应此类更改时延迟稍高。默认启用\n此选项仅影响--vo=gpu-next，注意-vo=gpu总是使插值帧无效
+
+option  = yes
+option  = no
+
+[setting]
+name    = allow-delayed-peak-detect
+file    = mpv
+default = yes
+filter  = 实验性
+help    = 使用--hdr-compute-peak时，允许在有利于性能的情况下将检测到的峰值延迟一帧。特别是当不需要高级渲染时，这可以避免不必要的FBO处理。默认启用\n此选项仅影响--vo=gpu-next，注意-vo=gpu默认延迟峰值处理
+
+option  = yes
+option  = no
+
+[setting]
+name    = lut
+file    = mpv
+filter  = 实验性
+type    = string
+width   = 500
+help    = 指定自定义LUT（Adobe .cube格式）作为颜色转换的一部分应用于颜色。确切的方式取决于--lut-type\n仅适用于--vo=gpu-next
+
+[setting]
+name    = lut-type
+file    = mpv
+default = auto
+filter  = 实验性
+help    = 控制传入和传出指定为--lut的LUT的颜色值的方式
+
+option  = auto                从标记的元数据中自动选择LUT，否则回退到系统（默认）
+option  = native              在转换到输出颜色空间之前应用于其原生RGB颜色空间（非线性光）中的原始图像内容
+option  = normalized          在转换到输出颜色空间之前应用于线性光中的归一化RGB图像内容
+option  = conversion          全替换从图像色彩空间到输出色彩空间的转换。如果存在此类LUT，则它具有最高优先级，并覆盖任何ICC配置文件以及与色调映射和输出色度相关的选项（--target-prim、--target-trc等）
+
+[setting]
+name    = target-lut
+file    = mpv
+filter  = 实验性
+type    = string
+width   = 500
+help    = 指定自定义LUT文件（Adobe .cube格式）以在屏幕上显示之前应用于颜色\n在编码到目标色彩空间后，此LUT以归一化RGB形式提供值，因此将在--target-trc之后处理\n仅适用于--vo=gpu-next
+
+[setting]
+name    = image-lut
+file    = mpv
+filter  = 实验性
+type    = string
+width   = 500
+help    = 指定自定义LUT文件（Adobe .cube格式）以在图像解码期间应用于颜色。LUT的确切方式取决于--image-lut-type\n仅适用于--vo=gpu-next
+
+[setting]
+name    = image-lut-type
+file    = mpv
+default = auto
+filter  = 实验性
+help    = 控制传入和传出指定为--image-lut的LUT的颜色值的方式
+
+option  = auto                从标记的元数据中自动选择LUT，否则回退到系统（默认）
+option  = native              在解码为RGB之前应用于原始颜色空间中的原始图像内容。例如对于HDR10图像，这将输入范围为0.0-1.0的PQ编码的YCbCr值
+option  = normalized          应用于归一化的RGB图像内容，在从其原生颜色编码解码之后，但在线性化之前
+option  = conversion          完全取代颜色解码。这种类型的LUT应该摄取图像的原生色彩空间并输出归一化的非线性RGB
+
+[setting]
 name    = use-filedir-conf
 file    = mpv
 default = no
-filter  = 特殊
+filter  = 扩展性
 help    = 在播放文件同目录中加载配置文件
 
 option  = yes
@@ -1331,7 +1410,7 @@ name    = include
 file    = mpv
 type    = string
 width   = 500
-filter  = 特殊
+filter  = 扩展性
 help    = 追加读取指定的配置文件\n由于mpv.net图形编辑器的局限性，此项可用于读取额外的自定义参数及配置组的.conf配置文件\n例："~~/mpvown.conf"\n注意：此项参数必须位于主配置mpv.conf中的末尾，避免追加配置被覆盖
 
 [setting]
