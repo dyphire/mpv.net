@@ -586,7 +586,7 @@ The documentation of mpvs window features can be found here:
 https://mpv.io/manual/master/#window
 
 
-mpv.net has currently implemented the following window properties:
+**mpv.net has currently implemented the following window properties:**
 
 - [border](https://mpv.io/manual/master/#options-border)
 - [fullscreen](https://mpv.io/manual/master/#options-fullscreen)
@@ -596,15 +596,17 @@ mpv.net has currently implemented the following window properties:
 - [title](https://mpv.io/manual/master/#options-title)
 - [window-maximized](https://mpv.io/manual/master/#options-window-maximized)
 - [window-minimized](https://mpv.io/manual/master/#options-window-minimized)
+- [window-scale](https://mpv.io/manual/master/#options-window-scale)
 
 
 **Partly implemented are:**
 
-[autofit](https://mpv.io/manual/master/#options-autofit)
+- [autofit-larger](https://mpv.io/manual/master/#options-autofit-larger)
+- [autofit-smaller](https://mpv.io/manual/master/#options-autofit-smaller)
+- [autofit](https://mpv.io/manual/master/#options-autofit)
 
-[autofit-smaller](https://mpv.io/manual/master/#options-autofit-smaller)
 
-[autofit-larger](https://mpv.io/manual/master/#options-autofit-larger)
+mpv.net specific window features are documented in the [screen section](#screen).
 
 
 ### Command Line Limitations
