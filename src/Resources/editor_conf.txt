@@ -536,6 +536,7 @@ option  = bicubic             最平滑（糊）
 option  = mitchell            综合下平衡的选择
 option  = oversample          最清晰（卡），类SmoothMotion
 option  = sphinx
+option  = quadric
 option  = catmull_rom
 option  = box
 
@@ -543,7 +544,13 @@ option  = box
 name    = tscale-radius
 file    = mpv
 filter  = 视频
-help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和 VO 组合
+help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
+
+[setting]
+name    = tscale-blur
+file    = mpv
+filter  = 视频
+help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
 
 [setting]
 name    = tscale-clamp
@@ -574,6 +581,24 @@ option  = ewa_hanning         类jinc，抑制振铃伪影
 option  = ewa_lanczossoft     类jinc，更柔和
 
 [setting]
+name    = cscale-radius
+file    = mpv
+filter  = 视频
+help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
+
+[setting]
+name    = cscale-blur
+file    = mpv
+filter  = 视频
+help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
+
+[setting]
+name    = cscale-clamp
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 指定要乘以负系数的权重偏差，此项默认值为0.0
+
+[setting]
 name    = cscale-antiring
 file    = mpv
 filter  = 视频
@@ -599,6 +624,24 @@ option  = ewa_lanczossharp    类jinc，更锐利
 option  = ewa_lanczossoft     类jinc，更柔和
 
 [setting]
+name    = scale-radius
+file    = mpv
+filter  = 视频
+help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
+
+[setting]
+name    = scale-blur
+file    = mpv
+filter  = 视频
+help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
+
+[setting]
+name    = scale-clamp
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 指定要乘以负系数的权重偏差，此项默认值为0.0
+
+[setting]
 name    = scale-antiring
 file    = mpv
 filter  = 视频
@@ -622,6 +665,24 @@ option  = ewa_lanczos         jinc算法
 option  = ewa_hanning         类jinc，抑制振铃伪影，推荐
 option  = ewa_lanczossharp    类jinc，更锐利
 option  = ewa_lanczossoft     类jinc，更柔和
+
+[setting]
+name    = dscale-radius
+file    = mpv
+filter  = 视频
+help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
+
+[setting]
+name    = dscale-blur
+file    = mpv
+filter  = 视频
+help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
+
+[setting]
+name    = dscale-clamp
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 指定要乘以负系数的权重偏差，此项默认值为0.0
 
 [setting]
 name    = dscale-antiring
@@ -813,7 +874,7 @@ file    = mpv
 filter  = 音频
 type    = string
 width   = 500
-help    = 可用的设备名在右键菜单中：工具 > 输出文本 > 音频设备列表，默认：auto\n例：wasapi/aaaa8888-bb44-cc44-dd44-eeeeee121212
+help    = 可用的设备名在右键菜单中：工具 > 输出文本 > 音频设备列表，默认：auto
 url     = https://mpv.io/manual/master/#options-audio-device
 
 [setting]
@@ -822,8 +883,8 @@ file    = mpv
 filter  = 音频
 type    = string
 width   = 500
-help    = 指定要使用的音频输出驱动程序的优先级列表
-url     = https://mpv.io/manual/master/#options-ao\n如果列表有尾随的 ','，mpv 将回退到未包含在列表中的驱动程序
+help    = 指定要使用的音频输出驱动程序的优先级列表\n如果列表有尾随的 ','，mpv 将回退到未包含在列表中的驱动程序
+url     = https://mpv.io/manual/master/#options-ao
 
 [setting]
 name    = volume
