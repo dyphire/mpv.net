@@ -160,7 +160,7 @@
  ;                 add sub-scale -0.1                                    #menu: 字幕 > 字号 -0.1
  '                 add sub-scale  0.1                                    #menu: 字幕 > 字号 +0.1
  _                 ignore                                                #menu: 字幕 > -
- _                 set sub-delay 0; set sub-pos 0; set sub-scale 0       #menu: 字幕 > 恢复初始
+ _                 set sub-pos 100;set sub-scale 1.0;set sub-delay 0     #menu: 字幕 > 恢复初始
  _                 ignore                                                #menu: -
 
  ~                 vf clr ""                                             #menu: 视频滤镜 > 清空
