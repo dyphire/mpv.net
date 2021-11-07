@@ -434,7 +434,7 @@ file    = mpv
 filter  = 视频
 type    = string
 width   = 500
-help    = 指定目录存储和加载从ICC配置文件创建的3D LUT，可以用来加快加载速度。\n例："~~/icc_cache"
+help    = 指定目录存储和加载从ICC配置文件创建的3D LUT，可以用来加快加载速度。\n例："~~/icc_cache"\n注意：产生的缓存文件不会自动清理，很可能永久存在
 
 [setting]
 name    = icc-force-contrast
@@ -858,7 +858,7 @@ file    = mpv
 filter  = 高级
 type    = string
 width   = 500
-help    = 在此目录中存储和加载已编译的GLSL着色器缓存，可以提高启动性能。\n例："~~/shaders_cache"
+help    = 在此目录中存储和加载已编译的GLSL着色器缓存，可以提高启动性能。\n例："~~/shaders_cache"\n注意：产生的缓存文件不会自动清理，很可能永久存在
 
 [setting]
 name    = log-file
@@ -1375,16 +1375,6 @@ filter  = HDR
 help    = 计算每帧的HDR峰值和帧平均亮度，它提供了基础的场景动态色调映射\n此功能需要支持OpenGL4.3及之后版本的显卡
 
 option  = auto
-option  = yes
-option  = no
-
-[setting]
-name    = builtin-scalers
-file    = mpv
-default = yes
-filter  = 实验性
-help    = 使用更快的内置缩放来替换常见的缩放器，如nearest、bilinear和bicubic\n与普通的缩放器不同，这些具有不可配置的缺点。默认启用\n此选项仅影响--vo=gpu-next
-
 option  = yes
 option  = no
 
