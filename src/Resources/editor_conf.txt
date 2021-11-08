@@ -408,7 +408,7 @@ help    = OSD持续时间（毫秒），默认：2000
 name    = icc-profile-auto
 file    = mpv
 default = no
-filter  = 视频
+filter  = 色彩
 help    = 色彩管理。自动使用系统当前的ICC校色文件
 
 option  = yes
@@ -417,7 +417,7 @@ option  = no
 [setting]
 name    = icc-profile
 file    = mpv
-filter  = 视频
+filter  = 色彩
 type    = string
 width   = 500
 help    = 色彩管理。手动指定ICC校色文件\n启用此选项将自动覆盖--target-prim、--target-trc和--icc-profile-auto\n由于mpv校色目标是BT.1886，建议优先使用此项指定gamma2.4的校色文件进行色彩管理
@@ -425,13 +425,13 @@ help    = 色彩管理。手动指定ICC校色文件\n启用此选项将自动�
 [setting]
 name    = icc-3dlut-size
 file    = mpv
-filter  = 视频
+filter  = 色彩
 help    = <2-512> 色彩管理。根据ICC文件生成3dlut的每通道数量，默认：64x64x64\n（实际最大有效值由ICC视频卡伽马表的上限决定）
 
 [setting]
 name    = icc-cache-dir
 file    = mpv
-filter  = 视频
+filter  = 色彩
 type    = string
 width   = 500
 help    = 指定目录存储和加载从ICC配置文件创建的3D LUT，可以用来加快加载速度。\n例："~~/icc_cache"\n注意：产生的缓存文件不会自动清理，很可能永久存在
@@ -439,7 +439,7 @@ help    = 指定目录存储和加载从ICC配置文件创建的3D LUT，可以�
 [setting]
 name    = icc-force-contrast
 file    = mpv
-filter  = 视频
+filter  = 色彩
 type    = string
 help    = <no|0-1000000|inf> 色彩管理。覆盖ICC文件内的静态对比度数据，默认no为不覆盖，oled可以设置为inf即无限（如果ICC中此项数据丢失则自动回落到1000）\n设置为1000可解决某些校色文件对比度极高导致黑色部分太黑\n此项只影响BT.1886的内容显示
 
@@ -447,7 +447,7 @@ help    = <no|0-1000000|inf> 色彩管理。覆盖ICC文件内的静态对比度
 name    = icc-intent
 file    = mpv
 default = 1
-filter  = 视频
+filter  = 色彩
 help    = 色彩管理。ICC的色彩转换映射意图
 
 option  = 0                   感知
@@ -458,15 +458,15 @@ option  = 3                   绝对色度
 [setting]
 name    = gamma-factor
 file    = mpv
-filter  = 视频
+filter  = 色彩
 help    = 设置额外的原始伽马系数（默认值：1.0）\n<0.1..2.0> 推荐值：1.0：漆黑或昏暗的房间（默认）; 1.1：光线适中的房间，家; 1.2：灯火通明的房间，办公室
 
 [setting]
 name    = target-prim
 file    = mpv
 default = auto
-filter  = 视频
-help    = 色彩管理。当不使用ICC文件时，视频将适应此色彩空间
+filter  = 色彩
+help    = 色彩管理。当不使用ICC文件时，视频颜色将适应此色彩空间
 
 option  = auto                SRGB屏无需更改
 option  = adobe               Adobe RGB (1998)
@@ -476,15 +476,15 @@ option  = dci-p3              Display-P3也选这个
 [setting]
 name    = target-trc
 file    = mpv
-filter  = 视频
+filter  = 色彩
 type    = string
-help    = 色彩管理。当不使用ICC文件时，指定显示器的伽马，视频将适应此曲线\n通常无需改动默认值auto即推荐值
+help    = 色彩管理。当不使用ICC文件时，指定显示器的伽马，视频颜色将适应此曲线\n通常无需改动默认值auto即推荐值
 url     = https://mpv.io/manual/master/#options-target-trc
 
 [setting]
 name    = target-peak
 file    = mpv
-filter  = 视频
+filter  = 色彩
 type    = string
 help    = 指定输出显示器的测量峰值亮度。受--target-trc参数影响\n通常无需改动默认值auto即推荐值
 url     = https://mpv.io/manual/master/#options-target-peak
@@ -493,7 +493,7 @@ url     = https://mpv.io/manual/master/#options-target-peak
 name    = gamut-clipping
 file    = mpv
 default = yes
-filter  = 视频
+filter  = 色彩
 help    = 对目标色域外颜色的饱和度进行裁切，关闭可避免色度偏移\n使用ICC色彩管理则不受此选项影响
 
 option  = yes
@@ -514,6 +514,12 @@ option  = display-vdrop
 option  = display-adrop
 option  = display-desync
 option  = desync
+
+[setting]
+name    = video-sync-max-video-change
+file    = mpv
+filter  = 视频
+help    = 如果显示器和视频刷新方式在给定范围内不匹配，则应用到视频的最大速度差异（默认：1）\n推荐值：1或5
 
 [setting]
 name    = interpolation
@@ -747,11 +753,45 @@ name    = dither
 file    = mpv
 default = fruit
 filter  = 视频
-help    = 选择色深抖动算法，当启用--dither-depth时生效\n推荐默认值fruit或ordered，error-diffusion耗能高且感知不明显
+help    = 选择色深抖动算法，当启用--dither-depth时生效\n推荐默认值fruit或ordered，error-diffusion耗能高且感知不明显\n注意：--vo=gpu-next下已弃用error-diffusion，改用bluenoise，可由默认值fruit自动触发
 
 option  = fruit
 option  = ordered
 option  = error-diffusion
+
+[setting]
+name    = dither-size-fruit
+file    = mpv
+filter  = 视频
+help    = <2-8> 设置抖动矩阵的大小（默认值：6）启用--dither=fruit时生效\n矩阵的实际大小为(2^N)x(2^N)，选项值为N，因此6实际为64x64
+
+[setting]
+name    = error-diffusion
+file    = mpv
+default = sierra-lite
+filter  = 视频
+help    = 设置错误扩散时要使用的内核，当启用--dither=error-diffusion时生效\n注意：--vo=gpu-next下此项无效
+
+option  = simple
+option  = sierra-lite                 质量和性能的平衡，默认值  
+option  = floyd-steinberg             表现最显著的内核
+option  = burkes
+
+[setting]
+name    = temporal-dither
+file    = mpv
+default = yes
+filter  = 视频
+help    = 启用时间抖动算法，仅当--dither*参数启用时生效
+
+option  = yes
+option  = no
+
+[setting]
+name    = temporal-dither-period
+file    = mpv
+filter  = 视频
+help    = <1-128> 确定抖动模式在使用时更新的频率，当启用--temporal-dither时生效\n1（默认值）将更新每个视频帧，2在其他帧等
 
 [setting]
 name    = deband
