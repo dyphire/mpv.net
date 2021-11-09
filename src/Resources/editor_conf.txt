@@ -721,7 +721,7 @@ name    = correct-downscaling
 file    = mpv
 default = no
 filter  = 视频
-help    = 增强缩小算法的质量，对于异形比例视频可能产生微小失真（当--dscale=bilinear时无效）
+help    = 增强缩小算法的质量，对于异形比例视频可能产生微小失真（当--dscale=bilinear时无效）\n效果类似anti-aliasing
 
 option  = yes
 option  = no
@@ -731,7 +731,7 @@ name    = scaler-resizes-only
 file    = mpv
 default = yes
 filter  = 视频
-help    = 当未进行缩放处理时，使用bilinear算法完美还原\n禁用时，即使未改变大小，也使用指定的scale值进行处理,可以修正nnedi3和ravu引入的半像素偏移
+help    = 当未进行缩放处理时，使用bilinear算法完美还原\n禁用时，即使未改变大小，也使用指定的scale值进行处理,可以修正nnedi3和ravu引入的半像素偏移\n--vo=gpu-next时不再使用额外算法还原
 
 option  = yes
 option  = no
@@ -1424,6 +1424,16 @@ file    = mpv
 default = yes
 filter  = 实验性
 help    = 即使更改渲染器参数，也保留前一帧的插值结果。裁剪和视频放置相关的选项除外，它们总是使缓存无效\n启用此选项会使渲染器设置的动态更新更平滑，但代价是响应此类更改时延迟稍高。默认启用\n此选项仅影响--vo=gpu-next，注意-vo=gpu总是使插值帧无效
+
+option  = yes
+option  = no
+
+[setting]
+name    = target-colorspace-hint
+file    = mpv
+default = no
+filter  = 实验性
+help    = 如果可能的话，自动配置显示器的输出色彩空间，以通过流的输入值（例如HDR直通）。需要一个支持的驱动程序和--vo=gpu-next
 
 option  = yes
 option  = no
