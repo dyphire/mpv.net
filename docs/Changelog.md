@@ -2,6 +2,10 @@
 not yet released
 
 - Various conf editor improvements. (hooke007)
+- Custom conf folder location feature removed
+  (a directory sym link can be used instead).
+- Inno Setup replaced with MS Store MSIX setup.
+- Fix script-opts files being ingnored.
 
 
 5.5.0.4 Beta (2021-11-05)

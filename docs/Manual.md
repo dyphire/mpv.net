@@ -116,25 +116,11 @@ Settings
 mpv.net searches the config folder at:
 
 1. startup\portable_config
-2. %APPDATA%\mpv.net
+2. %APPDATA%\mpv.net (`C:\Users\%USERNAME%\AppData\Roaming\mpv.net`)
 
-In order to use a custom directory create following file:
-
-startup\settings-directory.txt
-
-Put your custom directory in that file.
-
-The custom directory path can be relative to the startup directory path.
-
-This custom directory is only used if the portable_config and %APPDATA% directory does not exist.
-
-mpv specific settings are stored in the file mpv.conf, if no mpv.conf file exists
-mpv.net generates it with the following defaults:
-
-[mpv.conf defaults](../../../tree/master/src/Resources/mpv.conf.txt)
-
-mpv.net specific options are stored in the file mpvnet.conf,
-these options are documented [here](#mpvnet-specific-options).
+mpv options are stored in the file mpv.conf,
+mpv.net options are stored in the file mpvnet.conf,
+mpv.net options are documented [here](#mpvnet-specific-options).
 
 
 Input and context menu
@@ -275,11 +261,6 @@ Can be suppressed via shift key. Default: yes
 
 
 ### General
-
-#### --update-check=\<yes|no\>
-
-Daily check for new version. (requires PowerShell 5 and curl.) Default: no
-
 
 #### --process-instance=\<value\>
 
@@ -581,7 +562,7 @@ features are supported that have an own implementation in mpv.net.
 A window free mode is currently not supported, the main window is always
 visible, even when mpv.net is started from the terminal and music is played.
 
-The documentation of mpvs window features can be found here:
+The documentation of mpv's window features can be found here:
 
 https://mpv.io/manual/master/#window
 
@@ -662,7 +643,7 @@ If the input.conf file does not exists mpv.net generates it with the following d
 
 <https://github.com/stax76/mpv.net/tree/master/src/Resources/input.conf.txt>
 
-input.conf defines mpvs key and mouse bindings and mpv.net uses
+input.conf defines mpv's key and mouse bindings and mpv.net uses
 comments to define the context menu.
 
 
@@ -1393,13 +1374,6 @@ Shows the [mpv.net web site](https://mpv-net.github.io/mpv.net-web-site/).
 ### Help > Show mpv.net manual
 
 Shows the [mpv.net manual](https://github.com/stax76/mpv.net/blob/master/Manual.md).
-
-
-### Help > Check for Updates
-
-Checks for updates and allows to execute the update routine.
-
-The update routine requires PowerShell 5 and curl, an up to date Windows 10 system has both included.
 
 
 ### Help > About mpv.net
