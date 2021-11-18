@@ -26,7 +26,10 @@ jobs:
 #        vs-version: '[16.4,16.5)'
     - name: Build
       shell: cmd
-      run: (msbuild .\src\mpv.net.sln /m /p:Configuration=Release)
+      run: |
+        cd src
+        msbuild -restore
+        msbuild mpv.net.csproj /m /p:Configuration=Release
     - name: Get version
       shell: bash
       run: |
