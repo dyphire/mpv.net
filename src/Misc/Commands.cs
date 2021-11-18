@@ -494,11 +494,11 @@ namespace mpvnet
                     proc.WaitForExit();
 
                     if (proc.ExitCode == 0)
-                        Msg.ShowInfo("File associations were successfully " + 
-                            (perceivedType == "unreg" ? "removed" : "created") +
-                            ".\n\nFile Explorer icons will refresh after process restart.");
+                        Msg.ShowInfo("文件关联成功" + 
+                            (perceivedType == "unreg" ? "清除" : "创建") +
+                            "\n\n文件资源管理器图标将在进程重启后刷新");
                     else
-                        Msg.ShowError("Error creating file associations.");
+                        Msg.ShowError("创建文件关联错误");
                 }
             } catch { }
         }
