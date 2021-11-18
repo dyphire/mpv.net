@@ -36,10 +36,11 @@
  ALT+b             cycle window-maximized                                #menu: 文件 > 开/关 最大化
  ENTER             cycle fullscreen                                      #menu: 文件 > 切换 全屏
  O                 no-osd cycle-values osd-level 3 1                     #menu: 文件 > 开/关 显示OSD时间轴
- i                 script-message mpv.net show-info                      #menu: 文件 > 显示简要信息
+ \                 script-message mpv.net show-info                      #menu: 文件 > 显示简易媒体信息
+ i                 script-binding stats/display-stats                    #menu: 文件 > 临时显示统计信息
+ I                 script-binding stats/display-stats-toggle             #menu: 文件 > 常驻显示统计信息
  l                 ab-loop                                               #menu: 文件 > 设定/清除 片段循环
  L                 cycle-values loop-file inf no                         #menu: 文件 > 开/关 循环播放
- I                 script-binding stats/display-stats-toggle             #menu: 文件 > 开/关 统计数据
  _                 ignore                                                #menu: 文件 > -
  [                 add speed -0.1                                        #menu: 文件 > 速度 -0.1
  ]                 add speed  0.1                                        #menu: 文件 > 速度 +0.1
@@ -195,7 +196,10 @@
  _                 script-message mpv.net show-demuxers                  #menu: 工具 > 输出文本 > 所有分离器
  _                 script-message mpv.net show-keys                      #menu: 工具 > 输出文本 > 所有键值
  _                 script-message mpv.net show-history                   #menu: 工具 > 输出文本 > 历史记录
- _                 script-message mpv.net show-setup-dialog              #menu: 工具 > 注册
+ _                 script-message mpv.net reg-file-assoc video           #menu: 工具 > 注册 > 注册视频文件关联
+ _                 script-message mpv.net reg-file-assoc audio           #menu: 工具 > 注册 > 注册音频文件关联
+ _                 script-message mpv.net reg-file-assoc image           #menu: 工具 > 注册 > 注册图像文件关联
+ _                 script-message mpv.net reg-file-assoc unreg           #menu: 工具 > 注册 > 清除注册文件关联
 
  _                 script-message mpv.net shell-execute https://github.com/hooke007/mpv.net_CM                           #menu: 帮助 > 项目主页
  _                 script-message mpv.net shell-execute https://hooke007.github.io                                       #menu: 帮助 > 作者主页
