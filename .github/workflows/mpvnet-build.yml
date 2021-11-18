@@ -29,7 +29,6 @@ jobs:
       shell: cmd
       run: |
         cd src
-#       dotnet restore 
         msbuild -restore
         msbuild mpv.net.csproj /m /p:Configuration=Release
     - name: Get version
