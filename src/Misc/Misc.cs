@@ -48,9 +48,9 @@ namespace mpvnet
         {
             switch (value)
             {
-                case 5: return "SEARCH";       // BROWSER_SEARCH
-                case 6: return "FAVORITES";    // BROWSER_FAVORITES
-                case 7: return "HOMEPAGE";     // BROWSER_HOME
+                case 5:  return "SEARCH";       // BROWSER_SEARCH
+                case 6:  return "FAVORITES";    // BROWSER_FAVORITES
+                case 7:  return "HOMEPAGE";     // BROWSER_HOME
                 case 15: return "MAIL";         // LAUNCH_MAIL
                 case 33: return "PRINT";        // PRINT
                 case 11: return "NEXT";         // MEDIA_NEXTTRACK
@@ -81,17 +81,19 @@ namespace mpvnet
             if (perceivedType != "unreg")
             {
                 RegistryHelp.SetValue(@"HKCU\Software\Microsoft\Windows\CurrentVersion\App Paths\" + ExeFilename, null, ExePath);
+                RegistryHelp.SetValue(@"HKCR\ytdl", "URL Protocol", "");
+                RegistryHelp.SetValue(@"HKCR\ytdl\shell\open\command", null, $"\"{ExePath}\" \"%1\"");
                 RegistryHelp.SetValue(@"HKCR\Applications\" + ExeFilename, "FriendlyAppName", "mpv.net media player");
-                RegistryHelp.SetValue($@"HKCR\Applications\{ExeFilename}\shell\open\command", null, $"\"{ExePath}\" \"%1\"");
-                RegistryHelp.SetValue(@"HKLM\SOFTWARE\Clients\Media\mpv.net\Capabilities", "ApplicationDescription", "mpv.net media player");
-                RegistryHelp.SetValue(@"HKLM\SOFTWARE\Clients\Media\mpv.net\Capabilities", "ApplicationName", "mpv.net");
+                RegistryHelp.SetValue(@"HKCR\Applications\" + ExeFilename + @"\shell\open\command", null, $"\"{ExePath}\" \"%1\"");
                 RegistryHelp.SetValue(@"HKCR\SystemFileAssociations\video\OpenWithList\" + ExeFilename, null, "");
                 RegistryHelp.SetValue(@"HKCR\SystemFileAssociations\audio\OpenWithList\" + ExeFilename, null, "");
                 RegistryHelp.SetValue(@"HKLM\SOFTWARE\RegisteredApplications", "mpv.net", @"SOFTWARE\Clients\Media\mpv.net\Capabilities");
+                RegistryHelp.SetValue(@"HKLM\SOFTWARE\Clients\Media\mpv.net\Capabilities", "ApplicationDescription", "mpv.net media player");
+                RegistryHelp.SetValue(@"HKLM\SOFTWARE\Clients\Media\mpv.net\Capabilities", "ApplicationName", "mpv.net");
 
                 foreach (string ext in extensions)
                 {
-                    RegistryHelp.SetValue($@"HKCR\Applications\{ExeFilename}\SupportedTypes", "." + ext, "");
+                    RegistryHelp.SetValue(@"HKCR\Applications\" + ExeFilename + @"\SupportedTypes", "." + ext, "");
                     RegistryHelp.SetValue(@"HKCR\" + "." + ext, null, ExeFilenameNoExt + "." + ext);
                     RegistryHelp.SetValue(@"HKCR\" + "." + ext + @"\OpenWithProgIDs", ExeFilenameNoExt + "." + ext, "");
                     RegistryHelp.SetValue(@"HKCR\" + "." + ext, "PerceivedType", perceivedType);
@@ -101,11 +103,13 @@ namespace mpvnet
             }
             else
             {
+                RegistryHelp.RemoveKey(@"HKCR\ytdl");
                 RegistryHelp.RemoveKey(@"HKCU\Software\Microsoft\Windows\CurrentVersion\App Paths\" + ExeFilename);
                 RegistryHelp.RemoveKey(@"HKCR\Applications\" + ExeFilename);
                 RegistryHelp.RemoveKey(@"HKLM\SOFTWARE\Clients\Media\mpv.net");
                 RegistryHelp.RemoveKey(@"HKCR\SystemFileAssociations\video\OpenWithList\" + ExeFilename);
                 RegistryHelp.RemoveKey(@"HKCR\SystemFileAssociations\audio\OpenWithList\" + ExeFilename);
+           
                 RegistryHelp.RemoveValue(@"HKLM\SOFTWARE\RegisteredApplications", "mpv.net");
 
                 foreach (string id in Registry.ClassesRoot.GetSubKeyNames())
