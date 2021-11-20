@@ -64,14 +64,9 @@ Installation
 
 mpv.net requires the .NET Framework 4.8 and Windows 7 or higher and a modern graphics card.
 
-There is a setup exe and a portable zip file download.
-
-An old version should be uninstalled before installing a new version,
-it's generally not a good idea to install a new version on top of an old version,
-the setup don't enforce it because it's not easy to implement.
-
-For internet streaming youtube-dl must be downloaded and installed manually,
-meaning it must be located in the PATH environment variable or in the startup directory.
+For internet streaming youtube-dl or yt-dlp must be downloaded and installed manually
+(the location must be defined in the PATH environment variable or it must be located
+in the startup directory).
 
 mpvnet.exe is platform agnostic, users that need x86 have to replace 3 native tools:
 
@@ -82,14 +77,13 @@ mpvnet.exe is platform agnostic, users that need x86 have to replace 3 native to
 
 #### File Associations
 
-File Associations can be created using the context menu under 'Tools > Setup'.
+File Associations can be registered using the context menu under 'Settings > Setup'.
 
-After the file associations were registered, go to the Windows settings under
-'Settings > Apps > Default apps' or shell execute `ms-settings:defaultapps` and choose
-mpv.net as default app for Video and optionally for Audio and Images.
+After the file associations were registered, it might be necessary to change the
+default app in the Windows settings (Win+I, ms-settings:defaultapps).
 
-It's possible to change the default application using the 'Open with' feature
-of the context menu in File Explorer.
+Another way to register file associations is using Windows File Explorer,
+select a media file and select 'Open with > Choose another app' in the context menu.
 
 [Open with++](#open-with) can be used to extend the File Explorer context menu
 to get menu items for [Play with mpv.net](https://github.com/stax76/OpenWithPlusPlus#play-with-mpvnet) and
@@ -131,7 +125,13 @@ input.conf file, if it's missing mpv.net generates it with the following default
 
 [input.conf defaults](../../../tree/master/src/Resources/input.conf.txt)
 
-Global hotkeys are supported via global-input.conf file.
+Please be aware that once input.conf exists, mpv.net cannot update it, this means
+the menu becomes outdated when mpv.net is updated with new or changed default menu
+items. The only way to get an up-to-date menu is either resetting the menu by
+deleting input.conf or updating it by manually editing input.conf. This is
+currently the biggest design problem of mpv.net and it's difficult to overcome.
+
+Global keyboard shortcuts are supported via global-input.conf file.
 
 The config folder can be opened from the context menu: `Settings > Open Config Folder`
 
@@ -196,7 +196,7 @@ Adds files to the playlist, requires [--process-instance=single](#--process-inst
 #### --command=\<input command\>
 
 Sends a input command to a running mpv.net instance via command line, for instance
-to create global hotkeys with AutoHotkey. Requires [process-instance=single](#--process-instancevalue).
+to create global keyboard shortcuts with AutoHotkey. Requires [process-instance=single](#--process-instancevalue).
 
 ### Audio
 
@@ -670,9 +670,6 @@ Blu-ray and DVD ISO image files are supported.
 Opens files and URLs from the clipboard. How to open URLs directly
 from the browser from sites like YouTube is described in the
 [External Tools section](#external-tools).
-
-For internet streaming youtube-dl must be downloaded and installed manually,
-meaning it must be located in the PATH environment variable or in the startup directory.
 
 
 ### Open > Open DVD/Blu-ray Drive/Folder
