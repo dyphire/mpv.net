@@ -494,11 +494,11 @@ namespace mpvnet
                     proc.WaitForExit();
 
                     if (proc.ExitCode == 0)
-                        Msg.ShowInfo("文件关联成功" + 
+                        Msg.ShowInfo("文件关联已成功" + 
                             (perceivedType == "unreg" ? "清除" : "创建") +
-                            "\n\n文件资源管理器图标将在进程重启后刷新");
+                            "！\n\n资源管理器的相关图标将在进程重启后刷新");
                     else
-                        Msg.ShowError("创建文件关联错误");
+                        Msg.ShowError("创建文件关联出错！");
                 }
             } catch { }
         }

@@ -172,7 +172,7 @@ namespace MsgBoxEx
         public static void ResetToDefaults()
         {
             MsgFontSize = 12d;
-            MsgFontFamily = new System.Windows.Media.FontFamily("Segoe UI");
+            MsgFontFamily = new System.Windows.Media.FontFamily("微软雅黑");
             DelegateObj = null;
             DetailsText = null;
             MessageForeground = null;

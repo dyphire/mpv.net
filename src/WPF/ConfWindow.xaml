@@ -48,7 +48,7 @@
             <StackPanel x:Name="MainStackPanel"></StackPanel>
         </ScrollViewer>
         
-        <StackPanel Margin="20,0,0,0" Grid.Row="1">
+        <StackPanel Margin="20,20,0,0" Grid.RowSpan="2">
             <ListBox
                 Name="FilterListBox"
                 ItemsSource="{Binding FilterStrings}"

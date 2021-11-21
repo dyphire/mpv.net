@@ -143,7 +143,7 @@ namespace mpvnet
                 return;
 
             File.WriteAllText(Core.InputConfPath, GetInputConfContent());
-            Msg.ShowInfo("所做更改将在重启程序时生效！");
+            Msg.ShowInfo("重启程序使所做更改生效！");
         }
 
         void DataGrid_PreviewCanExecute(object sender, CanExecuteRoutedEventArgs e)
