@@ -20,8 +20,8 @@ jobs:
         sudo apt-get -y install git
     - name: Set env
       run: |
-        git config --global user.email "github-actions@github.com"
-        git config --global user.name "github-actions"
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
     - name: Update fork master
       run: |
         git remote add upstream https://github.com/stax76/mpv.net.git
