@@ -67,7 +67,7 @@
  _                 ignore                                                #menu: 导航 > Titles
  _                 ignore                                                #menu: 导航 > Chapters
 
- a                 cycle-values video-aspect 16:9 4:3 2.35:1 -1          #menu: 画面 > 切换 宽高比
+ A                 cycle-values video-aspect-override 16:9 4:3 2.35:1 -1 #menu: 画面 > 切换 宽高比
  _                 ignore                                                #menu: 画面 > -
  ALT+p             cycle-values panscan 0.0 1.0                          #menu: 画面 > 开/关 裁切填充
  CTRL+LEFT         cycle-values video-rotate 0 270 180 90                #menu: 画面 > 左旋转
