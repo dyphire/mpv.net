@@ -211,6 +211,17 @@ option  = yes
 option  = no
 
 [setting]
+name    = idle
+file    = mpv
+default = once
+filter  = 功能
+help    = 是否开启空闲待机模式（中止播放或所有文件播放后依旧保持mpv运行）\n启用空闲待机使mpv的行为表现更接近普通播放器\n默认值为no，伪GUI模式启动mpv时idle默认为once
+
+option  = yes
+option  = no
+option  = once
+
+[setting]
 name    = pause
 file    = mpv
 default = no
