@@ -112,10 +112,13 @@
  0                 add hue  1                                            #menu: 视频 > 调色 > 色相 +1
  _                 ignore                                                #menu: 视频 > 调色 > -
  SHIFT+BS          set contrast 0; set brightness 0; set gamma 0; set saturation 0; set hue 0   #menu: 视频 > 调色 > 重置
- s                 screenshot subtitles                                  #menu: 视频 > 截屏 > 源分辨率
- S                 screenshot video                                      #menu: 视频 > 截屏 > 同上 无字幕OSD
- CTRL+s            screenshot window                                     #menu: 视频 > 截屏 > 实际画面
- CTRL+S            screenshot each-frame                                 #menu: 视频 > 截屏 > 逐帧
+ s                 screenshot subtitles                                  #menu: 视频 > 截屏 > 同源尺寸-有字幕-有OSD-单帧
+ S                 screenshot video                                      #menu: 视频 > 截屏 > 同源尺寸-无字幕-无OSD-单帧
+ CTRL+s            screenshot window                                     #menu: 视频 > 截屏 > 实际尺寸-有字幕-有OSD-单帧
+ _                 ignore                                                #menu: 视频 > 截屏 > -
+ _                 screenshot subtitles+each-frame                       #menu: 视频 > 截屏 > 同源尺寸-有字幕-有OSD-逐帧
+ _                 screenshot video+each-frame                           #menu: 视频 > 截屏 > 同源尺寸-无字幕-无OSD-逐帧
+ CTRL+S            screenshot window+each-frame                          #menu: 视频 > 截屏 > 实际尺寸-有字幕-有OSD-逐帧
  d                 cycle deinterlace                                     #menu: 视频 > 开/关 去隔行扫描
  D                 cycle deband                                          #menu: 视频 > 开/关 去色带
  ALT+z             add   deband-iterations +1                            #menu: 视频 > 去色带 > deband强度+1
