@@ -316,7 +316,7 @@ filter  = 功能
 type    = string
 width   = 500
 help    = 指定稍后观看的缓存目录，其中的文件记录 --watch-later-options 指定的选项。\n默认路径为 "~~/watch_later"
-url     = https://mpv.io/manual/master/#options-watch-later-options
+url     = https://mpv.io/manual/master/#options-watch-later-directory
 
 [setting]
 name    = resume-playback-check-mtime
