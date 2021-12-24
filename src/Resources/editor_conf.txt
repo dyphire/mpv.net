@@ -281,6 +281,26 @@ option  = yes
 option  = no
 
 [setting]
+name    = write-filename-in-watch-later-config
+file    = mpv
+default = yes
+filter  = 功能
+help    = 将文件名写入播放记录缓存文件
+
+option  = yes
+option  = no
+
+[setting]
+name    = ignore-path-in-watch-later-config
+file    = mpv
+default = no
+filter  = 功能
+help    = 使用"稍后观看"功能时忽略路径（即仅使用文件名）
+
+option  = yes
+option  = no
+
+[setting]
 name    = watch-later-options
 file    = mpv
 filter  = 功能
@@ -290,14 +310,13 @@ help    = 稍后观看的属性白名单（SVP补帧时推荐设置为留空，�
 url     = https://mpv.io/manual/master/#options-watch-later-options
 
 [setting]
-name    = write-filename-in-watch-later-config
+name    = watch-later-directory
 file    = mpv
-default = yes
 filter  = 功能
-help    = 将文件名写入播放记录缓存文件
-
-option  = yes
-option  = no
+type    = string
+width   = 500
+help    = 指定稍后观看的缓存目录，其中的文件记录 --watch-later-options 指定的选项。\n默认路径为 "~~/watch_later"
+url     = https://mpv.io/manual/master/#options-watch-later-options
 
 [setting]
 name    = resume-playback-check-mtime
