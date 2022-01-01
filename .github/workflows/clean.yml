@@ -4,11 +4,6 @@ on:
     - cron: '0 0 1 * *'
 # Run monthly, at 00:00 on the 1st day of month.
   workflow_dispatch:
-    inputs:
-      days:
-        description: 'Number of days.'
-        required: true
-        default: 30
 jobs:
   del_runs:
     runs-on: ubuntu-latest
@@ -18,5 +13,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          retain_days: ${{ github.event.inputs.days }}
-          keep_minimum_runs: 8
+          retain_days: 30
+          keep_minimum_runs: 0
