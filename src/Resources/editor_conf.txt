@@ -480,7 +480,7 @@ default = 1
 filter  = 色彩
 help    = 色彩管理。ICC的色彩转换映射意图
 
-option  = 0                   感知
+option  = 0                   感知度，推荐
 option  = 1                   相对色度
 option  = 2                   饱和度
 option  = 3                   绝对色度
@@ -508,7 +508,7 @@ name    = target-trc
 file    = mpv
 filter  = 色彩
 type    = string
-help    = 色彩管理。当不使用ICC文件时，指定显示器的伽马，视频颜色将适应此曲线\n通常无需改动默认值auto即推荐值
+help    = 色彩管理。当不使用ICC文件时，指定显示器的伽马，视频颜色将适应此曲线。默认值：auto\n建议非OLED之类的显示器此项设置为gamma2.2，避免mpv画面过暗
 url     = https://mpv.io/manual/master/#options-target-trc
 
 [setting]
@@ -516,18 +516,8 @@ name    = target-peak
 file    = mpv
 filter  = 色彩
 type    = string
-help    = 指定输出显示器的测量峰值亮度。受--target-trc参数影响\n通常无需改动默认值auto即推荐值
+help    = 指定输出显示器的测量峰值亮度。受--target-trc参数影响\n通常无需改动默认值auto即推荐值\n当使用icc色彩管理时，若nits设置为高于默认值（203），显示器将被mpv视为hdr屏处理
 url     = https://mpv.io/manual/master/#options-target-peak
-
-[setting]
-name    = gamut-clipping
-file    = mpv
-default = yes
-filter  = 色彩
-help    = 对目标色域外颜色的饱和度进行裁切，关闭可避免色度偏移\n使用ICC色彩管理则不受此选项影响
-
-option  = yes
-option  = no
 
 [setting]
 name    = video-sync
@@ -787,25 +777,12 @@ help    = 选择色深抖动算法，当启用--dither-depth时生效\n推荐默
 
 option  = fruit
 option  = ordered
-option  = error-diffusion
 
 [setting]
 name    = dither-size-fruit
 file    = mpv
 filter  = 视频
 help    = <2-8> 设置抖动矩阵的大小（默认值：6）启用--dither=fruit时生效\n矩阵的实际大小为(2^N)x(2^N)，选项值为N，因此6实际为64x64
-
-[setting]
-name    = error-diffusion
-file    = mpv
-default = sierra-lite
-filter  = 视频
-help    = 设置错误扩散时要使用的内核，当启用--dither=error-diffusion时生效\n注意：--vo=gpu-next下此项无效
-
-option  = simple
-option  = sierra-lite                 质量和性能的平衡，默认值  
-option  = floyd-steinberg             表现最显著的内核
-option  = burkes
 
 [setting]
 name    = temporal-dither
