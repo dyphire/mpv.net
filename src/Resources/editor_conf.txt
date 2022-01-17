@@ -1401,26 +1401,20 @@ option  = yes
 option  = no
 
 [setting]
-name    = d3d11-output-csp
+name    = tone-mapping
 file    = mpv
 default = auto
 filter  = HDR
-help    = HDR输出模式
-
-option  = auto                转换为SDR输出
-option  = pq                  （实验性）直出，需要预先开启win10hdr并将播放器切换到全屏状态
-
-[setting]
-name    = tone-mapping
-file    = mpv
-default = bt.2390
-filter  = HDR
 help    = 色调映射算法
 
-option  = bt.2390             综合下的最佳选择
-option  = gamma               擅长夜景
+option  = auto                根据内部启发式方法选择最佳曲线
+option  = bt.2390             适合于一般HDR映射，峰值过高时易产生过曝
+option  = reinhard            倾向于保留亮度
 option  = hable               倾向于保留细节
 option  = mobius              倾向于保留对比度与色彩
+option  = gamma               擅长夜景
+option  = spline              感知性色调映射，仅适用于--vo=gpu-next
+option  = bt.2446a            基于luma的色调映射，仅适用于--vo=gpu-next
 
 [setting]
 name    = tone-mapping-param
@@ -1433,19 +1427,39 @@ url     = https://mpv.io/manual/master/#options-tone-mapping-param
 name    = tone-mapping-max-boost
 file    = mpv
 filter  = HDR
-help    = <1.0-10.0> 平均亮度的最大曝光倍数，默认：1.0\n增大此值可显示暗处隐藏的细节，过高会使暗处看起来不自然地明亮
+help    = <1.0-10.0> 平均亮度的最大曝光倍数，默认：1.0\n增大此值可显示暗处隐藏的细节，过高会使暗处看起来不自然地明亮\n仅适用于--vo=gpu
 
 [setting]
-name    = tone-mapping-desaturate
+name    = tone-mapping-crosstalk
 file    = mpv
 filter  = HDR
-help    = <0.0-1.0> 高光去饱和度，默认：0.75
+help    = <0.0..0.30> 默认值：0.04，如果值非0，则在色调映射之前应用额外的串扰矩阵。可以帮助改善强饱和单色高光的外观\n仅适用于--vo=gpu-next
 
 [setting]
-name    = tone-mapping-desaturate-exponent
+name    = tone-mapping-mode
 file    = mpv
+default = auto
 filter  = HDR
-help    = <0.0-20.0> 高光去饱和指数，默认：1.5
+help    = 控制色调映射功能如何应用于颜色，默认auto：自动选择最佳模式
+
+option  = auto                自动选择最佳模式
+option  = rgb                 基于RGB每通道进行色调映射，推荐
+option  = max                 基于视频中最亮部分进行色调映射
+option  = hybrid              基于调和高光的RGB每通道进行色调映射
+option  = luma                基于亮度进行色调映射，仅适用于--vo=gpu-next
+
+[setting]
+name    = gamut-mapping-mode
+file    = mpv
+default = auto
+filter  = HDR
+help    = 在完成任何色调映射后指定所需的目标显示色域的处理方式，默认auto：自动选择最佳模式
+
+option  = auto                自动选择最佳模式
+option  = clip                RGB每通道硬剪切到目标色域，推荐
+option  = warn                只突出显示色域外像素
+option  = desaturate          色度去饱和色域外的颜色变为白色
+option  = darken              线性使整个图像变暗，然后剪切到目标色域。仅适用于--vo=gpu-next
 
 [setting]
 name    = hdr-compute-peak
@@ -1479,6 +1493,16 @@ option  = yes
 option  = no
 
 [setting]
+name    = inverse-tone-mapping
+file    = mpv
+default = no
+filter  = 实验性
+help    = 如果设置，则允许反向色调映射（将SDR扩展到HDR），仅在HDR设备上有效\n注意：该选项不支持使用部分色调映射曲线。请谨慎使用\n仅适用于--vo=gpu-next
+
+option  = yes
+option  = no
+
+[setting]
 name    = allow-delayed-peak-detect
 file    = mpv
 default = yes
@@ -1504,8 +1528,8 @@ filter  = 实验性
 help    = 控制传入和传出指定为--lut的LUT的颜色值的方式
 
 option  = auto                从标记的元数据中自动选择LUT，否则回退到系统（默认）
-option  = native              在转换到输出颜色空间之前应用于其原生RGB颜色空间（非线性光）中的原始图像内容
-option  = normalized          在转换到输出颜色空间之前应用于线性光中的归一化RGB图像内容
+option  = native              在转换到输出颜色空间之前，应用于原始RGB颜色空间的原始图像内容（非线性光）
+option  = normalized          在转换到输出色彩空间之前，应用于线性光下的归一化RGB图像内容
 option  = conversion          全替换从图像色彩空间到输出色彩空间的转换。如果存在此类LUT，则它具有最高优先级，并覆盖任何ICC配置文件以及与色调映射和输出色度相关的选项（--target-prim、--target-trc等）
 
 [setting]

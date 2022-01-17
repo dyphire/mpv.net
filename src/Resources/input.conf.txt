@@ -83,7 +83,8 @@
  ALT+BS            set video-zoom 0 ; set panscan 0 ; set video-rotate 0 ; set video-pan-x 0 ; set video-pan-y 0      #menu: 画面 > 重置
  _                 ignore                                                #menu: -
  CTRL+I            cycle icc-profile-auto                                #menu: 画面 > 开/关 自动ICC校色
- CTRL+g            cycle gamut-clipping                                  #menu: 画面 > 开/关 色域裁剪
+ CTRL+t            cycle tone-mapping-mode                               #menu: 画面 > 切换 色调映射基准
+ CTRL+g            cycle gamut-mapping-mode                              #menu: 画面 > 切换 色域剪切方式
  CTRL+b            cycle scaler-resizes-only                             #menu: 画面 > 开/关 默认还原算法
  G                 cycle-values gamma-factor 1.1 1.2 1.0                 #menu: 画面 > 切换 gamma环境系数
  h                 cycle-values tone-mapping "mobius" "reinhard" "hable" "bt.2390" "gamma"     #menu: 画面 > 切换 hdr映射曲线 
