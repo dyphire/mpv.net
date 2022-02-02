@@ -1397,7 +1397,7 @@ option  = bt.2446a            基于luma的色调映射，仅适用于--vo=gpu-n
 name    = tone-mapping-param
 file    = mpv
 filter  = HDR
-help    = 色调映射算法的小参，bt.2390和hable无参\nmobius默认0.3/reinhard默认0.5/gamma默认1.8
+help    = 色调映射算法的小参。hable和bt.2446a无参，bt.2390在--vo=gpu下无参，--vo=gpu-next下默认值1.0\nmobius和spline默认0.3/reinhard默认0.5/gamma默认1.8（--vo=gpu-next下默认值为0.5）\n--vo=gpu-next下使用bt.2390时推荐值：2.0 或ITU-R规范中的值0.5
 url     = https://mpv.io/manual/master/#options-tone-mapping-param
 
 [setting]
