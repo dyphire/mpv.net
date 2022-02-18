@@ -546,7 +546,7 @@ name    = interpolation
 file    = mpv
 default = no
 filter  = 视频
-help    = 减少帧率和刷新率不匹配而引起的抖动，启用前须使用--video-sync=display-resample
+help    = 减少视频帧率和显示刷新率不匹配而引起的画面抖动，仅当--video-sync=display-xxxx时生效
 
 option  = yes
 option  = no
@@ -556,7 +556,7 @@ name    = tscale
 file    = mpv
 default = mitchell
 filter  = 视频
-help    = 时间插值算法，启用前须使用--interpolation=yes
+help    = 选择时域插值算法，仅当启用--interpolation=yes时生效
 
 option  = bicubic             最平滑（糊）
 option  = mitchell            综合下平衡的选择
@@ -761,7 +761,7 @@ name    = dither-depth
 file    = mpv
 default = no
 filter  = 视频
-help    = 色深抖动以弥补色彩转换损失（--gpu-api=vulkan时无法进行自动判断）\n手动指定的数值等于显示驱动中设定的值，非原生10bit的显示器根据实际画面效果更改
+help    = 启用色深抖动以弥补色彩转换损失（--gpu-api=vulkan时无法进行自动判断）\n手动指定的数值等于显示驱动中设定的值，非原生10bit的显示器根据实际画面效果更改
 
 option  = no
 option  = auto
@@ -782,14 +782,14 @@ option  = ordered
 name    = dither-size-fruit
 file    = mpv
 filter  = 视频
-help    = <2-8> 设置抖动矩阵的大小（默认值：6）启用--dither=fruit时生效\n矩阵的实际大小为(2^N)x(2^N)，选项值为N，因此6实际为64x64
+help    = <2-8> 设置色深抖动矩阵的大小（默认值：6）启用--dither=fruit时生效\n矩阵的实际大小为(2^N)x(2^N)，选项值为N，因此6实际为64x64
 
 [setting]
 name    = temporal-dither
 file    = mpv
 default = yes
 filter  = 视频
-help    = 启用时间抖动算法，仅当--dither*参数启用时生效
+help    = 启用时域色深抖动算法，仅当--dither*参数启用时生效
 
 option  = yes
 option  = no
@@ -798,7 +798,7 @@ option  = no
 name    = temporal-dither-period
 file    = mpv
 filter  = 视频
-help    = <1-128> 确定抖动模式在使用时更新的频率，当启用--temporal-dither时生效\n1（默认值）将更新每个视频帧，2在其他帧等
+help    = <1-128> 确定色深抖动模式在使用时更新的频率，当启用--temporal-dither时生效\n1（默认值）将更新每个视频帧，2在其他帧等
 
 [setting]
 name    = deband
