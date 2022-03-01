@@ -21,7 +21,7 @@ filter  = 基础
 help    = 视频输出驱动程序
 
 option  = gpu                 通用且具有高度可定制化与扩展性的GPU加速视频输出驱动
-option  = gpu-next            基于libplaceb渲染器，尚未完成开发，暂不支持无copy硬解，仅供测试
+option  = gpu-next            基于libplaceb渲染器，尚未完成开发，仅供测试
 option  = direct3d
 option  = libmpv
 
