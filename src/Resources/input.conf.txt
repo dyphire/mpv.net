@@ -16,8 +16,8 @@
  # mpv input options: https://mpv.io/manual/master/#input
 
 
- o                 script-message mpv.net open-files                     #menu: 加载 > 文件
- _                 script-message mpv.net open-url                       #menu: 加载 > 链接
+ CTRL+o            script-message mpv.net open-files                     #menu: 加载 > 文件
+ CTRL+O            script-message mpv.net open-url                       #menu: 加载 > 链接
  _                 script-message mpv.net open-optical-media             #menu: 加载 > 光盘目录
  _                 ignore                                                #menu: 加载 > -
  _                 script-message mpv.net load-audio                     #menu: 加载 > 其它音轨
@@ -30,7 +30,7 @@
  _                 ignore                                                #menu: 加载 > Recent
  _                 ignore                                                #menu: -
 
- SPACE             cycle pause                                           #menu: 文件 > 播放/暂停
+ SPACE             script-message mpv.net play-pause                     #menu: 文件 > 播放/暂停
  _                 stop                                                  #menu: 文件 > 停止
  T                 cycle ontop                                           #menu: 文件 > 开/关 置顶状态
  ALT+b             cycle window-maximized                                #menu: 文件 > 开/关 最大化
