@@ -74,7 +74,7 @@ namespace mpvnet
 
                 Core.ObservePropertyDouble("window-scale", WindowScale);
 
-                if (!IsVulkanOrGpuNext)
+                if (Core.GPUAPI != "vulkan")
                     Core.ProcessCommandLine(false);
 
                 AppDomain.CurrentDomain.UnhandledException += (sender, e) => App.ShowException(e.ExceptionObject);
@@ -193,8 +193,6 @@ namespace mpvnet
         bool IsFullscreen => WindowState == FormWindowState.Maximized && FormBorderStyle == FormBorderStyle.None;
 
         bool IsCommandPaletteVissible() => CommandPaletteHost != null && CommandPaletteHost.Visible;
-
-        bool IsVulkanOrGpuNext => Core.GPUAPI == "vulkan" || Core.VO == "gpu-next";
 
         bool KeepSize() => App.StartSize == "session" || App.StartSize == "always";
 
@@ -715,7 +713,8 @@ namespace mpvnet
             if (App.Settings.RecentFiles.Contains(path))
                 App.Settings.RecentFiles.Remove(path);
 
-            App.Settings.RecentFiles.Insert(0, path);
+            if (path != @"bd://" && path != @"dvd://")
+                App.Settings.RecentFiles.Insert(0, path);
 
             while (App.Settings.RecentFiles.Count > App.RecentCount)
                 App.Settings.RecentFiles.RemoveAt(App.RecentCount);
@@ -1036,7 +1035,7 @@ namespace mpvnet
             if (WindowState == FormWindowState.Maximized)
                 Core.SetPropertyBool("window-maximized", true);
 
-            if (IsVulkanOrGpuNext)
+            if (Core.GPUAPI == "vulkan")
                 Core.ProcessCommandLine(false);
 
             WPF.Init();
@@ -1140,8 +1139,7 @@ namespace mpvnet
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 Core.LoadFiles(e.Data.GetData(DataFormats.FileDrop) as String[], true, ModifierKeys.HasFlag(Keys.Control));
-          
-            if (e.Data.GetDataPresent(DataFormats.Text))
+            else if (e.Data.GetDataPresent(DataFormats.Text))
                 Core.LoadFiles(new[] { e.Data.GetData(DataFormats.Text).ToString() }, true, ModifierKeys.HasFlag(Keys.Control));
         }
 
