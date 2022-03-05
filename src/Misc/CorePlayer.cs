@@ -125,6 +125,7 @@ namespace mpvnet
                 SetPropertyString("msg-level", "osd/libass=fatal");
             }
 
+
             SetPropertyString("watch-later-options", "vid,aid,sid");
             SetPropertyString("screenshot-directory", "~~desktop/");
             SetPropertyString("osd-playing-msg", "${filename}");
