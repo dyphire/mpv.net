@@ -78,11 +78,17 @@ namespace mpvnet
 
         public static void Register(string perceivedType, string[] extensions)
         {
+            string[] protocols = { "ytdl", "rtsp", "srt", "srtp" };
+
             if (perceivedType != "unreg")
             {
+                foreach (string i in protocols)
+                {
+                    RegistryHelp.SetValue($@"HKCR\{i}", $"{i.ToUpper()} Protocol", "");
+                    RegistryHelp.SetValue($@"HKCR\{i}\shell\open\command", null, $"\"{ExePath}\" \"%1\"");
+                }
+
                 RegistryHelp.SetValue(@"HKCU\Software\Microsoft\Windows\CurrentVersion\App Paths\" + ExeFilename, null, ExePath);
-                RegistryHelp.SetValue(@"HKCR\ytdl", "URL Protocol", "");
-                RegistryHelp.SetValue(@"HKCR\ytdl\shell\open\command", null, $"\"{ExePath}\" \"%1\"");
                 RegistryHelp.SetValue(@"HKCR\Applications\" + ExeFilename, "FriendlyAppName", "mpv.net media player");
                 RegistryHelp.SetValue(@"HKCR\Applications\" + ExeFilename + @"\shell\open\command", null, $"\"{ExePath}\" \"%1\"");
                 RegistryHelp.SetValue(@"HKCR\SystemFileAssociations\video\OpenWithList\" + ExeFilename, null, "");
@@ -103,7 +109,9 @@ namespace mpvnet
             }
             else
             {
-                RegistryHelp.RemoveKey(@"HKCR\ytdl");
+                foreach (string i in protocols)
+                    RegistryHelp.RemoveKey($@"HKCR\{i}");
+
                 RegistryHelp.RemoveKey(@"HKCU\Software\Microsoft\Windows\CurrentVersion\App Paths\" + ExeFilename);
                 RegistryHelp.RemoveKey(@"HKCR\Applications\" + ExeFilename);
                 RegistryHelp.RemoveKey(@"HKLM\SOFTWARE\Clients\Media\mpv.net");
@@ -228,6 +236,7 @@ namespace mpvnet
         public string Text { get; set; } = "";
         public string SecondaryText { get; set; } = "";
         public Action Action { get; set; }
+        public CommandItem CommandItem { get; set; }
     }
 
     public class CommandPalette
@@ -241,7 +250,8 @@ namespace mpvnet
                 .Select(i => new CommandPaletteItem() {
                     Text = i.Display,
                     SecondaryText = i.Input,
-                    Action = () => Core.Command(i.Command)
+                    Action = () => Core.Command(i.Command),
+                    CommandItem = i
                 });
         }
     }
