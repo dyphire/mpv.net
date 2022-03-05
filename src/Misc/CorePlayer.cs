@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -136,14 +137,8 @@ namespace mpvnet
             SetPropertyInt("osd-duration", 2000);
 
             SetPropertyBool("keep-open", true);
-
             SetPropertyBool("input-default-bindings", true);
-
-            try {
-                SetPropertyBool("input-builtin-bindings", false, true);
-            } catch {
-                SetPropertyBool("input-default-bindings", false);
-            }
+            SetPropertyBool("input-builtin-bindings", false);
 
             ProcessCommandLine(true);
             mpv_error err = mpv_initialize(Handle);
@@ -235,12 +230,25 @@ namespace mpvnet
                         _ConfigFolder = Folder.AppData + "mpv.net";
 
                     if (!Directory.Exists(_ConfigFolder))
-                        Directory.CreateDirectory(_ConfigFolder);
+                    {
+                        using (Process proc = new Process())
+                        {
+                            proc.StartInfo.UseShellExecute = false;
+                            proc.StartInfo.CreateNoWindow = true;
+                            proc.StartInfo.FileName = "powershell.exe";
+                            proc.StartInfo.Arguments = $@"-Command New-Item -Path '{_ConfigFolder}' -ItemType Directory";
+                            proc.Start();
+                            proc.WaitForExit();
+                        }
+
+                        if (!Directory.Exists(_ConfigFolder))
+                            Directory.CreateDirectory(_ConfigFolder);
+                    }
 
                     _ConfigFolder = _ConfigFolder.AddSep();
 
                     if (!File.Exists(_ConfigFolder + "input.conf"))
-                        File.WriteAllText(_ConfigFolder + "input.conf", Properties.Resources.input_conf);
+                        File.WriteAllText(_ConfigFolder + "input.conf", PatchInput(Properties.Resources.input_conf));
                 }
 
                 return _ConfigFolder;
@@ -268,6 +276,28 @@ namespace mpvnet
 
                 return _Conf;
             }
+        }
+
+        string PatchInput(string value)
+        {
+            if (Environment.GetEnvironmentVariable("username") == "frank" && Directory.Exists(@"D:\Projects\CS\mpv.net"))
+                value = value.Replace("volume  2 ", "volume  10")
+                             .Replace("volume -2 ", "volume -10");
+            value += @"
+KP2 script-message rate-file 2
+2   script-message rate-file 2
+KP3 script-message rate-file 3
+3   script-message rate-file 3
+KP4 script-message rate-file 4
+4   script-message rate-file 4
+KP5 script-message rate-file 5
+5   script-message rate-file 5
+
+KP0 script-binding delete_current_file/delete
+0   script-binding delete_current_file/delete
+KP1 script-binding delete_current_file/confirm
+1   script-binding delete_current_file/confirm";
+            return value;
         }
 
         public void LoadScripts()
