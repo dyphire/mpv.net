@@ -12,7 +12,6 @@
 
  # https://github.com/stax76/mpv.net/blob/master/docs/Manual.md#input-and-context-menu
 
-
  CTRL+o            script-message mpv.net open-files                     #menu: 加载 > 文件
  CTRL+O            script-message mpv.net open-url                       #menu: 加载 > 链接
  _                 script-message mpv.net open-optical-media             #menu: 加载 > 光盘目录
