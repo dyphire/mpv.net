@@ -9,6 +9,7 @@
     mc:Ignorable="d"
     
     Title="mpv.conf 编辑器"
+
     Height="540"
     Width="700"
     Foreground="{Binding Theme.Foreground}"
@@ -74,6 +75,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+
 <!--        <TextBlock Name="ShowMpvNetSpecific"    Margin="0,15,0,0" Cursor="Hand" TextWrapping="WrapWithOverflow" Foreground="{Binding Theme.Heading}" MouseUp="ShowMpvNetSpecific_MouseUp">搜索mpv.net特定选项</TextBlock>  -->
             <TextBlock Name="OpenSettingsTextBlock" Margin="0,15,0,0" Cursor="Hand" TextWrapping="WrapWithOverflow" Foreground="{Binding Theme.Heading}" MouseUp="OpenSettingsTextBlock_MouseUp">打开设置目录</TextBlock>
             <TextBlock Name="PreviewTextBlock"      Margin="0,15,0,0" Cursor="Hand" TextWrapping="WrapWithOverflow" Foreground="{Binding Theme.Heading}" MouseUp="PreviewTextBlock_MouseUp">预览mpv.conf</TextBlock>
