@@ -126,14 +126,14 @@ namespace mpvnet
                 SetPropertyString("input-terminal", "yes");
                 SetPropertyString("msg-level", "osd/libass=fatal");
             }
-            
+
             SetPropertyInt("osd-duration", 2000);
             SetPropertyLong("wid", handle.ToInt64());
 
             SetPropertyBool("input-default-bindings", true);
             SetPropertyBool("input-builtin-bindings", false);
 
-            SetPropertyString("watch-later-options", "mute");
+            SetPropertyString("watch-later-options", "vid,aid,sid");
             SetPropertyString("screenshot-directory", "~~desktop/");
             SetPropertyString("osd-playing-msg", "${filename}");
             SetPropertyString("osc", "yes");
