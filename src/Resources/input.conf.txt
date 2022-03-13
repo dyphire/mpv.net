@@ -10,8 +10,8 @@
  # 下列被绑定的键位可以在右键菜单的这个选项中查看：工具 > input 编辑器
  # https://github.com/stax76/mpv.net/blob/master/docs/Manual.md#input-and-context-menu
 
- CTRL+o            script-message mpv.net open-files                     #menu: 加载 > 文件
- CTRL+O            script-message mpv.net open-clipboard                 #menu: 加载 > 剪贴板链接
+ CTRL+o            script-message mpv.net open-files                     #menu: 加载 > 浏览器文件
+ CTRL+O            script-message mpv.net open-clipboard                 #menu: 加载 > 剪贴板链接或文件
  _                 script-message mpv.net open-optical-media             #menu: 加载 > 光盘目录
  _                 ignore                                                #menu: 加载 > -
  _                 script-message mpv.net load-audio                     #menu: 加载 > 其它音轨
