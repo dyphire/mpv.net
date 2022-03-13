@@ -128,7 +128,8 @@ namespace mpvnet
                 SetPropertyString("msg-level", "osd/libass=fatal");
             }
 
-            SetPropertyString("watch-later-options", "mute");
+
+            SetPropertyString("watch-later-options", "vid,aid,sid");
             SetPropertyString("screenshot-directory", "~~desktop/");
             SetPropertyString("osd-playing-msg", "${filename}");
             SetPropertyString("wid", MainForm.Hwnd.ToString());
@@ -140,7 +141,6 @@ namespace mpvnet
             SetPropertyInt("osd-duration", 2000);
 
             SetPropertyBool("keep-open", true);
-            SetPropertyBool("keep-open-pause", false);
             SetPropertyBool("input-default-bindings", true);
             SetPropertyBool("input-builtin-bindings", false);
 
