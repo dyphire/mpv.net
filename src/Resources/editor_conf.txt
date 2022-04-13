@@ -400,12 +400,6 @@ filter  = OSD
 help    = <-1-1> OSD进度条的垂直位置，0为居中，建议：-1
 
 [setting]
-name    = osd-border-size
-file    = mpv
-filter  = OSD
-help    = OSD字体边框厚度，0为无，默认：3，建议：1
-
-[setting]
 name    = osd-font
 file    = mpv
 filter  = OSD
@@ -415,7 +409,55 @@ help    = OSD字体
 name    = osd-font-size
 file    = mpv
 filter  = OSD
-help    = OSD字体大小，默认：55，建议：40
+help    = OSD字体大小，默认：55
+
+[setting]
+name    = osd-color
+file    = mpv
+type    = color
+filter  = OSD
+help    = OSD文本主颜色
+
+[setting]
+name    = osd-border-size
+file    = mpv
+filter  = OSD
+help    = OSD文本边框厚度，0为无，默认：3，建议：1
+
+[setting]
+name    = osd-border-color
+file    = mpv
+type    = color
+filter  = OSD
+help    = OSD文本的边框颜色
+
+[setting]
+name    = osd-shadow-offset
+file    = mpv
+type    = string
+filter  = OSD
+help    = OSD文本的阴影大小，默认值：0
+
+[setting]
+name    = osd-shadow-color
+file    = mpv
+type    = color
+filter  = OSD
+help    = OSD文本的阴影颜色
+
+[setting]
+name    = osd-blur
+file    = mpv
+type    = string
+filter  = OSD
+help    = OSD文本的边缘模糊度，默认值：0 <0..20.0>
+
+[setting]
+name    = osd-spacing
+file    = mpv
+type    = string
+filter  = OSD
+help    = OSD文本的字间距，默认值：0
 
 [setting]
 name    = osd-fractions
@@ -432,6 +474,12 @@ name    = osd-duration
 file    = mpv
 filter  = OSD
 help    = OSD持续时间（毫秒），默认：2000
+
+[setting]
+name    = osd-playing-msg-duration
+file    = mpv
+filter  = OSD
+help    = --osd-playing-msg 文本的持续时间，默认使用全局持续时间
 
 [setting]
 name    = icc-profile-auto
@@ -1229,7 +1277,7 @@ name    = sub-border-size
 file    = mpv
 type    = string
 filter  = 字幕
-help    = 文本字幕的边框大小
+help    = 文本字幕的边框大小，0为无，默认：3，建议：1
 
 [setting]
 name    = sub-border-color
@@ -1243,7 +1291,7 @@ name    = sub-shadow-offset
 file    = mpv
 type    = string
 filter  = 字幕
-help    = 文本字幕的阴影大小
+help    = 文本字幕的阴影大小，默认值：0
 
 [setting]
 name    = sub-shadow-color
@@ -1253,18 +1301,18 @@ filter  = 字幕
 help    = 文本字幕的阴影颜色
 
 [setting]
-name    = sub-spacing
-file    = mpv
-type    = string
-filter  = 字幕
-help    = 文本字幕的字间距
-
-[setting]
 name    = sub-blur
 file    = mpv
 type    = string
 filter  = 字幕
-help    = 文本字幕的边缘模糊度，推荐值1.5-3.0之间 <0..20.0>
+help    = 文本字幕的边缘模糊度，默认值：0 <0..20.0>
+
+[setting]
+name    = sub-spacing
+file    = mpv
+type    = string
+filter  = 字幕
+help    = 文本字幕的字间距，默认值：0
 
 [setting]
 name    = sub-use-margins
