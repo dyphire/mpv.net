@@ -82,11 +82,33 @@ option  = yes
 option  = no
 
 [setting]
+name    = vd-lavc-dr
+file    = mpv
+filter  = 基础
+default = yes
+filter  = 基础
+help    = 启用直接渲染，默认：yes\n如果设置为yes，视频将直接解码到GPU视频内存（或暂存缓冲区）
+
+option  = yes
+option  = no
+
+[setting]
 name    = vd-lavc-threads
 file    = mpv
 filter  = 基础
 type    = string
 help    = 用于解码的线程数，是否实际支持线程取决于编解码器（默认值：0）\n0表示自动检测机器上的内核数并使用它，最多为16\n可以手动设置为超过16个线程
+
+[setting]
+name    = vd-lavc-assume-old-x264
+file    = mpv
+filter  = 基础
+default = no
+filter  = 基础
+help    = 假设视频是由旧的、有缺陷的x264版本编码的。默认：no\n仅当x264 yuv444p10格式的视频解码错误时尝试启用此项解决ffmpeg对旧的x264编码的兼容问题
+
+option  = yes
+option  = no
 
 [setting]
 name    = fbo-format
@@ -245,6 +267,13 @@ help    = 有序章节列表支持
 
 option  = yes
 option  = no
+
+[setting]
+name    = metadata-codepage
+file    = mpv
+filter  = 功能
+type    = string
+help    = 指定各种输入元数据的编码，默认值：utf-8\n这会影响文件标签、章节标题等的解释方式\n例如，可以将其设置为auto以启用编码的自动检测
 
 [setting]
 name    = hr-seek
@@ -1093,6 +1122,13 @@ help    = 使用嵌入在Matroska容器文件和ASS文本中的字体
 
 option  = no
 option  = yes
+
+[setting]
+name    = sub-codepage
+file    = mpv
+filter  = 字幕
+type    = string
+help    = 指定字幕使用的编码，默认值为auto：自动检测字幕编码，检测失败时默认回退UTF-8处理\n注意：这仅适用于文本字幕文件。其他类型的字幕（特别是 mkv 文件中的字幕）始终假定为 UTF-8
 
 [setting]
 name    = sub-auto
