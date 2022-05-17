@@ -7,7 +7,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d"
     
-    Title="Input Editor"
+    Title="input.conf 编辑器"
     Height="500"
     Width="750"
     FontSize="13"
@@ -80,7 +80,7 @@
         </Grid.RowDefinitions>
 
         <local:SearchTextBoxUserControl
-            HintText="Type ? to get help."
+            HintText="输入 ? 弹出帮助"
             x:Name="SearchControl"
             Width="300"
             Margin="0,20,0,20"
@@ -90,6 +90,8 @@
         <DataGrid
             Name="DataGrid"
             Grid.Row="1"
+            Grid.Column="2" 
+            Margin="20,20,0,0"
             CommandManager.PreviewCanExecute="DataGrid_PreviewCanExecute"
             AutoGenerateColumns="False"
             ColumnHeaderStyle="{StaticResource HeaderStyle}"
@@ -108,9 +110,9 @@
             </DataGrid.Resources>
             
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Menu" Binding="{Binding Path}"/>
+                <DataGridTextColumn Header="右键菜单项目" Binding="{Binding Path}"/>
                 
-                <DataGridTemplateColumn Header="Input">
+                <DataGridTemplateColumn Header="快捷键">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button MinHeight="20" Click="ButtonClick">
@@ -120,7 +122,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Command" Binding="{Binding Command}" MaxWidth="330" />
+                <DataGridTextColumn Header="命令" Binding="{Binding Command}" MaxWidth="330" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
