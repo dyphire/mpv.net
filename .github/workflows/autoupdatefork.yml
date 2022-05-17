@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.event.repository.owner.id == github.event.sender.id && github.actor != 'gedoor' }}
+    if: ${{ github.event.repository.owner.id == github.event.sender.id && github.actor != 'stax76' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -21,13 +21,13 @@ jobs:
         sudo apt-get -y install git
     - name: Set env
       run: |
-        git config --global user.email "github-actions@github.com"
-        git config --global user.name "github-actions"
+        git config --global user.email "61936050+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
     - name: Update fork master
       run: |
         git remote add upstream https://github.com/stax76/mpv.net.git
         git remote -v
         git fetch upstream
-        git checkout master
-        git merge --strategy-option=ours upstream/master
+        git checkout -b master
+        git rebase --strategy-option=ours upstream/master
         git push -f origin master
