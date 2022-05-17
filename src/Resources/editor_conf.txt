@@ -1,646 +1,1715 @@
-
-name = process-instance
-file = mpvnet
-default = single
-filter = General
-help = Defines if more then one mpv.net process is allowed. (mpv.net specific option)\n\nMulti can alternatively be enabled by pressing the SHIFT key.\n\nWhenever the control key is pressed when files or URLs are opened, the playlist is not cleared but the files or URLs are appended to the playlist. This not only works on process startup but in all mpv.net features that open files and URLs.
-option = multi   Create a new process everytime the shell starts mpv.net
-option = single  Force a single process everytime the shell starts mpv.net
-option = queue   Force a single process and add files to playlist
-
-name = recent-count
-file = mpvnet
-filter = General
-help = <int> Amount of recent files to be remembered. Default: 15 (mpv.net specific option)
-
-name = media-info
-file = mpvnet
-default = yes
-filter = General
-help = Usage of the media info library instead of mpv to access media information. (mpv.net specific option)
-option = yes
-option = no
-
-name = history-filter
-file = mpvnet
-filter = General
-width = 500
-help = Semicolon separated list of paths to be excluded from the history log feature.
-
-name = video-file-extensions
-file = mpvnet
-filter = General
-width = 500
-help = Video file extensions used to create file associations and used by the auto-load-folder feature. (mpv.net specific option)
-
-name = audio-file-extensions
-file = mpvnet
-filter = General
-width = 500
-help = Audio file extensions used to create file associations and used by the auto-load-folder feature. (mpv.net specific option)
-
-name = image-file-extensions
-file = mpvnet
-filter = General
-width = 500
-help = Image file extensions used to create file associations and used by the auto-load-folder feature. (mpv.net specific option)
-
-name = debug-mode
-file = mpvnet
+[setting]
+name    = hwdec
+file    = mpv
 default = no
-filter = General
-help = Enable this only when a developer asks for it. (mpv.net specific option)
-option = yes
-option = no
+filter  = 基础
+help    = 解码模式，选择硬解时不支持的格式自动切回软解。非copy的原生硬解模式不支持部分参数和滤镜，硬解优先考虑-copy\nSVP的10bit支持应使用-copy，否则软解
 
-name = vo
-file = mpv
+option  = no                  始终软解
+option  = auto                Native原生硬解优先
+option  = nvdec               N卡独占的硬解优先（此项不支持--gpu-api=d3d11）
+option  = d3d11va-copy        近年的显卡都可以优先考虑这个
+option  = dxva2-copy          兼容性较好的增强硬解模式
+option  = nvdec-copy          帕斯卡架构后的N卡首选
+option  = cuda-copy           兼容性较高
+
+[setting]
+name    = vo
+file    = mpv
 default = gpu
-filter = Video
-help = Video output drivers to be used.\n\nFor more information visit:
-url = https://mpv.io/manual/master/#video-output-drivers-vo
-option = gpu       General purpose, customizable, GPU-accelerated video output driver. It supports extended scaling methods, dithering, color management, custom shaders, HDR, and more.
-option = gpu-next  Experimental video renderer based on libplacebo. This supports almost the same set of features as --vo=gpu.
-option = direct3d  Video output driver that uses the Direct3D interface.
+filter  = 基础
+help    = 视频输出驱动程序
 
-name = hwdec
-file = mpv
-default = no
-filter = Video
-url = https://mpv.io/manual/master/#options-hwdec
-help = Specify the hardware video decoding API that should be used if possible. Whether hardware decoding is actually done depends on the video codec. If hardware decoding is not possible, mpv will fall back on software decoding.\n\nFor more information visit:
-option = no            always use software decoding
-option = auto          enable best hw decoder
-option = yes           exactly the same as auto
-option = auto-copy     enable best hw decoder with copy-back
-option = auto-safe     enable any whitelisted hw decoder
-option = dxva2         requires vo=gpu with gpu-context=d3d11, gpu-context=angle or gpu-context=dxinterop (Windows only)
-option = dxva2-copy    copies video back to system RAM (Windows only)
-option = d3d11va       requires vo=gpu with gpu-context=d3d11 or gpu-context=angle (Windows 8+ only)
-option = d3d11va-copy  copies video back to system RAM (Windows 8+ only)
-option = cuda          requires vo=gpu (Any platform CUDA is available)
-option = cuda-copy     copies video back to system RAM (Any platform CUDA is available)
-option = nvdec         requires vo=gpu (Any platform CUDA is available)
-option = nvdec-copy    copies video back to system RAM (Any platform CUDA is available)
+option  = gpu                 通用且具有高度可定制化与扩展性的GPU加速视频输出驱动
+option  = gpu-next            基于libplaceb渲染器，尚未完成开发，仅供测试
+option  = direct3d
+option  = libmpv
 
-name = gpu-api
-file = mpv
+[setting]
+name    = gpu-api
+file    = mpv
+default = d3d11
+filter  = 基础
+help    = 图形API
+
+option  = auto
+option  = d3d11
+option  = vulkan
+option  = opengl
+
+[setting]
+name    = gpu-context
+file    = mpv
 default = auto
-filter = Video
-help = Controls which type of graphics APIs will be accepted. Auto uses d3d11, it should only be changed in case of problems, Vulkan is not recommended.
-option = auto    Use any available API
-option = d3d11   Allow only gpu-context=d3d11
-option = opengl  Allow only OpenGL (requires OpenGL 2.1+ or GLES 2.0+)
-option = vulkan  Allow only Vulkan
+filter  = 基础
+help    = 选择输出后端。此项通常由--gpu-api=<value>自动决定正确值\n--gpu-api=opengl时默认选用angle，此时最好改为win/dxinterop
 
-name = gpu-context
-file = mpv
-default = auto
-filter = Video
-option = auto       auto-select
-option = d3d11      Win32, with native Direct3D 11 rendering.
-option = angle      Direct3D11 through the OpenGL ES translation layer ANGLE. This supports almost everything the win backend does (if the ANGLE build is new enough).
-option = win        Win32/WGL
-option = dxinterop  (experimental) Win32, using WGL for rendering and Direct3D 9Ex for presentation. Works on Nvidia and AMD. Newer Intel chips with the latest drivers may also work.
-option = winvk      VK_KHR_win32_surface
+option  = auto
+option  = win
+option  = winvk
+option  = angle
+option  = dxinterop
+option  = d3d11
 
-name = video-sync
-file = mpv
-default = audio
-filter = Video
-help = How the player synchronizes audio and video.\n\nFor more information visit:
-url = https://mpv.io/manual/master/#options-video-sync
-option = audio
-option = display-resample
-option = display-resample-vdrop
-option = display-resample-desync
-option = display-vdrop
-option = display-adrop
-option = display-desync
-option = desync
-
-name = scale
-file = mpv
-default = bilinear
-filter = Video
-help = The GPU renderer filter function to use when upscaling video. There are some more filters, but most are not as useful. For a complete list, pass help as value, e.g.: mpv --scale=help
-option = bilinear          Bilinear hardware texture filtering (fastest, very low quality).
-option = spline36          Mid quality and speed. This is the default when using gpu-hq.
-option = lanczos           Lanczos scaling. Provides mid quality and speed. Generally worse than spline36, but it results in a slightly sharper image which is good for some content types. The number of taps can be controlled with  scale-radius, but is best left unchanged. (This filter is an alias for sinc-windowed sinc)
-option = ewa_lanczos       Elliptic weighted average Lanczos scaling. Also known as Jinc. Relatively slow, but very good quality. The radius can be controlled with scale-radius. Increasing the radius makes the filter sharper but adds more ringing. (This filter is an alias for jinc-windowed jinc)
-option = ewa_lanczossharp  A slightly sharpened version of ewa_lanczos, preconfigured to use an ideal radius and parameter. If your hardware can run it, this is probably what you should use by default.
-option = mitchell          Mitchell-Netravali. The B and C parameters can be set with  scale-param1 and scale-param2. This filter is very good at downscaling (see dscale).
-option = oversample        A version of nearest neighbour that (naively) oversamples pixels, so that pixels overlapping edges get linearly interpolated instead of rounded. This essentially removes the small imperfections and judder artifacts caused by nearest-neighbour interpolation, in exchange for adding some blur. This filter is good at temporal interpolation, and also known as "smoothmotion" (see tscale).
-
-name = cscale
-file = mpv
-default = bilinear
-filter = Video
-help = As scale, but for interpolating chroma information. If the image is not subsampled, this option is ignored entirely.
-option = bilinear          Bilinear hardware texture filtering (fastest, very low quality).
-option = spline36          Mid quality and speed. This is the default when using gpu-hq.
-option = lanczos           Lanczos scaling. Provides mid quality and speed. Generally worse than spline36, but it results in a slightly sharper image which is good for some content types. The number of taps can be controlled with  scale-radius, but is best left unchanged. (This filter is an alias for sinc-windowed sinc)
-option = ewa_lanczos       Elliptic weighted average Lanczos scaling. Also known as Jinc. Relatively slow, but very good quality. The radius can be controlled with scale-radius. Increasing the radius makes the filter sharper but adds more ringing. (This filter is an alias for jinc-windowed jinc)
-option = ewa_lanczossharp  A slightly sharpened version of ewa_lanczos, preconfigured to use an ideal radius and parameter. If your hardware can run it, this is probably what you should use by default.
-option = mitchell          Mitchell-Netravali. The B and C parameters can be set with scale-param1 and scale-param2. This filter is very good at downscaling (see dscale).
-option = oversample        A version of nearest neighbour that (naively) oversamples pixels, so that pixels overlapping edges get linearly interpolated instead of rounded. This essentially removes the small imperfections and judder artifacts caused by nearest-neighbour interpolation, in exchange for adding some blur. This filter is good at temporal interpolation, and also known as "smoothmotion" (see tscale).
-
-name = dscale
-file = mpv
-default = 
-filter = Video
-help = Like scale, but apply these filters on downscaling instead. \nIf no option is selected, it will keep the same with the upscaler.
-option = bilinear          Bilinear hardware texture filtering (fastest, very low quality).
-option = spline36          Mid quality and speed. This is the default when using gpu-hq.
-option = lanczos           Lanczos scaling. Provides mid quality and speed. Generally worse than spline36, but it results in a slightly sharper image which is good for some content types. The number of taps can be controlled with  scale-radius, but is best left unchanged. (This filter is an alias for sinc-windowed sinc)
-option = ewa_lanczos       Elliptic weighted average Lanczos scaling. Also known as Jinc. Relatively slow, but very good quality. The radius can be controlled with scale-radius. Increasing the radius makes the filter sharper but adds more ringing. (This filter is an alias for jinc-windowed jinc)
-option = ewa_lanczossharp  A slightly sharpened version of ewa_lanczos, preconfigured to use an ideal radius and parameter. If your hardware can run it, this is probably what you should use by default.
-option = mitchell          Mitchell-Netravali. The B and C parameters can be set with scale-param1 and scale-param2. This filter is very good at downscaling (see dscale).
-option = oversample        A version of nearest neighbour that (naively) oversamples pixels, so that pixels overlapping edges get linearly interpolated instead of rounded. This essentially removes the small imperfections and judder artifacts caused by nearest-neighbour interpolation, in exchange for adding some blur. This filter is good at temporal interpolation, and also known as "smoothmotion" (see tscale).
-
-name = dither-depth
-file = mpv
+[setting]
+name    = d3d11-exclusive-fs
+file    = mpv
 default = no
-filter = Video
-help = Set dither target depth to N. Note that the depth of the connected video display device cannot be detected. Often, LCD panels will do dithering on their own, which conflicts with this option and leads to ugly output.
-option = no    Disable any dithering done by mpv.
-option = auto  Automatic selection. If output bit depth cannot be detected, 8 bits per component are assumed.
-option = 8     Dither to 8 bit output.
-option = 10    Dither to 10 bit output.
+filter  = 基础
+help    = --gpu-api=d3d11下的全屏独占功能，默认禁用
 
-name = correct-downscaling
-file = mpv
-default = no
-filter = Video
-help = When using convolution based filters, extend the filter size when downscaling. Increases quality, but reduces performance while downscaling.\n\nThis will perform slightly sub-optimally for anamorphic video (but still better than without it) since it will extend the size to match only the milder of the scale factors between the axes.
-option = yes
-option = no
+option  = yes
+option  = no
 
-name = sigmoid-upscaling
-file = mpv
-default = no
-filter = Video
-help = When upscaling, use a sigmoidal color transform to avoid emphasizing ringing artifacts. This also implies linear-scaling.
-option = yes
-option = no
-
-name = deband
-file = mpv
-default = no
-filter = Video
-help = Enable the debanding algorithm. This greatly reduces the amount of visible banding, blocking and other quantization artifacts, at the expense of very slightly blurring some of the finest details. In practice, it's virtually always an improvement - the only reason to disable it would be for performance.
-option = yes
-option = no
-
-name = d3d11va-zero-copy
-file = mpv
-default = no
-filter = Video
-help = By default, when using hardware decoding with --gpu-api=d3d11, the video image will be copied (GPU-to-GPU) from the decoder surface to a shader resource. Set this option to avoid that copy by sampling directly from the decoder image. This may increase performance and reduce power usage, but can cause the image to be sampled incorrectly on the bottom and right edges due to padding, and may invoke driver bugs, since Direct3D 11 technically does not allow sampling from a decoder surface (though most drivers support it.)
-option = yes
-option = no
-
-name = hdr-compute-peak
-file = mpv
-default = auto
-filter = Video
-help = Compute the HDR peak and frame average brightness per-frame instead of relying on tagged metadata. These values are averaged over local regions as well as over several frames to prevent the value from jittering around too much. This option basically gives you dynamic, per-scene tone mapping. Requires compute shaders, which is a fairly recent OpenGL feature, and will probably also perform horribly on some drivers, so enable at your own risk. The special value auto (default) will enable HDR peak computation automatically if compute shaders and SSBOs are supported.
-option = auto
-option = yes
-option = no
-
-name = allow-delayed-peak-detect
-file = mpv
+[setting]
+name    = d3d11-flip
+file    = mpv
 default = yes
-filter = Video
-help = When using --hdr-compute-peak, allow delaying the detected peak by a frame when beneficial for performance. In particular, this is required to avoid an unnecessary FBO indirection when no advanced rendering is required otherwise. Has no effect if there already is an indirect pass, such as when advanced scaling is enabled. (Only affects --vo=gpu-next, note that --vo=gpu always delays the peak.)
-option = yes
-option = no
+filter  = 基础
+help    = 启用翻转模型演示\n启用--d3d11-exclusive-fs参数产生冻屏效应时可尝试禁用此项解决
 
-name = volume
-file = mpv
-filter = Audio
-help = Set the startup volume. 0 means silence, 100 means no volume reduction or amplification. Negative values can be passed for compatibility, but are treated as 0. Since mpv 0.18.1, this always controls the internal mixer (aka "softvol"). Default: 100
+option  = yes
+option  = no
 
-name = remember-volume
-file = mpvnet
+[setting]
+name    = d3d11va-zero-copy
+file    = mpv
+default = no
+filter  = 基础
+help    = 禁用解码采样copy，默认：no\n当解码卡顿掉帧时可启用此项尝试改善
+
+option  = yes
+option  = no
+
+[setting]
+name    = vd-lavc-threads
+file    = mpv
+filter  = 基础
+type    = string
+help    = 用于解码的线程数，是否实际支持线程取决于编解码器（默认值：0）\n0表示自动检测机器上的内核数并使用它，最多为16\n可以手动设置为超过16个线程
+
+[setting]
+name    = fbo-format
+file    = mpv
+filter  = 基础
+type    = string
+help    = 内处理精度。此项通常由 --gpu-api=<value> 自动决定正确值，默认首选16位及以上的精度\n例：auto,rgba16f,rgba16hf,rgba16,rgba32f,rgba32hf,rgba32,rgb10_a2,rgb10,rgba8
+
+[setting]
+name    = d3d11-adapter
+file    = mpv
+filter  = 基础
+type    = string
+width   = 500
+help    = （当--gpu-api=d3d11时）单显卡系统无需填写，双显卡笔记本留空自动选择系统或驱动指定的主渲染显卡，否则应指定具体显卡名\n例：NVIDIA GeForce RTX 2070 Super 或 Intel(R) UHD Graphics
+
+[setting]
+name    = vulkan-device
+file    = mpv
+filter  = 基础
+type    = string
+width   = 500
+help    = （当--gpu-api=vulkan时）单显卡系统无需填写，双显卡笔记本留空自动选择系统或驱动指定的主渲染显卡，否则应指定具体显卡名\n例：NVIDIA GeForce RTX 2070 Super 或 Intel(R) UHD Graphics
+
+[setting]
+name    = border
+file    = mpv
 default = yes
-filter = Audio
-help = Save volume and mute on exit and restore it on start. (mpv.net specific option)
-option = yes
-option = no
+filter  = 功能
+help    = 窗口边框装饰
 
-name = alang
-file = mpv
-filter = Audio
-type = string
-help = Specify a priority list of audio languages to use. Different container formats employ different language codes. DVDs use ISO 639-1 two-letter language codes, Matroska, MPEG-TS and NUT use ISO 639-2 three-letter language codes, while OGM uses a free-form identifier. See also aid.\n\nExamples\n\nmpv dvd://1 alang=hu,en chooses the Hungarian language track on a DVD and falls back on English if Hungarian is not available.\n\nmpv alang=jpn example.mkv plays a Matroska file with Japanese audio.
+option  = yes
+option  = no
 
-name = audio-file-auto
-file = mpv
-default = no
-filter = Audio
-help = Load additional audio files matching the video filename. The parameter specifies how external audio files are matched.
-option = no     Don't automatically load external audio files.
-option = exact  Load the media filename with audio file extension.
-option = fuzzy  Load all audio files containing media filename.
-option = all    Load all audio files in the current and audio-file-paths directories.
-
-name = audio-device
-file = mpv
-filter = Audio
-type = string
-url = https://mpv.io/manual/master/#options-audio-device
-help = <name> Use the given audio device. This consists of the audio output name, e.g. alsa, followed by /, followed by the audio output specific device name. The default value for this option is auto, which tries every audio output in preference order with the default device.\nAvailable devices can be found in the context menu under:\nView > Advanced > Show Audio Devices
-
-name = slang
-file = mpv
-filter = Subtitle
-type = string
-help = Specify a priority list of subtitle languages to use. Different container formats employ different language codes. DVDs use ISO 639-1 two letter language codes, Matroska uses ISO 639-2 three letter language codes while OGM uses a free-form identifier. See also sid.
-
-name = sub-auto
-file = mpv
-default = exact
-filter = Subtitle
-help = Load additional subtitle files matching the video filename. The parameter specifies how external subtitle files are matched. exact is enabled by default.
-option = no     Don't automatically load external subtitle files.
-option = exact  Load the media filename with subtitle file extension.
-option = fuzzy  Load all subs containing media filename.
-option = all    Load all subs in the current and sub-file-paths directories.
-
-name = sub-font
-file = mpv
-filter = Subtitle
-type = string
-help = Specify font to use for subtitles that do not themselves specify a particular font. The default is  sans-serif.
-
-name = sub-font-size
-file = mpv
-filter = Subtitle
-help = Specify the sub font size. The unit is the size in scaled pixels at a window height of 720. The actual pixel size is scaled with the window height: if the window height is larger or smaller than 720, the actual size of the text increases or decreases as well. Default: 55
-
-name = sub-color
-file = mpv
-type = color
-filter = Subtitle
-help = Specify the color used for unstyled text subtitles.\n\nThe color is specified in the form r/g/b, where each color component is specified as number in the range 0.0 to 1.0. It's also possible to specify the transparency by using r/g/b/a, where the alpha value 0 means fully transparent, and 1.0 means opaque. If the alpha component is not given, the color is 100% opaque.\n\nPassing a single number to the option sets the sub to gray, and the form gray/a lets you specify alpha additionally.\n\nExamples\n\n1.0/0.0/0.0 set sub to opaque red\n1.0/0.0/0.0/0.75 set sub to opaque red with 75% alpha\n0.5/0.75 set sub to 50% gray with 75% alpha\n\nAlternatively, the color can be specified as a RGB hex triplet in the form #RRGGBB, where each 2-digit group expresses a color value in the range 0 (00) to 255 (FF). For example, #FF0000 is red. This is similar to web colors. Alpha is given with #AARRGGBB.\n\nExamples\n\n#FF0000 set sub to opaque red\n#C0808080 set sub to 50% gray with 75% alpha
-
-name = sub-border-color
-file = mpv
-type = color
-filter = Subtitle
-help = See sub-color. Color used for the sub font border. Ignored when sub-back-color is specified (or more exactly: when that option is not set to completely transparent).
-
-name = sub-back-color
-file = mpv
-type = color
-filter = Subtitle
-help = See sub-color. Color used for sub text background. You can use sub-shadow-offset to change its size relative to the text.
-
-name = fullscreen
-file = mpv
-default = no
-filter = Screen
-help = Start the player in fullscreen mode.
-option = yes
-option = no
-
-name = border
-file = mpv
+[setting]
+name    = osc
+file    = mpv
 default = yes
-filter = Screen
-help = Show window with decoration (titlebar, border).
-option = yes
-option = no
+filter  = 功能
+help    = 使用内置OSC脚本的功能
 
-name = screen
-file = mpv
-filter = Screen
-help = <0-32> In multi-monitor configurations (i.e. a single desktop that spans across multiple displays), this option tells mpv which screen to display the video on.
+option  = yes
+option  = no
 
-name = osd-playing-msg
-file = mpv
-width = 300
-filter = Screen
-type = string
-help = Show a message on OSD when playback starts. The string is expanded for properties, e.g. osd-playing-msg='file: ${filename}' will show the message file: followed by a space and the currently played filename. For more information visit:
-url = https://mpv.io/manual/master/#property-expansion
+[setting]
+name    = fullscreen
+file    = mpv
+default = no
+filter  = 功能
+help    = 以全屏状态启动播放器，默认禁用
 
-name = osd-font-size
-file = mpv
-filter = Screen
-help = Specify the OSD font size. See sub-font-size for details. Default: 55
+option  = yes
+option  = no
 
-name = osd-duration
-file = mpv
-filter = Screen
-help = Set the duration of the OSD messages in ms. Default: 1000
+[setting]
+name    = hidpi-window-scale
+file    = mpv
+default = no
+filter  = 功能
+help    = 使用HIDPI缩放
 
-name = osd-scale-by-window
-file = mpv
+option  = yes
+option  = no
+
+[setting]
+name    = ontop
+file    = mpv
+default = no
+filter  = 功能
+help    = 窗口置顶\n当--gpu-api=vulkan时也有全屏独占作用
+
+option  = yes
+option  = no
+
+[setting]
+name    = autofit
+file    = mpv
+filter  = 功能
+help    = <整数> 初始窗口高度（百分比），默认：60
+
+[setting]
+name    = autofit-smaller
+file    = mpv
+filter  = 功能
+help    = <整数> 初始窗口最小高度（百分比），默认：10
+
+[setting]
+name    = autofit-larger
+file    = mpv
+filter  = 功能
+help    = <整数> 初始窗口最大高度（百分比），默认：80
+
+[setting]
+name    = keepaspect-window
+file    = mpv
 default = yes
-filter = Screen
-help = Whether to scale the OSD with the window size. If this is disabled, osd-font-size and other OSD options that use scaled pixels are always in actual pixels. The effect is that changing the window size won't change the OSD font size.
-option = yes
-option = no
+filter  = 功能
+help    = 将窗口尺寸锁定为视频比例
 
-name = autofit
-file = mpv
-filter = Screen
-help = <int> Initial window height in percent. Default: 60
+option  = yes
+option  = no
 
-name = autofit-image
-file = mpvnet
-filter = Screen
-help = <int> Initial window height in percent for image files. Default: 80
+[setting]
+name    = keep-open
+file    = mpv
+default = no
+filter  = 功能
+help    = 播放列表播放完毕后保持打开，默认值：no\nalways：文件结束自动暂停，不播放\n下一文件如果 idle 设置为 no/once，则 mpv.net 在最后一个文件之后退出
 
-name = autofit-audio
-file = mpvnet
-filter = Screen
-help = <int> Initial window height in percent for audio files. Default: 70
+option  = yes
+option  = no
+option  = always
 
-name = autofit-smaller
-file = mpv
-filter = Screen
-help = <int> Minimum window height in percent. Default: 10
-
-name = autofit-larger
-file = mpv
-filter = Screen
-help = <int> Maximum window height in percent. Default: 80
-
-name = start-size
-file = mpvnet
-default = height-session
-filter = Screen
-help = Setting to remember the window size. (mpv.net specific option)
-option = width-session   Window width is remembered in the current session
-option = width-always    Window width is always remembered
-option = height-session  Window height is remembered in the current session
-option = height-always   Window height is always remembered
-option = video           Window size is set to video resolution
-option = session         Window size is remembered in the current session
-option = always          Window size is always remembered
-
-name = keepaspect-window
-file = mpv
+[setting]
+name    = keep-open-pause
+file    = mpv
 default = yes
-filter = Screen
-help = keepaspect-window will lock the window size to the video aspect. Default: yes
-option = yes
-option = no
+filter  = 功能
+help    = 播放列表播放播放完毕后暂停，默认值：yes
 
-name = minimum-aspect-ratio
-file = mpvnet
-filter = Screen
-help = <float> Minimum aspect ratio of the window. Useful to force a wider window and therefore a larger OSC. (mpv.net specific option)
+option  = yes
+option  = no
 
-name = minimum-aspect-ratio-audio
-file = mpvnet
-filter = Screen
-help = Same as minimum-aspect-ratio but used for audio files.
+[setting]
+name    = idle
+file    = mpv
+default = once
+filter  = 功能
+help    = 是否开启空闲待机模式（中止播放或所有文件播放后依旧保持mpv运行）\n启用空闲待机使mpv的行为表现更接近普通播放器\n伪GUI模式启动mpv时idle默认为once
 
-name = remember-window-position
-file = mpvnet
+option  = yes
+option  = once
+
+[setting]
+name    = pause
+file    = mpv
 default = no
-filter = Screen
-help = Save the window position on exit. (mpv.net specific option)
-option = yes
-option = no
+filter  = 功能
+help    = 暂停状态启动播放器
 
-name = snap-window
-file = mpv
-default = no
-filter = Screen
-help = Snap the player window to screen edges.
-option = yes
-option = no
+option  = yes
+option  = no
 
-name = window-maximized
-file = mpv
-default = no
-filter = Screen
-help = Start with a maximized window.
-option = yes
-option = no
+[setting]
+name    = loop-playlist
+file    = mpv
+filter  = 功能
+help    = <数字|inf|force|no> 播放列表循环次数，inf为无限，force类似但不跳过被标记为失效的文件，默认：1
 
-name = start-threshold
-file = mpvnet
-filter = Screen
-help = Threshold in milliseconds to wait for libmpv returning the video resolution before the window is shown, otherwise default dimensions are used as defined by autofit and start-size. Default: 1500 (mpv.net specific option)
-
-name = taskbar-progress
-file = mpv
+[setting]
+name    = ordered-chapters
+file    = mpv
 default = yes
-filter = Playback
-help = Show progress in taskbar.
-option = yes
-option = no
+filter  = 功能
+help    = 有序章节列表支持
 
-name = keep-open
-file = mpv
-default = no
-filter = Playback
-option = yes     If the current file ends, go to the next file, keep the last file open.
-option = no      If the current file ends, go to the next file. If idle is set to no, the player exits after the last file.
-option = always  Playback will never automatically advance to the next file.
+option  = yes
+option  = no
 
-name = keep-open-pause
-file = mpv
-default = yes
-filter = Playback
-help = If set to no, instead of pausing when keep-open is active, just stop at end of file and continue playing forward when you seek backwards until end where it stops again.
-option = yes
-option = no
-
-name = idle
-file = mpv
-default = yes
-filter = Playback
-help = If set to no and keep-open is also set to no, the player exits after the last file ends.
-option = yes
-option = no
-option = once
-
-name = auto-play
-file = mpvnet
-default = no
-filter = Playback
-help = Sets pause=no on file load. (mpv.net specific option)
-option = yes
-option = no
-
-name = loop-file
-file = mpv
-filter = Playback
-help = <N|inf|no> Loop a single file N times. inf means forever, no means normal playback.\n\nThe difference to loop-playlist is that this doesn't loop the playlist, just the file itself. If the playlist contains only a single file, the difference between the two option is that this option performs a seek on loop, instead of reloading the file. loop is an alias for this option.
-
-name = save-position-on-quit
-file = mpv
-default = no
-filter = Playback
-help = Always save the current playback position on quit. When this file is played again later, the player will seek to the old playback position on start. This does not happen if playback of a file is stopped in any other way than quitting. For example, going to the next file in the playlist will not save the position, and start playback at beginning the next time the file is played.\n\nThis behavior is disabled by default, but is always available when quitting the player with Shift+Q.
-option = yes
-option = no
-
-name = watch-later-options
-file = mpv
-filter = Playback
-help = The options that are saved in "watch later" files if they have been changed since when mpv started. These values will be restored the next time the files are played. This is a string list option. For more information visit:
-url = https://mpv.io/manual/master/#options-watch-later-options
-
-name = hr-seek
-file = mpv
+[setting]
+name    = hr-seek
+file    = mpv
 default = absolute
-filter = Playback
-help = Select when to use precise seeks that are not limited to keyframes. Such seeks require decoding video from the previous keyframe up to the target position and so can take some time depending on decoding performance. For some video formats, precise seeks are disabled. This option selects the default choice to use for seeks; it is possible to explicitly override that default in the definition of key bindings and in input commands.
-option = yes       Use precise seeks whenever possible.
-option = no         Never use precise seeks.
-option = absolute  Use precise seeks if the seek is to an absolute position in the file, such as a chapter seek, but not for relative seeks like the default behavior of arrow keys.
-option = always    Same as yes (for compatibility).
+filter  = 功能
+help    = 选择何时使用不限于关键帧的精确跳转
 
-name = track-auto-selection
-file = mpv
+option  = no                  禁用
+option  = yes                 尽可能使用精确跳转
+option  = always              与yes相同（为了兼容性）
+option  = absolute            只对章节使用精确跳转
+option  = default             类似absolute，但在纯音频的情况下启用精准跳转
+
+[setting]
+name    = hr-seek-framedrop
+file    = mpv
 default = yes
-filter = Playback
-help = Enable the default track auto-selection. Enabling this will make the player select streams according to aid, alang, and others. If it is disabled, no tracks are selected. In addition, the player will not exit if no tracks are selected, and wait instead (this wait mode is similar to pausing, but the pause option is not set).\n\nThis is useful with lavfi-complex: you can start playback in this mode, and then set select tracks at runtime by setting the filter graph. Note that if lavfi-complex is set before playback is started, the referenced tracks are always selected.
-option = yes
-option = no
+filter  = 功能
+help    = 跳转时丢帧
 
-name = loop-playlist
-file = mpv
-filter = Playback
-help = <N|inf|force|no> Loops playback N times. A value of 1 plays it one time (default), 2 two times, etc. inf means forever. no is the same as 1 and disables looping. If several files are specified on command line, the entire playlist is looped. The force mode is like inf, but does not skip playlist entries which have been marked as failing. This means the player might waste CPU time trying to loop a file that doesn't exist. But it might be useful for playing webradios under very bad network conditions.
+option  = yes                 有助于更快的精确定位
+option  = no                  可避免在SVP/mvtools补帧时音画失去同步
 
-name = auto-load-folder
-file = mpvnet
+[setting]
+name    = save-position-on-quit
+file    = mpv
+default = no
+filter  = 功能
+help    = 退出时记住播放状态
+
+option  = yes
+option  = no
+
+[setting]
+name    = write-filename-in-watch-later-config
+file    = mpv
 default = yes
-filter = Playback
-help = For single files automatically load the entire directory into the playlist. Can be suppressed via shift key. (mpv.net specific option)
-option = yes
-option = no
+filter  = 功能
+help    = 将文件名写入播放记录缓存文件
 
-name = input-ar-delay
-file = mpv
-filter = Input
-help = Delay in milliseconds before we start to autorepeat a key (0 to disable).
+option  = yes
+option  = no
 
-name = input-ar-rate
-file = mpv
-filter = Input
-help = Number of key presses to generate per second on autorepeat.
+[setting]
+name    = ignore-path-in-watch-later-config
+file    = mpv
+default = no
+filter  = 功能
+help    = 使用"稍后观看"功能时忽略路径（即仅使用文件名）
 
-name = dark-mode
-file = mpvnet
-default = always
-filter = UI
-help = Changes between a light and dark theme.\nmpv.net must be restarted after a change.\nmpv.net specific option.
-option = always
-option = system  Available on Windows 10 or higher
-option = never
+option  = yes
+option  = no
 
-name = dark-theme
-file = mpvnet
-filter = UI
-url = https://github.com/stax76/mpv.net/blob/master/docs/Manual.md#color-theme
-help = Color theme used in dark mode.\nmpv.net must be restarted after a change.\nmpv.net specific option. Default: dark
+[setting]
+name    = watch-later-options
+file    = mpv
+filter  = 功能
+type    = string
+width   = 500
+help    = 稍后观看的属性白名单（SVP补帧时推荐设置为留空，留空等效start，只保存播放位置）
+url     = https://mpv.io/manual/master/#options-watch-later-options
 
-name = light-theme
-file = mpvnet
-filter = UI
-url = https://github.com/stax76/mpv.net/blob/master/docs/Manual.md#color-theme
-help = Color theme used in light mode.\nmpv.net must be restarted after a change.\nmpv.net specific option. Default: light
+[setting]
+name    = watch-later-directory
+file    = mpv
+filter  = 功能
+type    = string
+width   = 500
+help    = 指定稍后观看的缓存目录，其中的文件记录 --watch-later-options 指定的选项。\n默认路径为 "~~/watch_later"
+url     = https://mpv.io/manual/master/#options-watch-later-directory
 
-name = show-logo
-file = mpvnet
+[setting]
+name    = resume-playback-check-mtime
+file    = mpv
+default = no
+filter  = 功能
+help    = 如果文件的修改时间与保存时相同，则从watch_later配置子目录恢复播放位置\n这可以防止在具有不同内容的同名文件中的错误行为
+
+option  = yes
+option  = no
+
+[setting]
+name    = reset-on-next-file
+file    = mpv
+filter  = 功能
+type    = string
+width   = 500
+help    = 选择播放下一文件时需重置的更改项\n例：all为重置所有更改项
+url     = https://mpv.io/manual/master/#options-reset-on-next-file
+
+[setting]
+name    = demuxer-max-bytes
+file    = mpv
+filter  = 功能
+type    = string
+help    = 播放网络资源时预缓存的大小，例：150MiB
+
+[setting]
+name    = osd-bar
+file    = mpv
 default = yes
-filter = UI
-help = Draws the blue mpv.net logo ontop of the native OSC logo.
-option = yes
-option = no
+filter  = OSD
+help    = OSD信息显示
+
+option  = no
+option  = yes
+
+[setting]
+name    = osd-on-seek
+file    = mpv
+default = bar
+filter  = OSD
+help    = 跳转时弹出信息
+
+option  = no
+option  = bar                 显示进度条
+option  = msg                 显示文字
+option  = msg-bar             显示文字和进度条
+
+[setting]
+name    = osd-playing-msg
+file    = mpv
+filter  = OSD
+type    = string
+width   = 500
+help    = 开始播放时短暂显示的信息\n例：${filename} 
+
+[setting]
+name    = osd-status-msg
+file    = mpv
+filter  = OSD
+type    = string
+width   = 500
+help    = 跳转时OSD显示的信息\n例：${playback-time/full} / ${duration/full} (${percent-pos}%) 
+
+[setting]
+name    = osd-bar-w
+file    = mpv
+filter  = OSD
+help    = <1-100> OSD进度条长度，默认：75，建议：100
+
+[setting]
+name    = osd-bar-h
+file    = mpv
+filter  = OSD
+help    = <0.1-50> OSD进度条宽度，默认：3.125，建议：2
+
+[setting]
+name    = osd-bar-align-y
+file    = mpv
+filter  = OSD
+help    = <-1-1> OSD进度条的垂直位置，0为居中，建议：-1
+
+[setting]
+name    = osd-border-size
+file    = mpv
+filter  = OSD
+help    = OSD字体边框厚度，0为无，默认：3，建议：1
+
+[setting]
+name    = osd-font
+file    = mpv
+filter  = OSD
+help    = OSD字体
+
+[setting]
+name    = osd-font-size
+file    = mpv
+filter  = OSD
+help    = OSD字体大小，默认：55，建议：40
+
+[setting]
+name    = osd-fractions
+file    = mpv
+default = no
+filter  = OSD
+help    = 以秒为单位显示OSD时间（毫秒精度），有助于查看视频帧的精确时间戳
+
+option  = yes
+option  = no
+
+[setting]
+name    = osd-duration
+file    = mpv
+filter  = OSD
+help    = OSD持续时间（毫秒），默认：2000
+
+[setting]
+name    = icc-profile-auto
+file    = mpv
+default = no
+filter  = 色彩
+help    = 色彩管理。自动使用系统当前的ICC校色文件
+
+option  = yes
+option  = no
+
+[setting]
+name    = icc-profile
+file    = mpv
+filter  = 色彩
+type    = string
+width   = 500
+help    = 色彩管理。手动指定ICC校色文件\n启用此选项将自动覆盖--target-prim、--target-trc和--icc-profile-auto\n由于mpv校色目标是BT.1886，建议优先使用此项指定gamma2.4的校色文件进行色彩管理
+
+[setting]
+name    = icc-3dlut-size
+file    = mpv
+filter  = 色彩
+help    = <2-512> 色彩管理。根据ICC文件生成3dlut的每通道数量，默认：64x64x64\n（实际最大有效值由ICC视频卡伽马表的上限决定）
+
+[setting]
+name    = icc-cache-dir
+file    = mpv
+filter  = 色彩
+type    = string
+width   = 500
+help    = 指定目录存储和加载从ICC配置文件创建的3D LUT，可以用来加快加载速度。\n例："~~/icc_cache"\n注意：产生的缓存文件不会自动清理，很可能永久存在
+
+[setting]
+name    = icc-force-contrast
+file    = mpv
+filter  = 色彩
+type    = string
+help    = <no|0-1000000|inf> 色彩管理。覆盖ICC文件内的静态对比度数据，默认no为不覆盖，oled可以设置为inf即无限（如果ICC中此项数据丢失则自动回落到1000）\n设置为1000可解决某些校色文件对比度极高导致黑色部分太黑\n此项只影响BT.1886的内容显示
+
+[setting]
+name    = icc-intent
+file    = mpv
+default = 1
+filter  = 色彩
+help    = 色彩管理。ICC的色彩转换映射意图
+
+option  = 0                   感知度，推荐
+option  = 1                   相对色度
+option  = 2                   饱和度
+option  = 3                   绝对色度
+
+[setting]
+name    = gamma-factor
+file    = mpv
+filter  = 色彩
+help    = 设置额外的原始伽马系数（默认值：1.0）\n<0.1..2.0> 推荐值：1.0：漆黑或昏暗的房间（默认）; 1.1：光线适中的房间，家; 1.2：灯火通明的房间，办公室
+
+[setting]
+name    = target-prim
+file    = mpv
+default = auto
+filter  = 色彩
+help    = 色彩管理。当不使用ICC文件时，视频颜色将适应此色彩空间
+
+option  = auto                SRGB屏无需更改
+option  = adobe               Adobe RGB (1998)
+option  = bt.2020             能达到90%+覆盖的设备寥寥，谨慎选择
+option  = dci-p3              Display-P3也选这个
+
+[setting]
+name    = target-trc
+file    = mpv
+filter  = 色彩
+type    = string
+help    = 色彩管理。当不使用ICC文件时，指定显示器的伽马，视频颜色将适应此曲线。默认值：auto\n建议非OLED之类的显示器此项设置为gamma2.2，避免mpv画面过暗
+url     = https://mpv.io/manual/master/#options-target-trc
+
+[setting]
+name    = target-peak
+file    = mpv
+filter  = 色彩
+type    = string
+help    = 指定输出显示器的测量峰值亮度。受--target-trc参数影响\n通常无需改动默认值auto即推荐值\n当使用icc色彩管理时，若nits设置为高于默认值（203），显示器将被mpv视为hdr屏处理
+url     = https://mpv.io/manual/master/#options-target-peak
+
+[setting]
+name    = video-sync
+file    = mpv
+default = audio
+filter  = 视频
+help    = 同步模式
+
+option  = audio               最佳兼容与性能模式
+option  = display-resample    重采样以匹配显示器刷新率
+option  = display-resample-vdrop
+option  = display-resample-desync
+option  = display-vdrop
+option  = display-adrop
+option  = display-desync
+option  = desync
+
+[setting]
+name    = video-sync-max-video-change
+file    = mpv
+filter  = 视频
+help    = 如果显示器和视频刷新方式在给定范围内不匹配，则应用到视频的最大速度差异（默认：1）\n推荐值：1或5
+
+[setting]
+name    = interpolation
+file    = mpv
+default = no
+filter  = 视频
+help    = 减少视频帧率和显示刷新率不匹配而引起的画面抖动，仅当--video-sync=display-xxxx时生效
+
+option  = yes
+option  = no
+
+[setting]
+name    = tscale
+file    = mpv
+default = mitchell
+filter  = 视频
+help    = 选择时域插值算法，仅当启用--interpolation=yes时生效
+
+option  = bicubic             最平滑（糊）
+option  = mitchell            综合下平衡的选择
+option  = oversample          最清晰（卡），类SmoothMotion
+option  = sphinx
+option  = quadric
+option  = catmull_rom
+option  = box
+
+[setting]
+name    = tscale-radius
+file    = mpv
+filter  = 视频
+help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
+
+[setting]
+name    = tscale-blur
+file    = mpv
+filter  = 视频
+help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
+
+[setting]
+name    = tscale-clamp
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 指定要乘以负系数的权重偏差\ntscale此项默认值为1.0，可有效减少tscale产生的振铃伪影。其他scale算法默认值为0.0
+
+[setting]
+name    = tscale-antiring
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此过程中引入其他伪影。默认值0.0禁用
+
+[setting]
+name    = cscale
+file    = mpv
+default = bilinear
+filter  = 视频
+help    = 色度还原算法(422/420→444)
+
+option  = bilinear            双线性（最快）
+option  = catmull_rom         片源好时可使用
+option  = spline36
+option  = bicubic
+option  = gaussian
+option  = ewa_lanczos         jinc算法
+option  = ewa_hanning         类jinc，抑制振铃伪影
+option  = ewa_lanczossoft     类jinc，更柔和
+
+[setting]
+name    = cscale-radius
+file    = mpv
+filter  = 视频
+help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
+
+[setting]
+name    = cscale-blur
+file    = mpv
+filter  = 视频
+help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
+
+[setting]
+name    = cscale-clamp
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 指定要乘以负系数的权重偏差，此项默认值为0.0
+
+[setting]
+name    = cscale-antiring
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此过程中引入其他伪影。默认值0.0禁用\n请注意，这不会影响特殊过滤器bilinear和bicubic_fast，也不会影响任何极坐标 (EWA) 缩放器\n使用同类着色器时基本无需启用此项
+
+[setting]
+name    = scale
+file    = mpv
+default = spline36
+filter  = 视频
+help    = 图像放大算法
+
+option  = nearest             最邻近算法只擅长整数倍缩放
+option  = bilinear
+option  = spline36
+option  = sinc
+option  = bicubic             抑制瑕疵效果最好
+option  = gaussian
+option  = lanczos
+option  = ewa_lanczos         jinc算法
+option  = ewa_hanning         类jinc，抑制振铃伪影，推荐
+option  = ewa_lanczossharp    类jinc，更锐利
+option  = ewa_lanczossoft     类jinc，更柔和
+
+[setting]
+name    = scale-radius
+file    = mpv
+filter  = 视频
+help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
+
+[setting]
+name    = scale-blur
+file    = mpv
+filter  = 视频
+help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
+
+[setting]
+name    = scale-clamp
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 指定要乘以负系数的权重偏差，此项默认值为0.0
+
+[setting]
+name    = scale-antiring
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此过程中引入其他伪影。默认值0.0禁用\n请注意，这不会影响特殊过滤器bilinear和bicubic_fast，也不会影响任何极坐标 (EWA) 缩放器\n使用同类着色器时基本无需启用此项
+
+[setting]
+name    = dscale
+file    = mpv
+default = 
+filter  = 视频
+help    = 图像缩小算法。\n不选任何选项即（默认）跟随--scale的算法
+
+option  = bilinear
+option  = spline36
+option  = mitchell
+option  = catmull_rom
+option  = bicubic             抑制瑕疵效果最好
+option  = gaussian
+option  = lanczos
+option  = ewa_lanczos         jinc算法
+option  = ewa_hanning         类jinc，抑制振铃伪影，推荐
+option  = ewa_lanczossharp    类jinc，更锐利
+option  = ewa_lanczossoft     类jinc，更柔和
+
+[setting]
+name    = dscale-radius
+file    = mpv
+filter  = 视频
+help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
+
+[setting]
+name    = dscale-blur
+file    = mpv
+filter  = 视频
+help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
+
+[setting]
+name    = dscale-clamp
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 指定要乘以负系数的权重偏差，此项默认值为0.0
+
+[setting]
+name    = dscale-antiring
+file    = mpv
+filter  = 视频
+help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此过程中引入其他伪影。默认值0.0禁用\n请注意，这不会影响特殊过滤器bilinear和bicubic_fast，也不会影响任何极坐标 (EWA) 缩放器\n使用同类着色器时基本无需启用此项
+
+[setting]
+name    = sigmoid-upscaling
+file    = mpv
+default = no
+filter  = 视频
+help    = 放大时非线性的颜色转换，可避免强振铃伪影\n使用adaptive-sharpen.glsl时须关闭
+
+option  = yes
+option  = no
+
+[setting]
+name    = linear-downscaling
+file    = mpv
+default = no
+filter  = 视频
+help    = 在缩小算法中线性处理可以提升颜色对比度的精确性\n使用SSimDownscaler.glsl时须关闭
+
+option  = yes
+option  = no
+
+[setting]
+name    = correct-downscaling
+file    = mpv
+default = no
+filter  = 视频
+help    = 增强缩小算法的质量，对于异形比例视频可能产生微小失真（当--dscale=bilinear时无效）\n效果类似anti-aliasing
+
+option  = yes
+option  = no
+
+[setting]
+name    = scaler-resizes-only
+file    = mpv
+default = yes
+filter  = 视频
+help    = 当未进行缩放处理时，使用bilinear算法完美还原\n禁用时，即使未改变大小，也使用指定的scale值进行处理,可以修正nnedi3和ravu引入的半像素偏移\n--vo=gpu-next时不再使用额外算法还原
+
+option  = yes
+option  = no
+
+[setting]
+name    = dither-depth
+file    = mpv
+default = no
+filter  = 视频
+help    = 启用色深抖动以弥补色彩转换损失（--gpu-api=vulkan时无法进行自动判断）\n手动指定的数值等于显示驱动中设定的值，非原生10bit的显示器根据实际画面效果更改
+
+option  = no
+option  = auto
+option  = 8                   抖动到8位输出
+option  = 10                  抖动到10位输出
+
+[setting]
+name    = dither
+file    = mpv
+default = fruit
+filter  = 视频
+help    = 选择色深抖动算法，当启用--dither-depth时生效\n推荐默认值fruit或ordered，error-diffusion耗能高且感知不明显\n注意：--vo=gpu-next下已弃用error-diffusion，改用bluenoise，可由默认值fruit自动触发
+
+option  = fruit
+option  = ordered
+
+[setting]
+name    = dither-size-fruit
+file    = mpv
+filter  = 视频
+help    = <2-8> 设置色深抖动矩阵的大小（默认值：6）启用--dither=fruit时生效\n矩阵的实际大小为(2^N)x(2^N)，选项值为N，因此6实际为64x64
+
+[setting]
+name    = temporal-dither
+file    = mpv
+default = yes
+filter  = 视频
+help    = 启用时域色深抖动算法，仅当--dither*参数启用时生效
+
+option  = yes
+option  = no
+
+[setting]
+name    = temporal-dither-period
+file    = mpv
+filter  = 视频
+help    = <1-128> 确定色深抖动模式在使用时更新的频率，当启用--temporal-dither时生效\n1（默认值）将更新每个视频帧，2在其他帧等
+
+[setting]
+name    = deband
+file    = mpv
+default = no
+filter  = 视频
+help    = 去色带（受解码模式影响实际效果）
+
+option  = yes
+option  = no
+
+[setting]
+name    = deband-iterations
+file    = mpv
+filter  = 视频
+help    = <1-16> 去色带执行次数，越高强度但也越费时费力，数值>4实际无效 (默认1)
+
+[setting]
+name    = deband-threshold
+file    = mpv
+filter  = 视频
+help    = <0-4096> 滤波器的截止阈值，更高的数字会增加强度，但会逐渐减少图像细节（默认32）
+
+[setting]
+name    = deband-range
+file    = mpv
+filter  = 视频
+help    = <1-64> 初始半径，越大的值去色带越强且性能占用越高；值越小越平滑（默认值16）\n如果增大--deband-iterations，需减小此值来进行补偿
+
+[setting]
+name    = deband-grain
+file    = mpv
+filter  = 视频
+help    = <0-4096> 添加额外动态噪点，有助于掩盖剩余的量化伪影（默认48）
+
+[setting]
+name    = sws-allow-zimg
+file    = mpv
+default = yes
+filter  = 高级
+help    = 启用--vf滤镜时软件缩放器是否允许使用zimg（如果使用内部swscale包装器的组件明确允许这样做）（默认值：yes）。在这种情况下，如果内部zimg包装器支持输入和输出格式，则可以使用zimg\n如果使用zimg，则忽略其他--sws-选项，而使用--zimg-选项\n注意：zimg相关参数目前会导致硬解模式下出现色度偏移的问题，建议禁用
+
+option  = yes
+option  = no
+
+[setting]
+name    = load-scripts
+file    = mpv
+default = yes
+filter  = 高级
+help    = 自动挂载设置目录"~~/scripts"中的外挂脚本
+
+option  = yes
+option  = no
+
+[setting]
+name    = input-builtin-bindings
+file    = mpv
+default = no
+filter  = 高级
+help    = 设为no时可禁用mpv内置键位。此选项不会影响外部加载脚本的键位绑定\nmpv.net此项必须设为no，防止预设键位冲突
+
+option  = yes
+option  = no
+
+[setting]
+name    = input-default-bindings
+file    = mpv
+default = yes
+filter  = 高级
+help    = 设为no时可禁用mpv内置键位及外部加载脚本的--mp.add_key_binding键位绑定方案\n这可以有效解决外部脚本快捷键冲突，启用后需在input.conf里指定所需快捷键
+
+option  = yes
+option  = no
+
+[setting]
+name    = input-ipc-server
+file    = mpv
+filter  = 高级
+type    = string
+width   = 500
+help    = IPC支持，输入监听路径\n例：如需开启SVP Manager支持，填写：mpvpipe
+
+[setting]
+name    = vf
+file    = mpv
+filter  = 高级
+type    = string
+width   = 500
+help    = 跟随程序启动时加载的视频滤镜（很多不支持非-copy的硬解模式）
+url     = https://mpv.io/manual/master/#video-filters-vf
+
+[setting]
+name    = af
+file    = mpv
+filter  = 高级
+type    = string
+width   = 500
+help    = 跟随程序启动时加载的音频滤镜
+url     = https://mpv.io/manual/master/#video-filters-af
+
+[setting]
+name    = glsl-shaders
+file    = mpv
+filter  = 高级
+type    = string
+width   = 500
+help    = 跟随程序启动时加载的着色器
+url     = https://mpv.io/manual/master/#options-glsl-shaders
+
+[setting]
+name    = gpu-shader-cache-dir
+file    = mpv
+filter  = 高级
+type    = string
+width   = 500
+help    = 在此目录中存储和加载已编译的GLSL着色器缓存，可以提高启动性能。\n例："~~/shaders_cache"\n注意：产生的缓存文件不会自动清理，很可能永久存在
+
+[setting]
+name    = log-file
+file    = mpv
+filter  = 高级
+type    = string
+width   = 500
+help    = 输出libmpv的日志，须指定文件名+（可选）相对/绝对路径\n例：~~desktop/mpvnet_CM.log\n（无路径将默认生成在程序目录下）
+
+[setting]
+name    = audio-device
+file    = mpv
+filter  = 音频
+type    = string
+width   = 500
+help    = 可用的设备名在右键菜单中：工具 > 输出文本 > 音频设备列表，默认：auto
+url     = https://mpv.io/manual/master/#options-audio-device
+
+[setting]
+name    = ao
+file    = mpv
+filter  = 音频
+type    = string
+width   = 500
+help    = 指定要使用的音频输出驱动程序的优先级列表\n如果列表有尾随的 ','，mpv 将回退到未包含在列表中的驱动程序
+url     = https://mpv.io/manual/master/#options-ao
+
+[setting]
+name    = volume
+file    = mpv
+filter  = 音频
+help    = 启动音量，默认：70，建议：100
+
+[setting]
+name    = volume-max
+file    = mpv
+filter  = 音频
+help    = <100.0-1000.0> 可调节的最大音量，默认：130\nmpv的音量值并非线性递增，130的响度约为100两倍
+
+[setting]
+name    = audio-file-auto
+file    = mpv
+default = no
+filter  = 音频
+help    = 加载外挂音轨，建议：fuzzy
+
+option  = no
+option  = all                 同目录下所有支持的音频文件
+option  = exact               同名（精确名）
+option  = fuzzy               同名（模糊名）
+
+[setting]
+name    = audio-file-paths
+file    = mpv
+filter  = 音频
+type    = string
+width   = 500
+help    = 指定额外目录搜索与视频匹配的外挂音轨，例：audio;audios;外挂音轨
+url     = https://mpv.io/manual/master/#options-audio-file-paths
+
+[setting]
+name    = alang
+file    = mpv
+filter  = 音频
+type    = string
+width   = 500
+help    = 音轨语言优先级，例：jpn,ja,eng,en
+
+[setting]
+name    = aid
+file    = mpv
+filter  = 音频
+type    = string
+help    = 指定音轨轨道，例：1
+
+[setting]
+name    = audio-pitch-correction
+file    = mpv
+default = yes
+filter  = 音频
+help    = 变速播放时修正音调
+
+option  = yes
+option  = no                  关闭可获得更好的性能表现，但声音会变得诡异
+
+[setting]
+name    = audio-exclusive
+file    = mpv
+default = no
+filter  = 音频
+help    = 音频通道独占
+
+option  = yes
+option  = no
+
+[setting]
+name    = audio-channels
+file    = mpv
+default = auto-safe
+filter  = 音频
+help    = 控制输出的音频通道数量
+
+option  = auto-safe           自动，部分系统无法执行自动下混
+option  = stereo              强制下混多声道音源为立体声输出
+option  = 5.1,stereo          兼容5.1系统
+option  = 7.1,5.1,stereo      兼容7.1系统
+
+[setting]
+name    = sub-font-provider
+file    = mpv
+default = auto
+filter  = 字幕
+help    = 字体渲染api选项，windows推荐使用auto，DirectWrite性能最佳
+
+option  = auto                 自动选择系统字体渲染接口
+option  = none                 忽略字幕指定字体，使用sub-font参数
+option  = fontconfig           使用mpv.conf同目录下fonts.conf里的字体加载项。windows下不推荐，性能差
+
+[setting]
+name    = sub-ass-overrid
+file    = mpv
+default = yes
+filter  = 字幕
+help    = 设置字幕渲染方式，控制是否应用样式覆盖
+
+option  = no                  禁用
+option  = yes                 应用所有--sub-ass-*样式覆盖选项
+option  = force               强制应用所有--sub-*选项
+option  = scale               类似yes，但也适用--sub-scale
+option  = strip               去除所有ass标签和样式，此项也会影响pgs和srt等格式字幕
+
+[setting]
+name    = embeddedfonts
+file    = mpv
+default = yes
+filter  = 字幕
+help    = 使用嵌入在Matroska容器文件和ASS文本中的字体
+
+option  = no
+option  = yes
+
+[setting]
+name    = sub-auto
+file    = mpv
+default = exact
+filter  = 字幕
+help    = 加载外挂字幕，建议：fuzzy
+
+option  = no
+option  = all                 同目录下所有支持的字幕文件
+option  = exact               同名（精确名）
+option  = fuzzy               同名（模糊名）
+
+[setting]
+name    = sub-file-paths
+file    = mpv
+filter  = 字幕
+type    = string
+width   = 500
+help    = 指定额外目录搜索与视频匹配的字幕，例：sub;subtitles;字幕
+url     = https://mpv.io/manual/master/#options-sub-file-paths
+
+[setting]
+name    = slang
+file    = mpv
+filter  = 字幕
+type    = string
+width   = 500
+help    = 字幕语言优先，例：chs,sc,zh,chi,zho
+
+[setting]
+name    = blend-subtitles
+file    = mpv
+default = no
+filter  = 字幕
+help    = 混合字幕到视频帧上，字幕被限制在画面内
+
+option  = yes                 当--interpolation=yes时还会增强高级字幕的渲染性能
+option  = video               类似yes，字幕将先以原始分辨率绘制，后与视频共同缩放
+option  = no                  适用于HDR片源，避免检测字幕亮度
+
+[setting]
+name    = sub-ass-force-margins
+file    = mpv
+default = no
+filter  = 字幕
+help    = ASS/SSA高级字幕尽可能输出黑边（当--blend-subtitles=yes/video时无效）
+
+option  = yes
+option  = no
+
+[setting]
+name    = sub-ass-scale-with-window
+file    = mpv
+default = no
+filter  = 字幕
+help    = 使ASS/SSA字幕字体大小相对于窗口，而不是视频（默认：no）\n当字幕输出到黑边时，启用此项或可改善观感
+
+option  = yes
+option  = no
+
+[setting]
+name    = stretch-image-subs-to-screen
+file    = mpv
+default = no
+filter  = 字幕
+help    = PGS/SUP图形字幕尽可能输出在黑边，强制拉伸图形字幕到缩放分辨率而不是参考视频分辨率（可能破坏显示效果）
+
+option  = yes
+option  = no
+
+[setting]
+name    = sub-ass-vsfilter-color-compat
+file    = mpv
+default = basic
+filter  = 字幕
+help    = 字幕色彩处理（模仿vsfilter）
+url     = https://mpv.io/manual/master/#options-sub-ass-vsfilter-color-compat
+
+option  = basic
+option  = full
+option  = force-601
+option  = no
+
+[setting]
+name    = sub-ass-vsfilter-aspect-compat
+file    = mpv
+default = yes
+filter  = 字幕
+help    = 播放非常规比例视频时拉伸ass/ssa字幕（模仿vsfilter）
+
+option  = yes
+option  = no
+
+[setting]
+name    = sub-ass-vsfilter-blur-compat
+file    = mpv
+default = yes
+filter  = 字幕
+help    = 通过视频分辨率而不是ass/ssa字幕指定的分辨率缩放/blur标签（模仿vsfilter）
+
+option  = yes
+option  = no
+
+[setting]
+name    = sub-ass-force-style
+file    = mpv
+type    = string
+width   = 500
+filter  = 字幕
+help    = 强制预更改ass/ssa字幕样式\n例如无视标记而不缩放边框和阴影（模仿vsfilter）：ScaledBorderAndShadow=no\n注：libass 0.15.2后的git版已修复该问题
+
+[setting]
+name    = sub-gauss
+file    = mpv
+filter  = 字幕
+help    = <0.0-3.0> 将高斯模糊应用于图像字幕（默认值：0）。这有助于使像素化 DVD/Vobsub 看起来更好
+
+[setting]
+name    = stretch-dvd-subs
+file    = mpv
+default = no
+filter  = 字幕
+help    = <0.0-3.0> 播放变形视频时拉伸 DVD 字幕，默认禁用
+
+option  = yes
+option  = no
+
+[setting]
+name    = sub-gray
+file    = mpv
+default = no
+filter  = 字幕
+help    = 将图像字幕转换为灰度。可以使黄色 DVD/Vobsubs 看起来更好
+
+option  = yes
+option  = no
+
+[setting]
+name    = sub-font
+file    = mpv
+filter  = 字幕
+type    = string
+width   = 500
+help    = 字幕缺省字体的替代，默认：sans-serif，例：SourceHanSansSC-Bold
+
+[setting]
+name    = sub-font-size
+file    = mpv
+filter  = 字幕
+help    = 文本字幕的字体大小，默认：55
+
+[setting]
+name    = sub-bold
+file    = mpv
+default = no
+filter  = 字幕
+help    = 文本字幕使用粗体样式
+
+option  = yes
+option  = no
+
+[setting]
+name    = sub-italic
+file    = mpv
+default = no
+filter  = 字幕
+help    = 文本字幕使用斜体样式
+
+option  = yes
+option  = no
+
+[setting]
+name    = sub-color
+file    = mpv
+type    = color
+filter  = 字幕
+help    = 文本字幕的字体颜色
+
+[setting]
+name    = sub-border-size
+file    = mpv
+type    = string
+filter  = 字幕
+help    = 文本字幕的边框大小
+
+[setting]
+name    = sub-border-color
+file    = mpv
+type    = color
+filter  = 字幕
+help    = 文本字幕的边框颜色
+
+[setting]
+name    = sub-shadow-offset
+file    = mpv
+type    = string
+filter  = 字幕
+help    = 文本字幕的阴影大小
+
+[setting]
+name    = sub-shadow-color
+file    = mpv
+type    = color
+filter  = 字幕
+help    = 文本字幕的阴影颜色
+
+[setting]
+name    = sub-spacing
+file    = mpv
+type    = string
+filter  = 字幕
+help    = 文本字幕的字间距
+
+[setting]
+name    = sub-blur
+file    = mpv
+type    = string
+filter  = 字幕
+help    = 文本字幕的边缘模糊度，推荐值1.5-3.0之间 <0..20.0>
+
+[setting]
+name    = sub-use-margins
+file    = mpv
+default = yes
+filter  = 字幕
+help    = 文本字幕输出在黑边
+
+option  = yes
+option  = no
+
+[setting]
+name    = screenshot-template
+file    = mpv
+filter  = 截图
+type    = string
+width   = 500
+help    = 截图保存模板，在模板中写入路径，否则将保存在桌面\n推荐：~~/screen/%flies-%P-N%n
+url     = https://mpv.io/manual/master/#options-screenshot-template
+
+[setting]
+name    = screenshot-format
+file    = mpv
+default = jpg
+filter  = 截图
+help    = 截图输出格式
+
+option  = jpg
+option  = png
+option  = webp
+
+[setting]
+name    = screenshot-jpeg-quality
+file    = mpv
+filter  = 截图
+help    = <0-100> JPEG质量等级，默认：90，建议：100
+
+[setting]
+name    = screenshot-jpeg-source-chroma
+file    = mpv
+default = yes
+filter  = 截图
+help    = JPEG使用与视频相同的色度半采样
+
+option  = yes
+option  = no
+
+[setting]
+name    = screenshot-png-compression
+file    = mpv
+filter  = 截图
+help    = <0-9> PNG压缩等级，默认：7，建议：5\n无损压缩不影响质量，越高的等级可让生成的文件越小，但需要更高性能和更多时间
+
+[setting]
+name    = screenshot-png-filter
+file    = mpv
+filter  = 截图
+help    = <0-5> PNG压缩过滤器，默认值已实现最佳压缩率：5
+
+[setting]
+name    = screenshot-webp-lossless
+file    = mpv
+default = no
+filter  = 截图
+help    = WEBP采用无损
+
+option  = yes
+option  = no
+
+[setting]
+name    = screenshot-webp-quality
+file    = mpv
+filter  = 截图
+help    = <0-100> WEBP质量等级（--screenshot-webp-lossless=no时生效），默认：75，建议：100
+
+[setting]
+name    = screenshot-webp-compression
+file    = mpv
+filter  = 截图
+help    = <0-6> WEBP压缩等级，默认：4，建议：0\n当采用有损WEBP时，此项也会影响质量
+
+[setting]
+name    = screenshot-tag-colorspace
+file    = mpv
+default = no
+filter  = 截图
+help    = 使用合适的色彩空间标记屏幕截图（不完全支持所有格式）
+
+option  = yes
+option  = no
+
+[setting]
+name    = screenshot-high-bit-depth
+file    = mpv
+default = yes
+filter  = 截图
+help    = 尽可能以高位深输出截图（对PNG尤其有效）
+
+option  = yes
+option  = no
+
+[setting]
+name    = tone-mapping
+file    = mpv
+default = auto
+filter  = HDR
+help    = 色调映射算法
+
+option  = auto                根据内部启发式方法选择最佳曲线
+option  = bt.2390             适合于一般HDR映射，峰值过高时易产生过曝
+option  = reinhard            倾向于保留亮度
+option  = hable               倾向于保留细节
+option  = mobius              倾向于保留对比度与色彩
+option  = gamma               擅长夜景
+option  = spline              感知性色调映射，仅适用于--vo=gpu-next
+option  = bt.2446a            基于luma的色调映射，仅适用于--vo=gpu-next
+
+[setting]
+name    = tone-mapping-param
+file    = mpv
+filter  = HDR
+help    = 色调映射算法的小参。hable和bt.2446a无参，bt.2390在--vo=gpu下无参，--vo=gpu-next下默认值1.0\nmobius和spline默认0.3/reinhard默认0.5/gamma默认1.8（--vo=gpu-next下默认值为0.5）\n--vo=gpu-next下使用bt.2390时推荐值：2.0 或ITU-R规范中的值0.5
+url     = https://mpv.io/manual/master/#options-tone-mapping-param
+
+[setting]
+name    = tone-mapping-max-boost
+file    = mpv
+filter  = HDR
+help    = <1.0-10.0> 平均亮度的最大曝光倍数，默认：1.0\n增大此值可显示暗处隐藏的细节，过高会使暗处看起来不自然地明亮\n仅适用于--vo=gpu
+
+[setting]
+name    = tone-mapping-crosstalk
+file    = mpv
+filter  = HDR
+help    = <0.0..0.30> 默认值：0.04，如果值非0，则在色调映射之前应用额外的串扰矩阵。可以帮助改善强饱和单色高光的外观\n仅适用于--vo=gpu-next
+
+[setting]
+name    = tone-mapping-mode
+file    = mpv
+default = auto
+filter  = HDR
+help    = 控制色调映射功能如何应用于颜色，默认auto：自动选择最佳模式
+
+option  = auto                自动选择最佳模式
+option  = rgb                 基于RGB每通道进行色调映射，推荐
+option  = max                 基于视频中最亮部分进行色调映射
+option  = hybrid              基于调和高光的RGB每通道进行色调映射
+option  = luma                基于亮度进行色调映射，仅适用于--vo=gpu-next
+
+[setting]
+name    = gamut-mapping-mode
+file    = mpv
+default = auto
+filter  = HDR
+help    = 在完成任何色调映射后指定所需的目标显示色域的处理方式，默认auto：自动选择最佳模式
+
+option  = auto                自动选择最佳模式
+option  = clip                RGB每通道硬剪切到目标色域，推荐
+option  = warn                只突出显示色域外像素
+option  = desaturate          色度去饱和色域外的颜色变为白色
+option  = darken              线性使整个图像变暗，然后剪切到目标色域。仅适用于--vo=gpu-next
+
+[setting]
+name    = hdr-compute-peak
+file    = mpv
+default = auto
+filter  = HDR
+help    = 计算每帧的HDR峰值和帧平均亮度，它提供了基础的场景动态色调映射\n此功能需要支持OpenGL4.3及之后版本的显卡
+
+option  = auto
+option  = yes
+option  = no
+
+[setting]
+name    = interpolation-preserve
+file    = mpv
+default = yes
+filter  = 实验性
+help    = 即使更改渲染器参数，也保留前一帧的插值结果。裁剪和视频放置相关的选项除外，它们总是使缓存无效\n启用此选项会使渲染器设置的动态更新更平滑，但代价是响应此类更改时延迟稍高。默认启用\n此选项仅影响--vo=gpu-next，注意-vo=gpu总是使插值帧无效
+
+option  = yes
+option  = no
+
+[setting]
+name    = target-colorspace-hint
+file    = mpv
+default = no
+filter  = 实验性
+help    = 如果可能的话，自动配置显示器的输出色彩空间，以通过流的输入值（例如HDR直通）。需要一个支持的驱动程序和--vo=gpu-next
+
+option  = yes
+option  = no
+
+[setting]
+name    = inverse-tone-mapping
+file    = mpv
+default = no
+filter  = 实验性
+help    = 如果设置，则允许反向色调映射（将SDR扩展到HDR），仅在HDR设备上有效\n注意：该选项不支持使用部分色调映射曲线。请谨慎使用\n仅适用于--vo=gpu-next
+
+option  = yes
+option  = no
+
+[setting]
+name    = allow-delayed-peak-detect
+file    = mpv
+default = yes
+filter  = 实验性
+help    = 使用--hdr-compute-peak时，允许在有利于性能的情况下将检测到的峰值延迟一帧。特别是当不需要高级渲染时，这可以避免不必要的FBO处理。默认启用\n此选项仅影响--vo=gpu-next，注意-vo=gpu默认延迟峰值处理
+
+option  = yes
+option  = no
+
+[setting]
+name    = lut
+file    = mpv
+filter  = 实验性
+type    = string
+width   = 500
+help    = 指定自定义LUT（Adobe .cube格式）作为颜色转换的一部分应用于颜色。确切的方式取决于--lut-type\n仅适用于--vo=gpu-next
+
+[setting]
+name    = lut-type
+file    = mpv
+default = auto
+filter  = 实验性
+help    = 控制传入和传出指定为--lut的LUT的颜色值的方式
+
+option  = auto                从标记的元数据中自动选择LUT，否则回退到系统（默认）
+option  = native              在转换到输出颜色空间之前，应用于原始RGB颜色空间的原始图像内容（非线性光）
+option  = normalized          在转换到输出色彩空间之前，应用于线性光下的归一化RGB图像内容
+option  = conversion          全替换从图像色彩空间到输出色彩空间的转换。如果存在此类LUT，则它具有最高优先级，并覆盖任何ICC配置文件以及与色调映射和输出色度相关的选项（--target-prim、--target-trc等）
+
+[setting]
+name    = target-lut
+file    = mpv
+filter  = 实验性
+type    = string
+width   = 500
+help    = 指定自定义LUT文件（Adobe .cube格式）以在屏幕上显示之前应用于颜色\n在编码到目标色彩空间后，此LUT以归一化RGB形式提供值，因此将在--target-trc之后处理\n仅适用于--vo=gpu-next
+
+[setting]
+name    = image-lut
+file    = mpv
+filter  = 实验性
+type    = string
+width   = 500
+help    = 指定自定义LUT文件（Adobe .cube格式）以在图像解码期间应用于颜色。LUT的确切方式取决于--image-lut-type\n仅适用于--vo=gpu-next
+
+[setting]
+name    = image-lut-type
+file    = mpv
+default = auto
+filter  = 实验性
+help    = 控制传入和传出指定为--image-lut的LUT的颜色值的方式
+
+option  = auto                从标记的元数据中自动选择LUT，否则回退到系统（默认）
+option  = native              在解码为RGB之前应用于原始颜色空间中的原始图像内容。例如对于HDR10图像，这将输入范围为0.0-1.0的PQ编码的YCbCr值
+option  = normalized          应用于归一化的RGB图像内容，在从其原生颜色编码解码之后，但在线性化之前
+option  = conversion          完全取代颜色解码。这种类型的LUT应该摄取图像的原生色彩空间并输出归一化的非线性RGB
+
+[setting]
+name    = use-filedir-conf
+file    = mpv
+default = no
+filter  = 扩展性
+help    = 在播放文件同目录中加载配置文件
+
+option  = yes
+option  = no
+
+[setting]
+name    = include
+file    = mpv
+type    = string
+width   = 500
+filter  = 扩展性
+help    = 追加读取指定的配置文件\n由于mpv.net图形编辑器的局限性，此项可用于读取额外的自定义参数及配置组的.conf配置文件\n例："~~/mpvown.conf"\n注意：此项参数必须位于主配置mpv.conf中的末尾，避免追加配置被覆盖
+
+[setting]
+name    = remember-volume
+file    = mpvnet
+default = yes
+filter  = mpvnet
+help    = 记住程序退出前的音量
+
+option  = yes
+option  = no
+
+[setting]
+name    = remember-window-position
+file    = mpvnet
+default = no
+filter  = mpvnet
+help    = 记住窗口位置
+
+option  = yes
+option  = no
+
+[setting]
+name    = recent-count
+file    = mpvnet
+filter  = mpvnet
+help    = <整数> 最近观看记录中保存的数量，默认：15
+
+[setting]
+name    = start-size
+file    = mpvnet
+default = height-session
+filter  = mpvnet
+help    = 启动窗口大小，受--auto-fit限制
+
+option  = width-session       记住当前宽度，退出后不保存
+option  = width-always        始终记住当前宽度
+option  = height-session      记住当前高度，退出后不保存
+option  = height-always       始终记住当前高度
+option  = video               源文件分辨率
+option  = session             记住当前尺寸
+option  = always              始终记住
+
+[setting]
+name    = start-threshold
+file    = mpvnet
+filter  = mpvnet
+help    = 在显示窗口之前等待libmpv返回视频分辨率的阈值（毫秒），否则使用--autofit和--start-size定义的默认尺寸，默认：1500
+
+[setting]
+name    = minimum-aspect-ratio
+file    = mpvnet
+filter  = mpvnet
+help    = <小数> 最小纵横比，如果源纵横比小于定义值，则窗口纵横比设置为16比9，默认：1.2\n避免在显示音乐封面时使用方形窗口
+
+[setting]
+name    = auto-play
+file    = mpvnet
+default = no
+filter  = mpvnet
+help    = 强制自动播放，此项设置将覆盖程序启动时--pause选项的值
+
+option  = yes
+option  = no
+
+[setting]
+name    = auto-load-folder
+file    = mpvnet
+default = yes
+filter  = mpvnet
+help    = 打开单文件时自动挂载同目录其它文件到当前播放列表（点击确定按钮时可按Shift键阻止）
+
+option  = yes
+option  = no
+
+[setting]
+name    = process-instance
+file    = mpvnet
+default = single
+filter  = mpvnet
+help    = 是否允许多个mpv.net进程
+
+option  = multi               每次启动mpv.net时创建一个新进程
+option  = single              每次启动mpv.net时强制单进程
+option  = queue               每次启动mpv.net时强制单进程，将后续文件添加到播放列表
+
+[setting]
+name    = video-file-extensions
+file    = mpvnet
+filter  = mpvnet
+width   = 500
+help    = 视频文件扩展名列表，用于创建文件关联，并由自动加载文件夹功能使用
+
+[setting]
+name    = audio-file-extensions
+file    = mpvnet
+filter  = mpvnet
+width   = 500
+help    = 音频文件扩展名列表，用于创建文件关联，并由自动加载文件夹功能使用
+
+[setting]
+name    = image-file-extensions
+file    = mpvnet
+filter  = mpvnet
+width   = 500
+help    = 图片文件扩展名列表，用于创建文件关联，并由自动加载文件夹功能使用
+
+[setting]
+name    = debug-mode
+file    = mpvnet
+default = no
+filter  = mpvnet
+
+option  = yes
+option  = no
+
+[setting]
+name    = show-logo
+file    = mpvnet
+filter  = mpvnet
+default = yes
+help    = 是否显示mpv.net的徽标logo
+
+option  = yes
+option  = no
 
 name = show-santa-logo
-file = mpvnet
+file    = mpvnet
 default = yes
-filter = UI
-help = Draws the blue mpv.net logo with a santa hat in december, the option is called greenandgrumpy in mpv.
+filter  = mpvnet
+help = 在12月用圣诞老人帽子绘制蓝色mpv.net徽标
+
 option = yes
 option = no
 
-name = screenshot-directory
-file = mpv
-width = 500
-type = folder
-filter = Screenshot
-help = Store screenshots in this directory. This path is joined with the filename generated by screenshot-template. If the template filename is already absolute, the directory is ignored.\n\nIf the directory does not exist, it is created on the first screenshot. If it is not a directory, an error is generated when trying to write a screenshot.
+[setting]
+name    = dark-mode
+file    = mpvnet
+default = always
+filter  = mpvnet
+help    = 深色模式（重启程序以完全生效）
 
-name = screenshot-format
-file = mpv
-default = jpg
-filter = Screenshot
-help = Set the image file type used for saving screenshots.
-option = jpg
-option = png
+option  = always              始终开启
+option  = never               始终关闭
+option  = system              跟随系统设置
 
-name = screenshot-tag-colorspace
-file = mpv
-default = no
-filter = Screenshot
-help = Tag screenshots with the appropriate colorspace. Note that not all formats are supported.
-option = yes
-option = no
+[setting]
+name    = dark-theme
+file    = mpvnet
+filter  = mpvnet
+help    = 深色模式中使用的颜色主题（重启程序以完全生效），默认：dark\n可选：bili
+url     = https://github.com/stax76/mpv.net/blob/master/docs/Manual_chs.md#配色主题
 
-name = screenshot-high-bit-depth
-file = mpv
-default = yes
-filter = Screenshot
-help = If possible, write screenshots with a bit depth similar to the source video. This is interesting in particular for PNG, as this sometimes triggers writing 16 bit PNGs with huge file sizes. This will also include an unused alpha channel in the resulting files if 16 bit is used.
-option = yes
-option = no
+[setting]
+name    = light-theme
+file    = mpvnet
+filter  = mpvnet
+help    = 浅色模式中使用的颜色主题（重启程序以完全生效），默认：light
+url     = https://github.com/stax76/mpv.net/blob/master/docs/Manual_chs.md#配色主题
 
-name = screenshot-jpeg-source-chroma
-file = mpv
-default = yes
-filter = Screenshot
-help = Write JPEG files with the same chroma subsampling as the video. If disabled, the libjpeg default is used.
-option = yes
-option = no
 
-name = screenshot-template
-file = mpv
-filter = Screenshot
-type = string
-help = Specify the filename template used to save screenshots. The template specifies the filename without file extension, and can contain format specifiers, which will be substituted when taking a screenshot. By default, the template is mpv-shot%n, which results in filenames like  mpv-shot0012.png for example.\n\nFind the full documentation here:
-url = https://mpv.io/manual/master/#options-screenshot-template
-
-name = screenshot-jpeg-quality
-file = mpv
-filter = Screenshot
-help = <0-100> Set the JPEG quality level. Higher means better quality. The default is 90.
-
-name = screenshot-png-compression
-file = mpv
-filter = Screenshot
-help = <0-9> Set the PNG compression level. Higher means better compression. This will affect the file size of the written screenshot file and the time it takes to write a screenshot. Too high compression might occupy enough CPU time to interrupt playback. The default is 7.
-
-name = screenshot-png-filter
-file = mpv
-filter = Screenshot
-help = <0-5> Set the filter applied prior to PNG compression. 0 is none, 1 is 'sub', 2 is 'up', 3 is 'average', 4 is 'Paeth', and 5 is 'mixed'. This affects the level of compression that can be achieved. For most images, 'mixed' achieves the best compression ratio, hence it is the default.
-
-name = cache
-file = mpv
-default = auto
-filter = Cache
-help = Decide whether to use network cache settings.
-url = https://mpv.io/manual/master/#options-cache
-option = yes
-option = no
-option = auto
-
-name = demuxer-max-bytes
-file = mpv
-filter = Demuxer
-help = <bytesize> Controls how much the demuxer is allowed to buffer ahead.\nSuffixes such as KiB and MiB are supported.
-url = https://mpv.io/manual/master/#options-demuxer-max-bytes
