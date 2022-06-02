@@ -293,7 +293,7 @@ namespace mpvnet
 
                 if (files.Count == 0)
                 {
-                    App.ShowError("The clipboard does not contain a valid URL or file.");
+                    App.ShowError("剪贴板不包含有效的URL或文件");
                     return;
                 }
 
@@ -314,7 +314,7 @@ namespace mpvnet
 
                 if (d.ShowDialog() == DialogResult.OK)
                     foreach (string filename in d.FileNames)
-                        Core.CommandV("sub-add", filename);
+                        Core.CommandV("sub-add", filename, "cached");
             }
         });
 
@@ -331,7 +331,7 @@ namespace mpvnet
 
                 if (d.ShowDialog() == DialogResult.OK)
                     foreach (string i in d.FileNames)
-                        Core.CommandV("audio-add", i);
+                        Core.CommandV("audio-add", i, "cached");
             }
         });
 

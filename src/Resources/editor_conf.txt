@@ -82,11 +82,33 @@ option  = yes
 option  = no
 
 [setting]
+name    = vd-lavc-dr
+file    = mpv
+filter  = 基础
+default = yes
+filter  = 基础
+help    = 启用直接渲染，默认：yes\n如果设置为yes，视频将直接解码到GPU视频内存（或暂存缓冲区）
+
+option  = yes
+option  = no
+
+[setting]
 name    = vd-lavc-threads
 file    = mpv
 filter  = 基础
 type    = string
 help    = 用于解码的线程数，是否实际支持线程取决于编解码器（默认值：0）\n0表示自动检测机器上的内核数并使用它，最多为16\n可以手动设置为超过16个线程
+
+[setting]
+name    = vd-lavc-assume-old-x264
+file    = mpv
+filter  = 基础
+default = no
+filter  = 基础
+help    = 假设视频是由旧的、有缺陷的x264版本编码的。默认：no\n仅当x264 yuv444p10格式的视频解码错误时尝试启用此项解决ffmpeg对旧的x264编码的兼容问题
+
+option  = yes
+option  = no
 
 [setting]
 name    = fbo-format
@@ -195,7 +217,6 @@ file    = mpv
 default = no
 filter  = 功能
 help    = 播放列表播放完毕后保持打开，默认值：no\nalways：文件结束自动暂停，不播放\n下一文件如果 idle 设置为 no/once，则 mpv.net 在最后一个文件之后退出
-
 option  = yes
 option  = no
 option  = always
@@ -213,11 +234,12 @@ option  = no
 [setting]
 name    = idle
 file    = mpv
-default = once
+default = yes
 filter  = 功能
-help    = 是否开启空闲待机模式（中止播放或所有文件播放后依旧保持mpv运行）\n启用空闲待机使mpv的行为表现更接近普通播放器\n伪GUI模式启动mpv时idle默认为once
+help    = 是否开启空闲待机模式（中止播放或所有文件播放后依旧保持mpv运行）\n启用空闲待机使mpv的行为表现更接近普通播放器\nlibmpv此项默认为yes
 
 option  = yes
+option  = no
 option  = once
 
 [setting]
@@ -245,6 +267,13 @@ help    = 有序章节列表支持
 
 option  = yes
 option  = no
+
+[setting]
+name    = metadata-codepage
+file    = mpv
+filter  = 功能
+type    = string
+help    = 指定各种输入元数据的编码，默认值：utf-8\n这会影响文件标签、章节标题等的解释方式\n例如，可以将其设置为auto以启用编码的自动检测
 
 [setting]
 name    = hr-seek
@@ -400,12 +429,6 @@ filter  = OSD
 help    = <-1-1> OSD进度条的垂直位置，0为居中，建议：-1
 
 [setting]
-name    = osd-border-size
-file    = mpv
-filter  = OSD
-help    = OSD字体边框厚度，0为无，默认：3，建议：1
-
-[setting]
 name    = osd-font
 file    = mpv
 filter  = OSD
@@ -415,7 +438,55 @@ help    = OSD字体
 name    = osd-font-size
 file    = mpv
 filter  = OSD
-help    = OSD字体大小，默认：55，建议：40
+help    = OSD字体大小，默认：55
+
+[setting]
+name    = osd-color
+file    = mpv
+type    = color
+filter  = OSD
+help    = OSD文本主颜色
+
+[setting]
+name    = osd-border-size
+file    = mpv
+filter  = OSD
+help    = OSD文本边框厚度，0为无，默认：3，建议：1
+
+[setting]
+name    = osd-border-color
+file    = mpv
+type    = color
+filter  = OSD
+help    = OSD文本的边框颜色
+
+[setting]
+name    = osd-shadow-offset
+file    = mpv
+type    = string
+filter  = OSD
+help    = OSD文本的阴影大小，默认值：0
+
+[setting]
+name    = osd-shadow-color
+file    = mpv
+type    = color
+filter  = OSD
+help    = OSD文本的阴影颜色
+
+[setting]
+name    = osd-blur
+file    = mpv
+type    = string
+filter  = OSD
+help    = OSD文本的边缘模糊度，默认值：0 <0..20.0>
+
+[setting]
+name    = osd-spacing
+file    = mpv
+type    = string
+filter  = OSD
+help    = OSD文本的字间距，默认值：0
 
 [setting]
 name    = osd-fractions
@@ -432,6 +503,12 @@ name    = osd-duration
 file    = mpv
 filter  = OSD
 help    = OSD持续时间（毫秒），默认：2000
+
+[setting]
+name    = osd-playing-msg-duration
+file    = mpv
+filter  = OSD
+help    = --osd-playing-msg 文本的持续时间，默认使用全局持续时间
 
 [setting]
 name    = icc-profile-auto
@@ -834,16 +911,6 @@ filter  = 视频
 help    = <0-4096> 添加额外动态噪点，有助于掩盖剩余的量化伪影（默认48）
 
 [setting]
-name    = sws-allow-zimg
-file    = mpv
-default = yes
-filter  = 高级
-help    = 启用--vf滤镜时软件缩放器是否允许使用zimg（如果使用内部swscale包装器的组件明确允许这样做）（默认值：yes）。在这种情况下，如果内部zimg包装器支持输入和输出格式，则可以使用zimg\n如果使用zimg，则忽略其他--sws-选项，而使用--zimg-选项\n注意：zimg相关参数目前会导致硬解模式下出现色度偏移的问题，建议禁用
-
-option  = yes
-option  = no
-
-[setting]
 name    = load-scripts
 file    = mpv
 default = yes
@@ -1023,6 +1090,16 @@ option  = 5.1,stereo          兼容5.1系统
 option  = 7.1,5.1,stereo      兼容7.1系统
 
 [setting]
+name    = audio-normalize-downmix
+file    = mpv
+default = no
+filter  = 音频
+help    = 如果环绕声音频下混为立体声，则启用/禁用规格化（默认：no）\n如果禁用此功能，下混可能会导致削波\n如果启用此功能，则输出可能太安静。这取决于源音频
+
+option  = yes
+option  = no
+
+[setting]
 name    = sub-font-provider
 file    = mpv
 default = auto
@@ -1055,6 +1132,13 @@ help    = 使用嵌入在Matroska容器文件和ASS文本中的字体
 
 option  = no
 option  = yes
+
+[setting]
+name    = sub-codepage
+file    = mpv
+filter  = 字幕
+type    = string
+help    = 指定字幕使用的编码，默认值为auto：自动检测字幕编码，检测失败时默认回退UTF-8处理\n注意：这仅适用于文本字幕文件。其他类型的字幕（特别是 mkv 文件中的字幕）始终假定为 UTF-8
 
 [setting]
 name    = sub-auto
@@ -1239,7 +1323,7 @@ name    = sub-border-size
 file    = mpv
 type    = string
 filter  = 字幕
-help    = 文本字幕的边框大小
+help    = 文本字幕的边框大小，0为无，默认：3，建议：1
 
 [setting]
 name    = sub-border-color
@@ -1253,7 +1337,7 @@ name    = sub-shadow-offset
 file    = mpv
 type    = string
 filter  = 字幕
-help    = 文本字幕的阴影大小
+help    = 文本字幕的阴影大小，默认值：0
 
 [setting]
 name    = sub-shadow-color
@@ -1263,18 +1347,18 @@ filter  = 字幕
 help    = 文本字幕的阴影颜色
 
 [setting]
-name    = sub-spacing
-file    = mpv
-type    = string
-filter  = 字幕
-help    = 文本字幕的字间距
-
-[setting]
 name    = sub-blur
 file    = mpv
 type    = string
 filter  = 字幕
-help    = 文本字幕的边缘模糊度，推荐值1.5-3.0之间 <0..20.0>
+help    = 文本字幕的边缘模糊度，默认值：0 <0..20.0>
+
+[setting]
+name    = sub-spacing
+file    = mpv
+type    = string
+filter  = 字幕
+help    = 文本字幕的字间距，默认值：0
 
 [setting]
 name    = sub-use-margins
@@ -1303,8 +1387,10 @@ filter  = 截图
 help    = 截图输出格式
 
 option  = jpg
+option  = jpeg
 option  = png
 option  = webp
+option  = jxl
 
 [setting]
 name    = screenshot-jpeg-quality
@@ -1354,7 +1440,19 @@ help    = <0-100> WEBP质量等级（--screenshot-webp-lossless=no时生效）�
 name    = screenshot-webp-compression
 file    = mpv
 filter  = 截图
-help    = <0-6> WEBP压缩等级，默认：4，建议：0\n当采用有损WEBP时，此项也会影响质量
+help    = <0-6> WEBP压缩等级，默认：4\n当采用有损WEBP时，此项也会影响质量
+
+[setting]
+name    = screenshot-jxl-distance
+file    = mpv
+filter  = 截图
+help    = <0-15> JXL的视觉模型距离，0为质量无损，0.1为视觉无损，默认 1 相当于JPEG的90质量
+
+[setting]
+name    = screenshot-jxl-effort
+file    = mpv
+filter  = 截图
+help    = <1-9> JXL压缩等级，过高的等级影响性能，默认 3
 
 [setting]
 name    = screenshot-tag-colorspace
@@ -1371,7 +1469,17 @@ name    = screenshot-high-bit-depth
 file    = mpv
 default = yes
 filter  = 截图
-help    = 尽可能以高位深输出截图（对PNG尤其有效）
+help    = 尽可能以高位深输出截图（只对PNG/JXL有效）
+
+option  = yes
+option  = no
+
+[setting]
+name    = screenshot-sw
+file    = mpv
+default = no
+filter  = 截图
+help    = 是否对屏幕截图使用软件渲染，默认：no\n如果设置为 yes，则使用软件缩放器将视频转换为 RGB（或目标屏幕截图所需的任何内容）\n软件渲染器可能缺少某些功能，例如 HDR 渲染
 
 option  = yes
 option  = no
@@ -1605,7 +1713,7 @@ help    = 在显示窗口之前等待libmpv返回视频分辨率的阈值（毫�
 name    = minimum-aspect-ratio
 file    = mpvnet
 filter  = mpvnet
-help    = <小数> 最小纵横比，如果源纵横比小于定义值，则窗口纵横比设置为16比9，默认：1.2\n避免在显示音乐封面时使用方形窗口
+help    = <小数> 最小纵横比，如果源纵横比小于定义值，则窗口纵横比设置为 16:9，默认：1.2\n避免在显示音乐封面时使用方形窗口
 
 [setting]
 name    = auto-play
