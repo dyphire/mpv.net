@@ -3,35 +3,34 @@
 
  # 每一行都以空格字符开头以便于搜索
  # 如果您想知道“o”键位是否已经被绑定，可以搜索“o”
- # 不要绑定 "MBTN_RIGHT" 和 "_" 键位，不要重命名 "Recent;Track;Titles;Chapters;Profile" 这些特殊的注释
+ # 不要绑定 "_" 键位，不要重命名 "Recent;Track;Titles;Chapters;Profile" 这些特殊的注释
 
  # 命令行的输入测试模式的命令：
  # mpvnet --input-test
  # 下列被绑定的键位可以在右键菜单的这个选项中查看：工具 > input 编辑器
  # https://github.com/mpvnet-player/mpv.net/blob/master/docs/Manual.md#input-and-context-menu
 
-
- CTRL+o            script-message mpv.net open-files                     #menu: 加载 > 文件
- CTRL+O            script-message mpv.net open-clipboard                 #menu: 加载 > 剪贴板链接
- _                 script-message mpv.net open-optical-media             #menu: 加载 > 光盘目录
+ CTRL+o            script-message-to mpvnet open-files                   #menu: 加载 > 浏览器文件
+ CTRL+O            script-message-to mpvnet open-clipboard               #menu: 加载 > 剪贴板链接或文件
+ _                 script-message-to mpvnet open-optical-media           #menu: 加载 > 光盘目录
  _                 ignore                                                #menu: 加载 > -
- _                 script-message mpv.net load-audio                     #menu: 加载 > 其它音轨
- _                 script-message mpv.net load-sub                       #menu: 加载 > 其它字幕
+ _                 script-message-to mpvnet load-audio                   #menu: 加载 > 其它音轨
+ _                 script-message-to mpvnet load-sub                     #menu: 加载 > 其它字幕
  _                 ignore                                                #menu: 加载 > -
- _                 script-message mpv.net open-files append              #menu: 加载 > 添加到当前列表
+ _                 script-message-to mpvnet open-files append            #menu: 加载 > 添加到当前列表
  _                 playlist-shuffle                                      #menu: 加载 > 播放列表乱序重排
  _                 ignore                                                #menu: 加载 > -
- F7                script-message mpv.net show-recent                    #menu: 加载 > 最近文件列表
+ F7                script-message-to mpvnet show-recent                  #menu: 加载 > 最近文件列表
  _                 ignore                                                #menu: 加载 > Recent
  _                 ignore                                                #menu: -
 
- SPACE             script-message mpv.net play-pause                     #menu: 文件 > 播放/暂停
+ SPACE             script-message-to mpvnet play-pause                   #menu: 文件 > 播放/暂停
  _                 stop                                                  #menu: 文件 > 停止
  T                 cycle ontop                                           #menu: 文件 > 开/关 置顶状态
  ALT+b             cycle window-maximized                                #menu: 文件 > 开/关 最大化
  ENTER             cycle fullscreen                                      #menu: 文件 > 切换 全屏
  O                 no-osd cycle-values osd-level 3 1                     #menu: 文件 > 开/关 显示OSD时间轴
- \                 script-message mpv.net show-info                      #menu: 文件 > 显示简易媒体信息
+ \                 script-message-to mpvnet show-info                    #menu: 文件 > 显示简易媒体信息
  i                 script-binding stats/display-stats                    #menu: 文件 > 临时显示统计信息
  I                 script-binding stats/display-stats-toggle             #menu: 文件 > 常驻显示统计信息
  l                 ab-loop                                               #menu: 文件 > 设定/清除 片段循环
@@ -42,18 +41,18 @@
  BS                set speed 1                                           #menu: 文件 > 速度 重置
  _                 ignore                                                #menu: Track
 
- F8                script-message mpv.net show-playlist                  #menu: 导航 > .NET播放列表
+ F8                script-message-to mpvnet show-playlist                #menu: 导航 > .NET播放列表
  CTRL+F8           script-binding playlistmanager/showplaylist           #menu: 导航 > OSD高级播放列表
  F9                show-text ${track-list} 5000                          #menu: 导航 > OSD轨道信息
- Ctrl+7            script-message mpv.net show-audio-tracks              #menu: 导航 > 音频轨道信息
- Ctrl+8            script-message mpv.net show-subtitle-tracks           #menu: 导航 > 字幕轨道信息
+ Ctrl+7            script-message-to mpvnet show-audio-tracks            #menu: 导航 > 音频轨道信息
+ Ctrl+8            script-message-to mpvnet show-subtitle-tracks         #menu: 导航 > 字幕轨道信息
  _                 ignore                                                #menu: 导航 > -
- <                 script-message mpv.net playlist-add -1; set pause no; show-text "${playlist-pos-1}/${playlist-count}"    #menu: 导航 > 上个文件
- >                 script-message mpv.net playlist-add  1; set pause no; show-text "${playlist-pos-1}/${playlist-count}"    #menu: 导航 > 下个文件
- _                 script-message mpv.net playlist-first                 #menu: 导航 > 首位的文件
- _                 script-message mpv.net playlist-last                  #menu: 导航 > 末位的文件
- ,                 frame-back-step; show-text "${estimated-frame-number}"            #menu: 导航 > 上一帧
- .                 frame-step; show-text "${estimated-frame-number}"                 #menu: 导航 > 下一帧
+ <                 script-message-to mpvnet playlist-add -1; set pause no; show-text "${playlist-pos-1}/${playlist-count}"    #menu: 导航 > 上个文件
+ >                 script-message-to mpvnet playlist-add  1; set pause no; show-text "${playlist-pos-1}/${playlist-count}"    #menu: 导航 > 下个文件
+ _                 script-message-to mpvnet playlist-first                 #menu: 导航 > 首位的文件
+ _                 script-message-to mpvnet playlist-last                  #menu: 导航 > 末位的文件
+ ,                 frame-back-step; show-text "${estimated-frame-number}"  #menu: 导航 > 上一帧
+ .                 frame-step; show-text "${estimated-frame-number}"       #menu: 导航 > 下一帧
  LEFT              seek -5                                               #menu: 导航 > 后退 5 秒
  RIGHT             seek  5                                               #menu: 导航 > 前进 5 秒
  DOWN              seek -30                                              #menu: 导航 > 后退 30 秒
@@ -69,8 +68,8 @@
  ALT+p             cycle-values panscan 0.0 1.0                          #menu: 画面 > 开/关 裁切填充
  CTRL+LEFT         cycle-values video-rotate 0 270 180 90                #menu: 画面 > 左旋转
  CTRL+RIGHT        cycle-values video-rotate 0 90 180 270                #menu: 画面 > 右旋转
- CTRL+-            script-message mpv.net scale-window 0.8               #menu: 画面 > 缩小窗口
- CTRL+=            script-message mpv.net scale-window 1.2               #menu: 画面 > 放大窗口
+ CTRL+-            script-message-to mpvnet scale-window 0.8             #menu: 画面 > 缩小窗口
+ CTRL+=            script-message-to mpvnet scale-window 1.2             #menu: 画面 > 放大窗口
  ALT+-             add video-zoom -0.1                                   #menu: 画面 > 画面缩放 > 画面缩小
  ALT+=             add video-zoom  0.1                                   #menu: 画面 > 画面缩放 > 画面放大
  ALT+LEFT          add video-pan-x -0.1                                  #menu: 画面 > 画面缩放 > 画面左移动
@@ -145,6 +144,7 @@
  NEXT              playlist-next
  PREV              playlist-prev
 
+ MBTN_Right        script-message-to mpvnet show-menu
  MBTN_FORWARD      playlist-next
  MBTN_BACK         playlist-prev
  MBTN_LEFT         ignore
@@ -153,4 +153,4 @@
  Wheel_Down        add volume -1
 
  ESC               set fullscreen no
- KP6               script-message mpv.net show-progress
+ KP6               script-message-to mpvnet show-progress
