@@ -26,7 +26,7 @@ namespace mpvnet
             {
                 case "add-files-to-playlist": OpenFiles("append"); break; // deprecated 2019
                 case "cycle-audio": CycleAudio(); break;
-                case "execute-mpv-command": Msg.ShowError("The command was removed, reset input.conf by deleting it, in the new menu use the on screen console."); break; // deprecated 2020
+                case "execute-mpv-command": Msg.ShowError("该命令被删除，通过删除它重置input.conf，在新的菜单中打开控制台."); break; // deprecated 2020
                 case "load-audio": LoadAudio(); break;
                 case "load-sub": LoadSubtitle(); break;
                 case "open-clipboard": OpenFromClipboard(); break;
@@ -147,8 +147,8 @@ namespace mpvnet
                 ProcessHelp.ShellExecute(Core.ConfigFolder + "history.txt");
             else
             {
-                if (Msg.ShowQuestion("Create history.txt file in config folder?" + BR2 +
-                    "mpv.net will write the date, time and filename of opened files to it.") == MessageBoxResult.OK)
+                if (Msg.ShowQuestion("在config文件夹中创建history.txt文件?" + BR2 +
+                    "mpv.net会在其中写入播放文件的日期、时间和文件名.") == MessageBoxResult.OK)
 
                     File.WriteAllText(Core.ConfigFolder + "history.txt", "");
             }
@@ -454,7 +454,7 @@ namespace mpvnet
             {
                 MsgBoxEx.MessageBoxEx.MsgFontFamily = new FontFamily("Consolas");
                 Msg.ShowInfo(text);
-                MsgBoxEx.MessageBoxEx.MsgFontFamily = new FontFamily("Segoe UI");
+                MsgBoxEx.MessageBoxEx.MsgFontFamily = new FontFamily("微软雅黑");
             }
         });
 

@@ -1660,7 +1660,7 @@ file    = mpv
 type    = string
 width   = 500
 filter  = 扩展性
-help    = 追加读取指定的配置文件\n由于mpv.net图形编辑器的局限性，此项可用于读取额外的自定义参数及配置组的.conf配置文件\n例："~~/mpvown.conf"\n注意：此项参数必须位于主配置mpv.conf中的末尾，避免追加配置被覆盖
+help    = 在默认配置文件之后追加读取指定的配置文件\n由于mpv.net图形编辑器的局限性，此项可用于读取额外的自定义参数及配置组的.conf配置文件\n例："~~/mpvown.conf"\n注意：追加配置文件将会覆盖mpv.conf具有的相同参数
 
 [setting]
 name    = remember-volume
@@ -1745,6 +1745,16 @@ help    = 是否允许多个mpv.net进程
 option  = multi               每次启动mpv.net时创建一个新进程
 option  = single              每次启动mpv.net时强制单进程
 option  = queue               每次启动mpv.net时强制单进程，将后续文件添加到播放列表
+
+[setting]
+name    = media-info
+file    = mpvnet
+default = yes
+filter  = mpvnet
+help    = 使用MediaInfo而不是mpv的track-list来获取媒体信息
+
+option  = yes
+option  = no
 
 [setting]
 name    = video-file-extensions
