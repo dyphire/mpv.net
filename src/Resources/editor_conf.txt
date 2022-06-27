@@ -144,6 +144,16 @@ option  = yes
 option  = no
 
 [setting]
+name    = snap-window
+file    = mpv
+default = no
+filter  = 功能
+help    = 贴近时将播放器窗口捕捉到屏幕边缘
+
+option  = yes
+option  = no
+
+[setting]
 name    = osc
 file    = mpv
 default = yes
@@ -278,7 +288,7 @@ help    = 指定各种输入元数据的编码，默认值：utf-8\n这会影响
 [setting]
 name    = hr-seek
 file    = mpv
-default = absolute
+default = default
 filter  = 功能
 help    = 选择何时使用不限于关键帧的精确跳转
 
@@ -921,6 +931,16 @@ option  = yes
 option  = no
 
 [setting]
+name    = sws-allow-zimg
+file    = mpv
+default = yes
+filter  = 高级
+help    = 软件缩放优先使用zimg（通常具有更高质量）而不是ffmpeg的libswscale，默认 yes\n出现色度问题及格式转换崩溃等问题时可尝试禁用此项\nffmpeg经常出现和zimg间的兼容性问题，建议禁用
+
+option  = yes
+option  = no
+
+[setting]
 name    = input-builtin-bindings
 file    = mpv
 default = no
@@ -1098,6 +1118,17 @@ help    = 如果环绕声音频下混为立体声，则启用/禁用规格化（
 
 option  = yes
 option  = no
+
+[setting]
+name    = gapless-audio
+file    = mpv
+default = weak
+filter  = 音频
+help    = 尝试在文件更改时播放连续的音频文件，而不会静音或中断\n设为yes时会导致文件保存相同的采样率致使音质降低\n默认值weak有时会导致切换文件时暂停播放，建议禁用
+
+option  = yes
+option  = no
+option  = weak
 
 [setting]
 name    = sub-font-provider
@@ -1660,7 +1691,7 @@ file    = mpv
 type    = string
 width   = 500
 filter  = 扩展性
-help    = 追加读取指定的配置文件\n由于mpv.net图形编辑器的局限性，此项可用于读取额外的自定义参数及配置组的.conf配置文件\n例："~~/mpvown.conf"\n注意：此项参数必须位于主配置mpv.conf中的末尾，避免追加配置被覆盖
+help    = 在默认配置文件之后追加读取指定的配置文件\n由于mpv.net图形编辑器的局限性，此项可用于读取额外的自定义参数及配置组的conf配置文件\n例："~~/mpvown.conf"\n注意：追加的配置文件将会覆盖mpv.conf中已有的相同参数
 
 [setting]
 name    = remember-volume
@@ -1713,7 +1744,25 @@ help    = 在显示窗口之前等待libmpv返回视频分辨率的阈值（毫�
 name    = minimum-aspect-ratio
 file    = mpvnet
 filter  = mpvnet
-help    = <小数> 最小纵横比，如果源纵横比小于定义值，则窗口纵横比设置为 16:9，默认：1.2\n避免在显示音乐封面时使用方形窗口
+help    = <小数> 窗口的最小纵横比。用于强制更宽的窗口，从而显示更大的OSC
+
+[setting]
+name    = minimum-aspect-ratio-audio
+file    = mpvnet
+filter  = mpvnet
+help    = <小数> 功能类似--minimum-aspect-ratio，但适用于音频文件
+
+[setting]
+name    = autofit-image
+file    = mpvnet
+filter  = mpvnet
+help    = <int> 图像文件的初始窗口高度（以百分比表示）。默认值：80
+
+[setting]
+name    = autofit-audio
+file    = mpvnet
+filter  = mpvnet
+help    = <int> 音频文件的初始窗口高度（以百分比表示）。默认值：70
 
 [setting]
 name    = auto-play
@@ -1745,6 +1794,16 @@ help    = 是否允许多个mpv.net进程
 option  = multi               每次启动mpv.net时创建一个新进程
 option  = single              每次启动mpv.net时强制单进程
 option  = queue               每次启动mpv.net时强制单进程，将后续文件添加到播放列表
+
+[setting]
+name    = media-info
+file    = mpvnet
+default = yes
+filter  = mpvnet
+help    = 使用MediaInfo而不是mpv的track-list来获取媒体信息
+
+option  = yes
+option  = no
 
 [setting]
 name    = video-file-extensions
@@ -1787,11 +1846,11 @@ option  = yes
 option  = no
 
 [setting]
-name = show-santa-logo
+name    = show-santa-logo
 file    = mpvnet
 default = yes
 filter  = mpvnet
-help = 在12月用圣诞老人帽子绘制蓝色mpv.net徽标
+help    = 在12月用圣诞老人帽子绘制蓝色mpv.net徽标
 
 option = yes
 option = no
