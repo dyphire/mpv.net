@@ -19,6 +19,7 @@
  _                 ignore                                                #menu: 加载 > -
  _                 script-message-to mpvnet open-files append            #menu: 加载 > 添加到当前列表
  _                 playlist-shuffle                                      #menu: 加载 > 播放列表乱序重排
+ _                 script-message-to mpvnet playlist-random              #menu: 加载 > 播放列表随机导航
  _                 ignore                                                #menu: 加载 > -
  F7                script-message-to mpvnet show-recent                  #menu: 加载 > 最近文件列表
  _                 ignore                                                #menu: 加载 > Recent
@@ -39,11 +40,10 @@
  [                 add speed -0.1                                        #menu: 文件 > 速度 -0.1
  ]                 add speed  0.1                                        #menu: 文件 > 速度 +0.1
  BS                set speed 1                                           #menu: 文件 > 速度 重置
- _                 ignore                                                #menu: Track
 
  F8                script-message-to mpvnet show-playlist                #menu: 导航 > .NET播放列表
  CTRL+F8           script-binding playlistmanager/showplaylist           #menu: 导航 > OSD高级播放列表
- F9                show-text ${track-list} 5000                          #menu: 导航 > OSD轨道信息
+ F9                script-message-to mpvnet show-media-info osd          #menu: 导航 > OSD轨道信息
  Ctrl+7            script-message-to mpvnet show-audio-tracks            #menu: 导航 > 音频轨道信息
  Ctrl+8            script-message-to mpvnet show-subtitle-tracks         #menu: 导航 > 字幕轨道信息
  _                 ignore                                                #menu: 导航 > -
@@ -62,6 +62,7 @@
  _                 ignore                                                #menu: 导航 > -
  _                 ignore                                                #menu: 导航 > Titles
  _                 ignore                                                #menu: 导航 > Chapters
+ _                 script-message-to mpvnet show-chapters                #menu: 导航 > 在命令面板中显示章节
 
  A                 cycle-values video-aspect-override 16:9 4:3 2.35:1 -1 #menu: 画面 > 切换 宽高比
  _                 ignore                                                #menu: 画面 > -
@@ -85,6 +86,8 @@
  G                 cycle-values gamma-factor 1.1 1.2 1.0                 #menu: 画面 > 切换 gamma环境系数
  h                 cycle-values tone-mapping "mobius" "reinhard" "hable" "bt.2390" "gamma"     #menu: 画面 > 切换 hdr映射曲线 
  ALT+h             cycle-values hdr-compute-peak yes no                  #menu: 画面 > 切换 hdr动态映射
+
+ _                 ignore                                                #menu: Track
  _                 ignore                                                #menu: -
 
  _                 cycle video                                           #menu: 视频 > 切换 视频轨
@@ -139,7 +142,7 @@
  CTRL+a            script-binding cycle_adevice/back                     #menu: 音频 > 上个输出设备
  ALT+a             script-binding cycle_adevice/next                     #menu: 音频 > 下个输出设备
 
- j                 cycle sub                                             #menu: 字幕 > 切换 下一个
+ j                 script-message-to mpvnet cycle-subtitles              #menu: 字幕 > 切换 下一个
  k                 cycle secondary-sid                                   #menu: 字幕 > 加载次字幕
  K                 cycle secondary-sid down                              #menu: 字幕 > 次字幕切换
  v                 cycle sub-visibility                                  #menu: 字幕 > 切换 可见性
