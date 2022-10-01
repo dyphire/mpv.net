@@ -158,8 +158,8 @@ namespace mpvnet
                 ProcessHelp.ShellExecute(Core.ConfigFolder + "history.txt");
             else
             {
-                if (Msg.ShowQuestion("Create a 'history.txt' file in the config folder?" + BR2 +
-                    "mpv.net will write the date, time, play length and path of watched files to it.") == MessageBoxResult.OK)
+                if (Msg.ShowQuestion("配置文件夹中创建一个'history.txt'文件?" + BR2 +
+                    "mpv.net会将监视文件的日期、时间、播放长度和路径写入其中") == MessageBoxResult.OK)
 
                     File.WriteAllText(Core.ConfigFolder + "history.txt", "");
             }
@@ -441,7 +441,7 @@ namespace mpvnet
             {
                 MsgBoxEx.MessageBoxEx.MsgFontFamily = new FontFamily("Consolas");
                 Msg.ShowInfo(text);
-                MsgBoxEx.MessageBoxEx.MsgFontFamily = new FontFamily("Segoe UI");
+                MsgBoxEx.MessageBoxEx.MsgFontFamily = new FontFamily("微软雅黑");
             }
         });
 
