@@ -1,10 +1,9 @@
-[setting]
+
 name    = hwdec
 file    = mpv
 default = no
 filter  = 基础
 help    = 解码模式，选择硬解时不支持的格式自动切回软解。非copy的原生硬解模式不支持部分参数和滤镜，硬解优先考虑-copy\nSVP的10bit支持应使用-copy，否则软解
-
 option  = no                  始终软解
 option  = auto                Native原生硬解优先
 option  = nvdec               N卡独占的硬解优先（此项不支持--gpu-api=d3d11）
@@ -13,37 +12,31 @@ option  = dxva2-copy          兼容性较好的增强硬解模式
 option  = nvdec-copy          帕斯卡架构后的N卡首选
 option  = cuda-copy           兼容性较高
 
-[setting]
 name    = vo
 file    = mpv
 default = gpu
 filter  = 基础
 help    = 视频输出驱动程序
-
 option  = gpu                 通用且具有高度可定制化与扩展性的GPU加速视频输出驱动
 option  = gpu-next            基于libplaceb渲染器，尚未完成开发，仅供测试
 option  = direct3d
 option  = libmpv
 
-[setting]
 name    = gpu-api
 file    = mpv
 default = d3d11
 filter  = 基础
 help    = 图形API
-
 option  = auto
 option  = d3d11
 option  = vulkan
 option  = opengl
 
-[setting]
 name    = gpu-context
 file    = mpv
 default = auto
 filter  = 基础
 help    = 选择输出后端。此项通常由--gpu-api=<value>自动决定正确值\n--gpu-api=opengl时默认选用angle，此时最好改为win/dxinterop
-
 option  = auto
 option  = win
 option  = winvk
@@ -51,73 +44,60 @@ option  = angle
 option  = dxinterop
 option  = d3d11
 
-[setting]
 name    = d3d11-exclusive-fs
 file    = mpv
 default = no
 filter  = 基础
 help    = --gpu-api=d3d11下的全屏独占功能，默认禁用
-
 option  = yes
 option  = no
 
-[setting]
 name    = d3d11-flip
 file    = mpv
 default = yes
 filter  = 基础
 help    = 启用翻转模型演示\n启用--d3d11-exclusive-fs参数产生冻屏效应时可尝试禁用此项解决
-
 option  = yes
 option  = no
 
-[setting]
 name    = d3d11va-zero-copy
 file    = mpv
 default = no
 filter  = 基础
 help    = 禁用解码采样copy，默认：no\n当解码卡顿掉帧时可启用此项尝试改善
-
 option  = yes
 option  = no
 
-[setting]
 name    = vd-lavc-dr
 file    = mpv
 filter  = 基础
 default = yes
 filter  = 基础
 help    = 启用直接渲染，默认：yes\n如果设置为yes，视频将直接解码到GPU视频内存（或暂存缓冲区）
-
 option  = yes
 option  = no
 
-[setting]
 name    = vd-lavc-threads
 file    = mpv
 filter  = 基础
 type    = string
 help    = 用于解码的线程数，是否实际支持线程取决于编解码器（默认值：0）\n0表示自动检测机器上的内核数并使用它，最多为16\n可以手动设置为超过16个线程
 
-[setting]
 name    = vd-lavc-assume-old-x264
 file    = mpv
 filter  = 基础
 default = no
 filter  = 基础
 help    = 假设视频是由旧的、有缺陷的x264版本编码的。默认：no\n仅当x264 yuv444p10格式的视频解码错误时尝试启用此项解决ffmpeg对旧的x264编码的兼容问题
-
 option  = yes
 option  = no
 
-[setting]
 name    = fbo-format
 file    = mpv
 filter  = 基础
 type    = string
 help    = 内处理精度。此项通常由 --gpu-api=<value> 自动决定正确值，默认首选16位及以上的精度\n例：auto,rgba16f,rgba16hf,rgba16,rgba32f,rgba32hf,rgba32,rgb10_a2,rgb10,rgba8
 
-[setting]
 name    = d3d11-adapter
 file    = mpv
 filter  = 基础
@@ -125,7 +105,6 @@ type    = string
 width   = 500
 help    = （当--gpu-api=d3d11时）单显卡系统无需填写，双显卡笔记本留空自动选择系统或驱动指定的主渲染显卡，否则应指定具体显卡名\n例：NVIDIA GeForce RTX 2070 Super 或 Intel(R) UHD Graphics
 
-[setting]
 name    = vulkan-device
 file    = mpv
 filter  = 基础
@@ -133,85 +112,77 @@ type    = string
 width   = 500
 help    = （当--gpu-api=vulkan时）单显卡系统无需填写，双显卡笔记本留空自动选择系统或驱动指定的主渲染显卡，否则应指定具体显卡名\n例：NVIDIA GeForce RTX 2070 Super 或 Intel(R) UHD Graphics
 
-[setting]
 name    = border
 file    = mpv
 default = yes
 filter  = 功能
 help    = 窗口边框装饰
-
 option  = yes
 option  = no
 
-[setting]
+name    = snap-window
+file    = mpv
+default = no
+filter  = 功能
+help    = 贴近时将播放器窗口捕捉到屏幕边缘
+option  = yes
+option  = no
+
 name    = osc
 file    = mpv
 default = yes
 filter  = 功能
 help    = 使用内置OSC脚本的功能
-
 option  = yes
 option  = no
 
-[setting]
 name    = fullscreen
 file    = mpv
 default = no
 filter  = 功能
 help    = 以全屏状态启动播放器，默认禁用
-
 option  = yes
 option  = no
 
-[setting]
 name    = hidpi-window-scale
 file    = mpv
 default = no
 filter  = 功能
 help    = 使用HIDPI缩放
-
 option  = yes
 option  = no
 
-[setting]
 name    = ontop
 file    = mpv
 default = no
 filter  = 功能
 help    = 窗口置顶\n当--gpu-api=vulkan时也有全屏独占作用
-
 option  = yes
 option  = no
 
-[setting]
 name    = autofit
 file    = mpv
 filter  = 功能
 help    = <整数> 初始窗口高度（百分比），默认：60
 
-[setting]
 name    = autofit-smaller
 file    = mpv
 filter  = 功能
-help    = <整数> 初始窗口最小高度（百分比），默认：10
+help   = <整数> 初始窗口最小高度（百分比），默认：10
 
-[setting]
 name    = autofit-larger
 file    = mpv
 filter  = 功能
 help    = <整数> 初始窗口最大高度（百分比），默认：80
 
-[setting]
 name    = keepaspect-window
 file    = mpv
 default = yes
 filter  = 功能
 help    = 将窗口尺寸锁定为视频比例
-
 option  = yes
 option  = no
 
-[setting]
 name    = keep-open
 file    = mpv
 default = no
@@ -221,114 +192,93 @@ option  = yes
 option  = no
 option  = always
 
-[setting]
 name    = keep-open-pause
 file    = mpv
 default = yes
 filter  = 功能
 help    = 播放列表播放播放完毕后暂停，默认值：yes
-
 option  = yes
 option  = no
 
-[setting]
 name    = idle
 file    = mpv
 default = yes
 filter  = 功能
 help    = 是否开启空闲待机模式（中止播放或所有文件播放后依旧保持mpv运行）\n启用空闲待机使mpv的行为表现更接近普通播放器\nlibmpv此项默认为yes
-
 option  = yes
 option  = no
 option  = once
 
-[setting]
 name    = pause
 file    = mpv
 default = no
 filter  = 功能
 help    = 暂停状态启动播放器
-
 option  = yes
 option  = no
 
-[setting]
 name    = loop-playlist
 file    = mpv
 filter  = 功能
 help    = <数字|inf|force|no> 播放列表循环次数，inf为无限，force类似但不跳过被标记为失效的文件，默认：1
 
-[setting]
 name    = ordered-chapters
 file    = mpv
 default = yes
 filter  = 功能
 help    = 有序章节列表支持
-
 option  = yes
 option  = no
 
-[setting]
 name    = metadata-codepage
 file    = mpv
 filter  = 功能
 type    = string
 help    = 指定各种输入元数据的编码，默认值：utf-8\n这会影响文件标签、章节标题等的解释方式\n例如，可以将其设置为auto以启用编码的自动检测
 
-[setting]
 name    = hr-seek
 file    = mpv
-default = absolute
+default = default
 filter  = 功能
 help    = 选择何时使用不限于关键帧的精确跳转
-
 option  = no                  禁用
 option  = yes                 尽可能使用精确跳转
 option  = always              与yes相同（为了兼容性）
 option  = absolute            只对章节使用精确跳转
 option  = default             类似absolute，但在纯音频的情况下启用精准跳转
 
-[setting]
 name    = hr-seek-framedrop
 file    = mpv
 default = yes
 filter  = 功能
 help    = 跳转时丢帧
-
 option  = yes                 有助于更快的精确定位
 option  = no                  可避免在SVP/mvtools补帧时音画失去同步
 
-[setting]
 name    = save-position-on-quit
 file    = mpv
 default = no
 filter  = 功能
 help    = 退出时记住播放状态
-
 option  = yes
 option  = no
 
-[setting]
 name    = write-filename-in-watch-later-config
 file    = mpv
 default = yes
 filter  = 功能
 help    = 将文件名写入播放记录缓存文件
-
 option  = yes
 option  = no
 
-[setting]
 name    = ignore-path-in-watch-later-config
 file    = mpv
 default = no
 filter  = 功能
 help    = 使用"稍后观看"功能时忽略路径（即仅使用文件名）
-
 option  = yes
 option  = no
 
-[setting]
 name    = watch-later-options
 file    = mpv
 filter  = 功能
@@ -337,7 +287,6 @@ width   = 500
 help    = 稍后观看的属性白名单（SVP补帧时推荐设置为留空，留空等效start，只保存播放位置）
 url     = https://mpv.io/manual/master/#options-watch-later-options
 
-[setting]
 name    = watch-later-directory
 file    = mpv
 filter  = 功能
@@ -346,17 +295,14 @@ width   = 500
 help    = 指定稍后观看的缓存目录，其中的文件记录 --watch-later-options 指定的选项。\n默认路径为 "~~/watch_later"
 url     = https://mpv.io/manual/master/#options-watch-later-directory
 
-[setting]
 name    = resume-playback-check-mtime
 file    = mpv
 default = no
 filter  = 功能
 help    = 如果文件的修改时间与保存时相同，则从watch_later配置子目录恢复播放位置\n这可以防止在具有不同内容的同名文件中的错误行为
-
 option  = yes
 option  = no
 
-[setting]
 name    = reset-on-next-file
 file    = mpv
 filter  = 功能
@@ -365,36 +311,30 @@ width   = 500
 help    = 选择播放下一文件时需重置的更改项\n例：all为重置所有更改项
 url     = https://mpv.io/manual/master/#options-reset-on-next-file
 
-[setting]
 name    = demuxer-max-bytes
 file    = mpv
 filter  = 功能
 type    = string
 help    = 播放网络资源时预缓存的大小，例：150MiB
 
-[setting]
 name    = osd-bar
 file    = mpv
 default = yes
 filter  = OSD
 help    = OSD信息显示
-
 option  = no
 option  = yes
 
-[setting]
 name    = osd-on-seek
 file    = mpv
 default = bar
 filter  = OSD
 help    = 跳转时弹出信息
-
 option  = no
 option  = bar                 显示进度条
 option  = msg                 显示文字
 option  = msg-bar             显示文字和进度条
 
-[setting]
 name    = osd-playing-msg
 file    = mpv
 filter  = OSD
@@ -402,7 +342,6 @@ type    = string
 width   = 500
 help    = 开始播放时短暂显示的信息\n例：${filename} 
 
-[setting]
 name    = osd-status-msg
 file    = mpv
 filter  = OSD
@@ -410,117 +349,98 @@ type    = string
 width   = 500
 help    = 跳转时OSD显示的信息\n例：${playback-time/full} / ${duration/full} (${percent-pos}%) 
 
-[setting]
 name    = osd-bar-w
 file    = mpv
 filter  = OSD
 help    = <1-100> OSD进度条长度，默认：75，建议：100
 
-[setting]
 name    = osd-bar-h
 file    = mpv
 filter  = OSD
 help    = <0.1-50> OSD进度条宽度，默认：3.125，建议：2
 
-[setting]
 name    = osd-bar-align-y
 file    = mpv
 filter  = OSD
 help    = <-1-1> OSD进度条的垂直位置，0为居中，建议：-1
 
-[setting]
 name    = osd-font
 file    = mpv
 filter  = OSD
 help    = OSD字体
 
-[setting]
 name    = osd-font-size
 file    = mpv
 filter  = OSD
 help    = OSD字体大小，默认：55
 
-[setting]
 name    = osd-color
 file    = mpv
 type    = color
 filter  = OSD
 help    = OSD文本主颜色
 
-[setting]
 name    = osd-border-size
 file    = mpv
 filter  = OSD
 help    = OSD文本边框厚度，0为无，默认：3，建议：1
 
-[setting]
 name    = osd-border-color
 file    = mpv
 type    = color
 filter  = OSD
 help    = OSD文本的边框颜色
 
-[setting]
 name    = osd-shadow-offset
 file    = mpv
 type    = string
 filter  = OSD
 help    = OSD文本的阴影大小，默认值：0
 
-[setting]
 name    = osd-shadow-color
 file    = mpv
 type    = color
 filter  = OSD
 help    = OSD文本的阴影颜色
 
-[setting]
 name    = osd-blur
 file    = mpv
 type    = string
 filter  = OSD
 help    = OSD文本的边缘模糊度，默认值：0 <0..20.0>
 
-[setting]
 name    = osd-spacing
 file    = mpv
 type    = string
 filter  = OSD
 help    = OSD文本的字间距，默认值：0
 
-[setting]
 name    = osd-fractions
 file    = mpv
 default = no
 filter  = OSD
 help    = 以秒为单位显示OSD时间（毫秒精度），有助于查看视频帧的精确时间戳
-
 option  = yes
 option  = no
 
-[setting]
 name    = osd-duration
 file    = mpv
 filter  = OSD
 help    = OSD持续时间（毫秒），默认：2000
 
-[setting]
 name    = osd-playing-msg-duration
 file    = mpv
 filter  = OSD
 help    = --osd-playing-msg 文本的持续时间，默认使用全局持续时间
 
-[setting]
 name    = icc-profile-auto
 file    = mpv
 default = no
 filter  = 色彩
 help    = 色彩管理。自动使用系统当前的ICC校色文件
-
 option  = yes
 option  = no
 
-[setting]
 name    = icc-profile
 file    = mpv
 filter  = 色彩
@@ -528,13 +448,11 @@ type    = string
 width   = 500
 help    = 色彩管理。手动指定ICC校色文件\n启用此选项将自动覆盖--target-prim、--target-trc和--icc-profile-auto\n由于mpv校色目标是BT.1886，建议优先使用此项指定gamma2.4的校色文件进行色彩管理
 
-[setting]
 name    = icc-3dlut-size
 file    = mpv
 filter  = 色彩
 help    = <2-512> 色彩管理。根据ICC文件生成3dlut的每通道数量，默认：64x64x64\n（实际最大有效值由ICC视频卡伽马表的上限决定）
 
-[setting]
 name    = icc-cache-dir
 file    = mpv
 filter  = 色彩
@@ -542,44 +460,32 @@ type    = string
 width   = 500
 help    = 指定目录存储和加载从ICC配置文件创建的3D LUT，可以用来加快加载速度。\n例："~~/icc_cache"\n注意：产生的缓存文件不会自动清理，很可能永久存在
 
-[setting]
 name    = icc-force-contrast
 file    = mpv
 filter  = 色彩
 type    = string
 help    = <no|0-1000000|inf> 色彩管理。覆盖ICC文件内的静态对比度数据，默认no为不覆盖，oled可以设置为inf即无限（如果ICC中此项数据丢失则自动回落到1000）\n设置为1000可解决某些校色文件对比度极高导致黑色部分太黑\n此项只影响BT.1886的内容显示
 
-[setting]
 name    = icc-intent
 file    = mpv
 default = 1
 filter  = 色彩
 help    = 色彩管理。ICC的色彩转换映射意图
-
 option  = 0                   感知度，推荐
 option  = 1                   相对色度
 option  = 2                   饱和度
 option  = 3                   绝对色度
 
-[setting]
-name    = gamma-factor
-file    = mpv
-filter  = 色彩
-help    = 设置额外的原始伽马系数（默认值：1.0）\n<0.1..2.0> 推荐值：1.0：漆黑或昏暗的房间（默认）; 1.1：光线适中的房间，家; 1.2：灯火通明的房间，办公室
-
-[setting]
 name    = target-prim
 file    = mpv
 default = auto
 filter  = 色彩
 help    = 色彩管理。当不使用ICC文件时，视频颜色将适应此色彩空间
-
 option  = auto                SRGB屏无需更改
 option  = adobe               Adobe RGB (1998)
 option  = bt.2020             能达到90%+覆盖的设备寥寥，谨慎选择
 option  = dci-p3              Display-P3也选这个
 
-[setting]
 name    = target-trc
 file    = mpv
 filter  = 色彩
@@ -587,7 +493,6 @@ type    = string
 help    = 色彩管理。当不使用ICC文件时，指定显示器的伽马，视频颜色将适应此曲线。默认值：auto\n建议非OLED之类的显示器此项设置为gamma2.2，避免mpv画面过暗
 url     = https://mpv.io/manual/master/#options-target-trc
 
-[setting]
 name    = target-peak
 file    = mpv
 filter  = 色彩
@@ -595,13 +500,11 @@ type    = string
 help    = 指定输出显示器的测量峰值亮度。受--target-trc参数影响\n通常无需改动默认值auto即推荐值\n当使用icc色彩管理时，若nits设置为高于默认值（203），显示器将被mpv视为hdr屏处理
 url     = https://mpv.io/manual/master/#options-target-peak
 
-[setting]
 name    = video-sync
 file    = mpv
 default = audio
 filter  = 视频
 help    = 同步模式
-
 option  = audio               最佳兼容与性能模式
 option  = display-resample    重采样以匹配显示器刷新率
 option  = display-resample-vdrop
@@ -611,29 +514,24 @@ option  = display-adrop
 option  = display-desync
 option  = desync
 
-[setting]
 name    = video-sync-max-video-change
 file    = mpv
 filter  = 视频
 help    = 如果显示器和视频刷新方式在给定范围内不匹配，则应用到视频的最大速度差异（默认：1）\n推荐值：1或5
 
-[setting]
 name    = interpolation
 file    = mpv
 default = no
 filter  = 视频
 help    = 减少视频帧率和显示刷新率不匹配而引起的画面抖动，仅当--video-sync=display-xxxx时生效
-
 option  = yes
 option  = no
 
-[setting]
 name    = tscale
 file    = mpv
 default = mitchell
 filter  = 视频
 help    = 选择时域插值算法，仅当启用--interpolation=yes时生效
-
 option  = bicubic             最平滑（糊）
 option  = mitchell            综合下平衡的选择
 option  = oversample          最清晰（卡），类SmoothMotion
@@ -642,37 +540,31 @@ option  = quadric
 option  = catmull_rom
 option  = box
 
-[setting]
 name    = tscale-radius
 file    = mpv
 filter  = 视频
 help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
 
-[setting]
 name    = tscale-blur
 file    = mpv
 filter  = 视频
 help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
 
-[setting]
 name    = tscale-clamp
 file    = mpv
 filter  = 视频
 help    = <0.0-1.0> 指定要乘以负系数的权重偏差\ntscale此项默认值为1.0，可有效减少tscale产生的振铃伪影。其他scale算法默认值为0.0
 
-[setting]
 name    = tscale-antiring
 file    = mpv
 filter  = 视频
 help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此过程中引入其他伪影。默认值0.0禁用
 
-[setting]
 name    = cscale
 file    = mpv
 default = bilinear
 filter  = 视频
 help    = 色度还原算法(422/420→444)
-
 option  = bilinear            双线性（最快）
 option  = catmull_rom         片源好时可使用
 option  = spline36
@@ -682,37 +574,31 @@ option  = ewa_lanczos         jinc算法
 option  = ewa_hanning         类jinc，抑制振铃伪影
 option  = ewa_lanczossoft     类jinc，更柔和
 
-[setting]
 name    = cscale-radius
 file    = mpv
 filter  = 视频
 help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
 
-[setting]
 name    = cscale-blur
 file    = mpv
 filter  = 视频
 help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
 
-[setting]
 name    = cscale-clamp
 file    = mpv
 filter  = 视频
 help    = <0.0-1.0> 指定要乘以负系数的权重偏差，此项默认值为0.0
 
-[setting]
 name    = cscale-antiring
 file    = mpv
 filter  = 视频
 help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此过程中引入其他伪影。默认值0.0禁用\n请注意，这不会影响特殊过滤器bilinear和bicubic_fast，也不会影响任何极坐标 (EWA) 缩放器\n使用同类着色器时基本无需启用此项
 
-[setting]
 name    = scale
 file    = mpv
 default = spline36
 filter  = 视频
 help    = 图像放大算法
-
 option  = nearest             最邻近算法只擅长整数倍缩放
 option  = bilinear
 option  = spline36
@@ -725,37 +611,31 @@ option  = ewa_hanning         类jinc，抑制振铃伪影，推荐
 option  = ewa_lanczossharp    类jinc，更锐利
 option  = ewa_lanczossoft     类jinc，更柔和
 
-[setting]
 name    = scale-radius
 file    = mpv
 filter  = 视频
 help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
 
-[setting]
 name    = scale-blur
 file    = mpv
 filter  = 视频
 help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
 
-[setting]
 name    = scale-clamp
 file    = mpv
 filter  = 视频
 help    = <0.0-1.0> 指定要乘以负系数的权重偏差，此项默认值为0.0
 
-[setting]
 name    = scale-antiring
 file    = mpv
 filter  = 视频
 help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此过程中引入其他伪影。默认值0.0禁用\n请注意，这不会影响特殊过滤器bilinear和bicubic_fast，也不会影响任何极坐标 (EWA) 缩放器\n使用同类着色器时基本无需启用此项
 
-[setting]
 name    = dscale
 file    = mpv
 default = 
 filter  = 视频
 help    = 图像缩小算法。\n不选任何选项即（默认）跟随--scale的算法
-
 option  = bilinear
 option  = spline36
 option  = mitchell
@@ -768,179 +648,155 @@ option  = ewa_hanning         类jinc，抑制振铃伪影，推荐
 option  = ewa_lanczossharp    类jinc，更锐利
 option  = ewa_lanczossoft     类jinc，更柔和
 
-[setting]
 name    = dscale-radius
 file    = mpv
 filter  = 视频
 help    = <0.5-16.0> 设置可调过滤器的半径。如果未指定，则默认为过滤器的首选半径\n不适用于每个缩放器和vo组合
 
-[setting]
 name    = dscale-blur
 file    = mpv
 filter  = 视频
 help    = 内核缩放因子（也称为模糊因子），默认值：0（使用内核首选的模糊因子）\n推荐值：0.8-1.2
 
-[setting]
 name    = dscale-clamp
 file    = mpv
 filter  = 视频
 help    = <0.0-1.0> 指定要乘以负系数的权重偏差，此项默认值为0.0
 
-[setting]
 name    = dscale-antiring
 file    = mpv
 filter  = 视频
 help    = <0.0-1.0> 设置抗振铃强度。这试图消除振铃，但会在此过程中引入其他伪影。默认值0.0禁用\n请注意，这不会影响特殊过滤器bilinear和bicubic_fast，也不会影响任何极坐标 (EWA) 缩放器\n使用同类着色器时基本无需启用此项
 
-[setting]
 name    = sigmoid-upscaling
 file    = mpv
 default = no
 filter  = 视频
 help    = 放大时非线性的颜色转换，可避免强振铃伪影\n使用adaptive-sharpen.glsl时须关闭
-
 option  = yes
 option  = no
 
-[setting]
 name    = linear-downscaling
 file    = mpv
 default = no
 filter  = 视频
 help    = 在缩小算法中线性处理可以提升颜色对比度的精确性\n使用SSimDownscaler.glsl时须关闭
-
 option  = yes
 option  = no
 
-[setting]
 name    = correct-downscaling
 file    = mpv
 default = no
 filter  = 视频
 help    = 增强缩小算法的质量，对于异形比例视频可能产生微小失真（当--dscale=bilinear时无效）\n效果类似anti-aliasing
-
 option  = yes
 option  = no
 
-[setting]
 name    = scaler-resizes-only
 file    = mpv
 default = yes
 filter  = 视频
 help    = 当未进行缩放处理时，使用bilinear算法完美还原\n禁用时，即使未改变大小，也使用指定的scale值进行处理,可以修正nnedi3和ravu引入的半像素偏移\n--vo=gpu-next时不再使用额外算法还原
-
 option  = yes
 option  = no
 
-[setting]
 name    = dither-depth
 file    = mpv
 default = no
 filter  = 视频
 help    = 启用色深抖动以弥补色彩转换损失（--gpu-api=vulkan时无法进行自动判断）\n手动指定的数值等于显示驱动中设定的值，非原生10bit的显示器根据实际画面效果更改
-
 option  = no
 option  = auto
 option  = 8                   抖动到8位输出
 option  = 10                  抖动到10位输出
 
-[setting]
 name    = dither
 file    = mpv
 default = fruit
 filter  = 视频
-help    = 选择色深抖动算法，当启用--dither-depth时生效\n推荐默认值fruit或ordered，error-diffusion耗能高且感知不明显\n注意：--vo=gpu-next下已弃用error-diffusion，改用bluenoise，可由默认值fruit自动触发
-
+help    = 选择色深抖动算法，当启用--dither-depth时生效\n推荐默认值fruit或ordered，error-diffusion耗能高且感知不明显
 option  = fruit
 option  = ordered
+option  = error-diffusion
 
-[setting]
 name    = dither-size-fruit
 file    = mpv
 filter  = 视频
 help    = <2-8> 设置色深抖动矩阵的大小（默认值：6）启用--dither=fruit时生效\n矩阵的实际大小为(2^N)x(2^N)，选项值为N，因此6实际为64x64
 
-[setting]
 name    = temporal-dither
 file    = mpv
 default = yes
 filter  = 视频
 help    = 启用时域色深抖动算法，仅当--dither*参数启用时生效
-
 option  = yes
 option  = no
 
-[setting]
 name    = temporal-dither-period
 file    = mpv
 filter  = 视频
 help    = <1-128> 确定色深抖动模式在使用时更新的频率，当启用--temporal-dither时生效\n1（默认值）将更新每个视频帧，2在其他帧等
 
-[setting]
 name    = deband
 file    = mpv
 default = no
 filter  = 视频
 help    = 去色带（受解码模式影响实际效果）
-
 option  = yes
 option  = no
 
-[setting]
 name    = deband-iterations
 file    = mpv
 filter  = 视频
 help    = <1-16> 去色带执行次数，越高强度但也越费时费力，数值>4实际无效 (默认1)
 
-[setting]
 name    = deband-threshold
 file    = mpv
 filter  = 视频
 help    = <0-4096> 滤波器的截止阈值，更高的数字会增加强度，但会逐渐减少图像细节（默认32）
 
-[setting]
 name    = deband-range
 file    = mpv
 filter  = 视频
 help    = <1-64> 初始半径，越大的值去色带越强且性能占用越高；值越小越平滑（默认值16）\n如果增大--deband-iterations，需减小此值来进行补偿
 
-[setting]
 name    = deband-grain
 file    = mpv
 filter  = 视频
 help    = <0-4096> 添加额外动态噪点，有助于掩盖剩余的量化伪影（默认48）
 
-[setting]
 name    = load-scripts
 file    = mpv
 default = yes
 filter  = 高级
 help    = 自动挂载设置目录"~~/scripts"中的外挂脚本
-
 option  = yes
 option  = no
 
-[setting]
+name    = sws-allow-zimg
+file    = mpv
+default = yes
+filter  = 高级
+help    = 软件缩放优先使用zimg（通常具有更高质量）而不是ffmpeg的libswscale，默认 yes\n出现色度问题及格式转换崩溃等问题时可尝试禁用此项\nffmpeg经常出现和zimg间的兼容性问题，建议禁用
+option  = yes
+option  = no
+
 name    = input-builtin-bindings
 file    = mpv
 default = no
 filter  = 高级
 help    = 设为no时可禁用mpv内置键位。此选项不会影响外部加载脚本的键位绑定\nmpv.net此项必须设为no，防止预设键位冲突
-
 option  = yes
 option  = no
 
-[setting]
 name    = input-default-bindings
 file    = mpv
 default = yes
 filter  = 高级
 help    = 设为no时可禁用mpv内置键位及外部加载脚本的--mp.add_key_binding键位绑定方案\n这可以有效解决外部脚本快捷键冲突，启用后需在input.conf里指定所需快捷键
-
 option  = yes
 option  = no
 
-[setting]
 name    = input-ipc-server
 file    = mpv
 filter  = 高级
@@ -948,7 +804,6 @@ type    = string
 width   = 500
 help    = IPC支持，输入监听路径\n例：如需开启SVP Manager支持，填写：mpvpipe
 
-[setting]
 name    = vf
 file    = mpv
 filter  = 高级
@@ -957,7 +812,6 @@ width   = 500
 help    = 跟随程序启动时加载的视频滤镜（很多不支持非-copy的硬解模式）
 url     = https://mpv.io/manual/master/#video-filters-vf
 
-[setting]
 name    = af
 file    = mpv
 filter  = 高级
@@ -966,7 +820,6 @@ width   = 500
 help    = 跟随程序启动时加载的音频滤镜
 url     = https://mpv.io/manual/master/#video-filters-af
 
-[setting]
 name    = glsl-shaders
 file    = mpv
 filter  = 高级
@@ -975,7 +828,6 @@ width   = 500
 help    = 跟随程序启动时加载的着色器
 url     = https://mpv.io/manual/master/#options-glsl-shaders
 
-[setting]
 name    = gpu-shader-cache-dir
 file    = mpv
 filter  = 高级
@@ -983,7 +835,6 @@ type    = string
 width   = 500
 help    = 在此目录中存储和加载已编译的GLSL着色器缓存，可以提高启动性能。\n例："~~/shaders_cache"\n注意：产生的缓存文件不会自动清理，很可能永久存在
 
-[setting]
 name    = log-file
 file    = mpv
 filter  = 高级
@@ -991,7 +842,6 @@ type    = string
 width   = 500
 help    = 输出libmpv的日志，须指定文件名+（可选）相对/绝对路径\n例：~~desktop/mpvnet_CM.log\n（无路径将默认生成在程序目录下）
 
-[setting]
 name    = audio-device
 file    = mpv
 filter  = 音频
@@ -1000,7 +850,6 @@ width   = 500
 help    = 可用的设备名在右键菜单中：工具 > 输出文本 > 音频设备列表，默认：auto
 url     = https://mpv.io/manual/master/#options-audio-device
 
-[setting]
 name    = ao
 file    = mpv
 filter  = 音频
@@ -1009,31 +858,26 @@ width   = 500
 help    = 指定要使用的音频输出驱动程序的优先级列表\n如果列表有尾随的 ','，mpv 将回退到未包含在列表中的驱动程序
 url     = https://mpv.io/manual/master/#options-ao
 
-[setting]
 name    = volume
 file    = mpv
 filter  = 音频
 help    = 启动音量，默认：70，建议：100
 
-[setting]
 name    = volume-max
 file    = mpv
 filter  = 音频
 help    = <100.0-1000.0> 可调节的最大音量，默认：130\nmpv的音量值并非线性递增，130的响度约为100两倍
 
-[setting]
 name    = audio-file-auto
 file    = mpv
 default = no
 filter  = 音频
 help    = 加载外挂音轨，建议：fuzzy
-
 option  = no
 option  = all                 同目录下所有支持的音频文件
 option  = exact               同名（精确名）
 option  = fuzzy               同名（模糊名）
 
-[setting]
 name    = audio-file-paths
 file    = mpv
 filter  = 音频
@@ -1042,7 +886,6 @@ width   = 500
 help    = 指定额外目录搜索与视频匹配的外挂音轨，例：audio;audios;外挂音轨
 url     = https://mpv.io/manual/master/#options-audio-file-paths
 
-[setting]
 name    = alang
 file    = mpv
 filter  = 音频
@@ -1050,109 +893,99 @@ type    = string
 width   = 500
 help    = 音轨语言优先级，例：jpn,ja,eng,en
 
-[setting]
 name    = aid
 file    = mpv
 filter  = 音频
 type    = string
 help    = 指定音轨轨道，例：1
 
-[setting]
 name    = audio-pitch-correction
 file    = mpv
 default = yes
 filter  = 音频
 help    = 变速播放时修正音调
-
 option  = yes
 option  = no                  关闭可获得更好的性能表现，但声音会变得诡异
 
-[setting]
 name    = audio-exclusive
 file    = mpv
 default = no
 filter  = 音频
 help    = 音频通道独占
-
 option  = yes
 option  = no
 
-[setting]
 name    = audio-channels
 file    = mpv
 default = auto-safe
 filter  = 音频
 help    = 控制输出的音频通道数量
-
 option  = auto-safe           自动，部分系统无法执行自动下混
 option  = stereo              强制下混多声道音源为立体声输出
 option  = 5.1,stereo          兼容5.1系统
 option  = 7.1,5.1,stereo      兼容7.1系统
 
-[setting]
 name    = audio-normalize-downmix
 file    = mpv
 default = no
 filter  = 音频
 help    = 如果环绕声音频下混为立体声，则启用/禁用规格化（默认：no）\n如果禁用此功能，下混可能会导致削波\n如果启用此功能，则输出可能太安静。这取决于源音频
-
 option  = yes
 option  = no
 
-[setting]
+name    = gapless-audio
+file    = mpv
+default = weak
+filter  = 音频
+help    = 尝试在文件更改时播放连续的音频文件，而不会静音或中断\n设为yes时会导致文件保存相同的采样率致使音质降低\n默认值weak有时会导致切换文件时暂停播放，建议禁用
+option  = yes
+option  = no
+option  = weak
+
 name    = sub-font-provider
 file    = mpv
 default = auto
 filter  = 字幕
 help    = 字体渲染api选项，windows推荐使用auto，DirectWrite性能最佳
-
 option  = auto                 自动选择系统字体渲染接口
 option  = none                 忽略字幕指定字体，使用sub-font参数
 option  = fontconfig           使用mpv.conf同目录下fonts.conf里的字体加载项。windows下不推荐，性能差
 
-[setting]
 name    = sub-ass-overrid
 file    = mpv
 default = yes
 filter  = 字幕
 help    = 设置字幕渲染方式，控制是否应用样式覆盖
-
 option  = no                  禁用
 option  = yes                 应用所有--sub-ass-*样式覆盖选项
 option  = force               强制应用所有--sub-*选项
 option  = scale               类似yes，但也适用--sub-scale
 option  = strip               去除所有ass标签和样式，此项也会影响pgs和srt等格式字幕
 
-[setting]
 name    = embeddedfonts
 file    = mpv
 default = yes
 filter  = 字幕
 help    = 使用嵌入在Matroska容器文件和ASS文本中的字体
-
 option  = no
 option  = yes
 
-[setting]
 name    = sub-codepage
 file    = mpv
 filter  = 字幕
 type    = string
 help    = 指定字幕使用的编码，默认值为auto：自动检测字幕编码，检测失败时默认回退UTF-8处理\n注意：这仅适用于文本字幕文件。其他类型的字幕（特别是 mkv 文件中的字幕）始终假定为 UTF-8
 
-[setting]
 name    = sub-auto
 file    = mpv
 default = exact
 filter  = 字幕
 help    = 加载外挂字幕，建议：fuzzy
-
 option  = no
 option  = all                 同目录下所有支持的字幕文件
 option  = exact               同名（精确名）
 option  = fuzzy               同名（模糊名）
 
-[setting]
 name    = sub-file-paths
 file    = mpv
 filter  = 字幕
@@ -1161,7 +994,6 @@ width   = 500
 help    = 指定额外目录搜索与视频匹配的字幕，例：sub;subtitles;字幕
 url     = https://mpv.io/manual/master/#options-sub-file-paths
 
-[setting]
 name    = slang
 file    = mpv
 filter  = 字幕
@@ -1169,81 +1001,66 @@ type    = string
 width   = 500
 help    = 字幕语言优先，例：chs,sc,zh,chi,zho
 
-[setting]
 name    = blend-subtitles
 file    = mpv
 default = no
 filter  = 字幕
 help    = 混合字幕到视频帧上，字幕被限制在画面内
-
 option  = yes                 当--interpolation=yes时还会增强高级字幕的渲染性能
 option  = video               类似yes，字幕将先以原始分辨率绘制，后与视频共同缩放
 option  = no                  适用于HDR片源，避免检测字幕亮度
 
-[setting]
 name    = sub-ass-force-margins
 file    = mpv
 default = no
 filter  = 字幕
 help    = ASS/SSA高级字幕尽可能输出黑边（当--blend-subtitles=yes/video时无效）
-
 option  = yes
 option  = no
 
-[setting]
 name    = sub-ass-scale-with-window
 file    = mpv
 default = no
 filter  = 字幕
 help    = 使ASS/SSA字幕字体大小相对于窗口，而不是视频（默认：no）\n当字幕输出到黑边时，启用此项或可改善观感
-
 option  = yes
 option  = no
 
-[setting]
 name    = stretch-image-subs-to-screen
 file    = mpv
 default = no
 filter  = 字幕
 help    = PGS/SUP图形字幕尽可能输出在黑边，强制拉伸图形字幕到缩放分辨率而不是参考视频分辨率（可能破坏显示效果）
-
 option  = yes
 option  = no
 
-[setting]
 name    = sub-ass-vsfilter-color-compat
 file    = mpv
 default = basic
 filter  = 字幕
 help    = 字幕色彩处理（模仿vsfilter）
 url     = https://mpv.io/manual/master/#options-sub-ass-vsfilter-color-compat
-
 option  = basic
 option  = full
 option  = force-601
 option  = no
 
-[setting]
 name    = sub-ass-vsfilter-aspect-compat
 file    = mpv
 default = yes
 filter  = 字幕
 help    = 播放非常规比例视频时拉伸ass/ssa字幕（模仿vsfilter）
-
 option  = yes
 option  = no
 
-[setting]
 name    = sub-ass-vsfilter-blur-compat
 file    = mpv
 default = yes
 filter  = 字幕
 help    = 通过视频分辨率而不是ass/ssa字幕指定的分辨率缩放/blur标签（模仿vsfilter）
-
 option  = yes
 option  = no
 
-[setting]
 name    = sub-ass-force-style
 file    = mpv
 type    = string
@@ -1251,33 +1068,27 @@ width   = 500
 filter  = 字幕
 help    = 强制预更改ass/ssa字幕样式\n例如无视标记而不缩放边框和阴影（模仿vsfilter）：ScaledBorderAndShadow=no\n注：libass 0.15.2后的git版已修复该问题
 
-[setting]
 name    = sub-gauss
 file    = mpv
 filter  = 字幕
 help    = <0.0-3.0> 将高斯模糊应用于图像字幕（默认值：0）。这有助于使像素化 DVD/Vobsub 看起来更好
 
-[setting]
 name    = stretch-dvd-subs
 file    = mpv
 default = no
 filter  = 字幕
 help    = <0.0-3.0> 播放变形视频时拉伸 DVD 字幕，默认禁用
-
 option  = yes
 option  = no
 
-[setting]
 name    = sub-gray
 file    = mpv
 default = no
 filter  = 字幕
 help    = 将图像字幕转换为灰度。可以使黄色 DVD/Vobsubs 看起来更好
-
 option  = yes
 option  = no
 
-[setting]
 name    = sub-font
 file    = mpv
 filter  = 字幕
@@ -1285,92 +1096,77 @@ type    = string
 width   = 500
 help    = 字幕缺省字体的替代，默认：sans-serif，例：SourceHanSansSC-Bold
 
-[setting]
 name    = sub-font-size
 file    = mpv
 filter  = 字幕
 help    = 文本字幕的字体大小，默认：55
 
-[setting]
 name    = sub-bold
 file    = mpv
 default = no
 filter  = 字幕
 help    = 文本字幕使用粗体样式
-
 option  = yes
 option  = no
 
-[setting]
 name    = sub-italic
 file    = mpv
 default = no
 filter  = 字幕
 help    = 文本字幕使用斜体样式
-
 option  = yes
 option  = no
 
-[setting]
 name    = sub-color
 file    = mpv
 type    = color
 filter  = 字幕
 help    = 文本字幕的字体颜色
 
-[setting]
 name    = sub-border-size
 file    = mpv
 type    = string
 filter  = 字幕
 help    = 文本字幕的边框大小，0为无，默认：3，建议：1
 
-[setting]
 name    = sub-border-color
 file    = mpv
 type    = color
 filter  = 字幕
 help    = 文本字幕的边框颜色
 
-[setting]
 name    = sub-shadow-offset
 file    = mpv
 type    = string
 filter  = 字幕
 help    = 文本字幕的阴影大小，默认值：0
 
-[setting]
 name    = sub-shadow-color
 file    = mpv
 type    = color
 filter  = 字幕
 help    = 文本字幕的阴影颜色
 
-[setting]
 name    = sub-blur
 file    = mpv
 type    = string
 filter  = 字幕
 help    = 文本字幕的边缘模糊度，默认值：0 <0..20.0>
 
-[setting]
 name    = sub-spacing
 file    = mpv
 type    = string
 filter  = 字幕
 help    = 文本字幕的字间距，默认值：0
 
-[setting]
 name    = sub-use-margins
 file    = mpv
 default = yes
 filter  = 字幕
 help    = 文本字幕输出在黑边
-
 option  = yes
 option  = no
 
-[setting]
 name    = screenshot-template
 file    = mpv
 filter  = 截图
@@ -1379,118 +1175,97 @@ width   = 500
 help    = 截图保存模板，在模板中写入路径，否则将保存在桌面\n推荐：~~/screen/%flies-%P-N%n
 url     = https://mpv.io/manual/master/#options-screenshot-template
 
-[setting]
 name    = screenshot-format
 file    = mpv
 default = jpg
 filter  = 截图
 help    = 截图输出格式
-
 option  = jpg
 option  = jpeg
 option  = png
 option  = webp
 option  = jxl
 
-[setting]
 name    = screenshot-jpeg-quality
 file    = mpv
 filter  = 截图
 help    = <0-100> JPEG质量等级，默认：90，建议：100
 
-[setting]
 name    = screenshot-jpeg-source-chroma
 file    = mpv
 default = yes
 filter  = 截图
 help    = JPEG使用与视频相同的色度半采样
-
 option  = yes
 option  = no
 
-[setting]
 name    = screenshot-png-compression
 file    = mpv
 filter  = 截图
 help    = <0-9> PNG压缩等级，默认：7，建议：5\n无损压缩不影响质量，越高的等级可让生成的文件越小，但需要更高性能和更多时间
 
-[setting]
 name    = screenshot-png-filter
 file    = mpv
 filter  = 截图
 help    = <0-5> PNG压缩过滤器，默认值已实现最佳压缩率：5
 
-[setting]
 name    = screenshot-webp-lossless
 file    = mpv
 default = no
 filter  = 截图
 help    = WEBP采用无损
-
 option  = yes
 option  = no
 
-[setting]
 name    = screenshot-webp-quality
 file    = mpv
 filter  = 截图
 help    = <0-100> WEBP质量等级（--screenshot-webp-lossless=no时生效），默认：75，建议：100
 
-[setting]
 name    = screenshot-webp-compression
 file    = mpv
 filter  = 截图
 help    = <0-6> WEBP压缩等级，默认：4\n当采用有损WEBP时，此项也会影响质量
 
-[setting]
 name    = screenshot-jxl-distance
 file    = mpv
 filter  = 截图
 help    = <0-15> JXL的视觉模型距离，0为质量无损，0.1为视觉无损，默认 1 相当于JPEG的90质量
 
-[setting]
 name    = screenshot-jxl-effort
 file    = mpv
 filter  = 截图
 help    = <1-9> JXL压缩等级，过高的等级影响性能，默认 3
 
-[setting]
 name    = screenshot-tag-colorspace
 file    = mpv
 default = no
 filter  = 截图
 help    = 使用合适的色彩空间标记屏幕截图（不完全支持所有格式）
-
 option  = yes
 option  = no
 
-[setting]
 name    = screenshot-high-bit-depth
 file    = mpv
 default = yes
 filter  = 截图
 help    = 尽可能以高位深输出截图（只对PNG/JXL有效）
-
 option  = yes
 option  = no
 
-[setting]
 name    = screenshot-sw
 file    = mpv
 default = no
 filter  = 截图
 help    = 是否对屏幕截图使用软件渲染，默认：no\n如果设置为 yes，则使用软件缩放器将视频转换为 RGB（或目标屏幕截图所需的任何内容）\n软件渲染器可能缺少某些功能，例如 HDR 渲染
-
 option  = yes
 option  = no
 
-[setting]
 name    = tone-mapping
 file    = mpv
 default = auto
 filter  = HDR
 help    = 色调映射算法
-
 option  = auto                根据内部启发式方法选择最佳曲线
 option  = bt.2390             适合于一般HDR映射，峰值过高时易产生过曝
 option  = reinhard            倾向于保留亮度
@@ -1500,103 +1275,85 @@ option  = gamma               擅长夜景
 option  = spline              感知性色调映射，仅适用于--vo=gpu-next
 option  = bt.2446a            基于luma的色调映射，仅适用于--vo=gpu-next
 
-[setting]
 name    = tone-mapping-param
 file    = mpv
 filter  = HDR
 help    = 色调映射算法的小参。hable和bt.2446a无参，bt.2390在--vo=gpu下无参，--vo=gpu-next下默认值1.0\nmobius和spline默认0.3/reinhard默认0.5/gamma默认1.8（--vo=gpu-next下默认值为0.5）\n--vo=gpu-next下使用bt.2390时推荐值：2.0 或ITU-R规范中的值0.5
 url     = https://mpv.io/manual/master/#options-tone-mapping-param
 
-[setting]
 name    = tone-mapping-max-boost
 file    = mpv
 filter  = HDR
 help    = <1.0-10.0> 平均亮度的最大曝光倍数，默认：1.0\n增大此值可显示暗处隐藏的细节，过高会使暗处看起来不自然地明亮\n仅适用于--vo=gpu
 
-[setting]
 name    = tone-mapping-crosstalk
 file    = mpv
 filter  = HDR
 help    = <0.0..0.30> 默认值：0.04，如果值非0，则在色调映射之前应用额外的串扰矩阵。可以帮助改善强饱和单色高光的外观\n仅适用于--vo=gpu-next
 
-[setting]
 name    = tone-mapping-mode
 file    = mpv
 default = auto
 filter  = HDR
 help    = 控制色调映射功能如何应用于颜色，默认auto：自动选择最佳模式
-
 option  = auto                自动选择最佳模式
 option  = rgb                 基于RGB每通道进行色调映射，推荐
 option  = max                 基于视频中最亮部分进行色调映射
 option  = hybrid              基于调和高光的RGB每通道进行色调映射
 option  = luma                基于亮度进行色调映射，仅适用于--vo=gpu-next
 
-[setting]
 name    = gamut-mapping-mode
 file    = mpv
 default = auto
 filter  = HDR
 help    = 在完成任何色调映射后指定所需的目标显示色域的处理方式，默认auto：自动选择最佳模式
-
 option  = auto                自动选择最佳模式
 option  = clip                RGB每通道硬剪切到目标色域，推荐
 option  = warn                只突出显示色域外像素
 option  = desaturate          色度去饱和色域外的颜色变为白色
 option  = darken              线性使整个图像变暗，然后剪切到目标色域。仅适用于--vo=gpu-next
 
-[setting]
 name    = hdr-compute-peak
 file    = mpv
 default = auto
 filter  = HDR
 help    = 计算每帧的HDR峰值和帧平均亮度，它提供了基础的场景动态色调映射\n此功能需要支持OpenGL4.3及之后版本的显卡
-
 option  = auto
 option  = yes
 option  = no
 
-[setting]
 name    = interpolation-preserve
 file    = mpv
 default = yes
 filter  = 实验性
 help    = 即使更改渲染器参数，也保留前一帧的插值结果。裁剪和视频放置相关的选项除外，它们总是使缓存无效\n启用此选项会使渲染器设置的动态更新更平滑，但代价是响应此类更改时延迟稍高。默认启用\n此选项仅影响--vo=gpu-next，注意-vo=gpu总是使插值帧无效
-
 option  = yes
 option  = no
 
-[setting]
 name    = target-colorspace-hint
 file    = mpv
 default = no
 filter  = 实验性
 help    = 如果可能的话，自动配置显示器的输出色彩空间，以通过流的输入值（例如HDR直通）。需要一个支持的驱动程序和--vo=gpu-next
-
 option  = yes
 option  = no
 
-[setting]
 name    = inverse-tone-mapping
 file    = mpv
 default = no
 filter  = 实验性
 help    = 如果设置，则允许反向色调映射（将SDR扩展到HDR），仅在HDR设备上有效\n注意：该选项不支持使用部分色调映射曲线。请谨慎使用\n仅适用于--vo=gpu-next
-
 option  = yes
 option  = no
 
-[setting]
 name    = allow-delayed-peak-detect
 file    = mpv
 default = yes
 filter  = 实验性
 help    = 使用--hdr-compute-peak时，允许在有利于性能的情况下将检测到的峰值延迟一帧。特别是当不需要高级渲染时，这可以避免不必要的FBO处理。默认启用\n此选项仅影响--vo=gpu-next，注意-vo=gpu默认延迟峰值处理
-
 option  = yes
 option  = no
 
-[setting]
 name    = lut
 file    = mpv
 filter  = 实验性
@@ -1604,19 +1361,16 @@ type    = string
 width   = 500
 help    = 指定自定义LUT（Adobe .cube格式）作为颜色转换的一部分应用于颜色。确切的方式取决于--lut-type\n仅适用于--vo=gpu-next
 
-[setting]
 name    = lut-type
 file    = mpv
 default = auto
 filter  = 实验性
 help    = 控制传入和传出指定为--lut的LUT的颜色值的方式
-
 option  = auto                从标记的元数据中自动选择LUT，否则回退到系统（默认）
 option  = native              在转换到输出颜色空间之前，应用于原始RGB颜色空间的原始图像内容（非线性光）
 option  = normalized          在转换到输出色彩空间之前，应用于线性光下的归一化RGB图像内容
 option  = conversion          全替换从图像色彩空间到输出色彩空间的转换。如果存在此类LUT，则它具有最高优先级，并覆盖任何ICC配置文件以及与色调映射和输出色度相关的选项（--target-prim、--target-trc等）
 
-[setting]
 name    = target-lut
 file    = mpv
 filter  = 实验性
@@ -1624,7 +1378,6 @@ type    = string
 width   = 500
 help    = 指定自定义LUT文件（Adobe .cube格式）以在屏幕上显示之前应用于颜色\n在编码到目标色彩空间后，此LUT以归一化RGB形式提供值，因此将在--target-trc之后处理\n仅适用于--vo=gpu-next
 
-[setting]
 name    = image-lut
 file    = mpv
 filter  = 实验性
@@ -1632,69 +1385,63 @@ type    = string
 width   = 500
 help    = 指定自定义LUT文件（Adobe .cube格式）以在图像解码期间应用于颜色。LUT的确切方式取决于--image-lut-type\n仅适用于--vo=gpu-next
 
-[setting]
 name    = image-lut-type
 file    = mpv
 default = auto
 filter  = 实验性
 help    = 控制传入和传出指定为--image-lut的LUT的颜色值的方式
-
 option  = auto                从标记的元数据中自动选择LUT，否则回退到系统（默认）
 option  = native              在解码为RGB之前应用于原始颜色空间中的原始图像内容。例如对于HDR10图像，这将输入范围为0.0-1.0的PQ编码的YCbCr值
 option  = normalized          应用于归一化的RGB图像内容，在从其原生颜色编码解码之后，但在线性化之前
 option  = conversion          完全取代颜色解码。这种类型的LUT应该摄取图像的原生色彩空间并输出归一化的非线性RGB
 
-[setting]
 name    = use-filedir-conf
 file    = mpv
 default = no
 filter  = 扩展性
 help    = 在播放文件同目录中加载配置文件
-
 option  = yes
 option  = no
 
-[setting]
 name    = include
 file    = mpv
 type    = string
 width   = 500
 filter  = 扩展性
-help    = 追加读取指定的配置文件\n由于mpv.net图形编辑器的局限性，此项可用于读取额外的自定义参数及配置组的.conf配置文件\n例："~~/mpvown.conf"\n注意：此项参数必须位于主配置mpv.conf中的末尾，避免追加配置被覆盖
+help    = 在默认配置文件之后追加读取指定的配置文件\n由于mpv.net图形编辑器的局限性，此项可用于读取额外的自定义参数及配置组的conf配置文件\n例："~~/mpvown.conf"\n注意：追加的配置文件将会覆盖mpv.conf中已有的相同参数
 
-[setting]
 name    = remember-volume
 file    = mpvnet
 default = yes
 filter  = mpvnet
 help    = 记住程序退出前的音量
-
 option  = yes
 option  = no
 
-[setting]
 name    = remember-window-position
 file    = mpvnet
 default = no
 filter  = mpvnet
 help    = 记住窗口位置
-
 option  = yes
 option  = no
 
-[setting]
 name    = recent-count
 file    = mpvnet
 filter  = mpvnet
 help    = <整数> 最近观看记录中保存的数量，默认：15
 
-[setting]
+name    = history-filter
+file    = mpvnet
+filter  = mpvnet
+width   = 500
+help    = 设置要从历史记录日志功能中排除的路径，以分号来分隔列表
+
 name    = start-size
 file    = mpvnet
 default = height-session
 filter  = mpvnet
 help    = 启动窗口大小，受--auto-fit限制
-
 option  = width-session       记住当前宽度，退出后不保存
 option  = width-always        始终记住当前宽度
 option  = height-session      记住当前高度，退出后不保存
@@ -1703,86 +1450,94 @@ option  = video               源文件分辨率
 option  = session             记住当前尺寸
 option  = always              始终记住
 
-[setting]
 name    = start-threshold
 file    = mpvnet
 filter  = mpvnet
 help    = 在显示窗口之前等待libmpv返回视频分辨率的阈值（毫秒），否则使用--autofit和--start-size定义的默认尺寸，默认：1500
 
-[setting]
 name    = minimum-aspect-ratio
 file    = mpvnet
 filter  = mpvnet
-help    = <小数> 最小纵横比，如果源纵横比小于定义值，则窗口纵横比设置为 16:9，默认：1.2\n避免在显示音乐封面时使用方形窗口
+help    = <小数> 窗口的最小纵横比。用于强制更宽的窗口，从而显示更大的OSC
 
-[setting]
+name    = minimum-aspect-ratio-audio
+file    = mpvnet
+filter  = mpvnet
+help    = <小数> 功能类似--minimum-aspect-ratio，但适用于音频文件
+
+name    = autofit-image
+file    = mpvnet
+filter  = mpvnet
+help    = <int> 图像文件的初始窗口高度（以百分比表示）。默认值：80
+
+name    = autofit-audio
+file    = mpvnet
+filter  = mpvnet
+help    = <int> 音频文件的初始窗口高度（以百分比表示）。默认值：70
+
 name    = auto-play
 file    = mpvnet
 default = no
 filter  = mpvnet
 help    = 强制自动播放，此项设置将覆盖程序启动时--pause选项的值
-
 option  = yes
 option  = no
 
-[setting]
 name    = auto-load-folder
 file    = mpvnet
 default = yes
 filter  = mpvnet
 help    = 打开单文件时自动挂载同目录其它文件到当前播放列表（点击确定按钮时可按Shift键阻止）
-
 option  = yes
 option  = no
 
-[setting]
 name    = process-instance
 file    = mpvnet
 default = single
 filter  = mpvnet
 help    = 是否允许多个mpv.net进程
-
 option  = multi               每次启动mpv.net时创建一个新进程
 option  = single              每次启动mpv.net时强制单进程
 option  = queue               每次启动mpv.net时强制单进程，将后续文件添加到播放列表
 
-[setting]
+name    = media-info
+file    = mpvnet
+default = yes
+filter  = mpvnet
+help    = 使用MediaInfo而不是mpv的track-list来获取媒体信息
+option  = yes
+option  = no
+
 name    = video-file-extensions
 file    = mpvnet
 filter  = mpvnet
 width   = 500
 help    = 视频文件扩展名列表，用于创建文件关联，并由自动加载文件夹功能使用
 
-[setting]
 name    = audio-file-extensions
 file    = mpvnet
 filter  = mpvnet
 width   = 500
 help    = 音频文件扩展名列表，用于创建文件关联，并由自动加载文件夹功能使用
 
-[setting]
 name    = image-file-extensions
 file    = mpvnet
 filter  = mpvnet
 width   = 500
 help    = 图片文件扩展名列表，用于创建文件关联，并由自动加载文件夹功能使用
 
-[setting]
 name    = debug-mode
 file    = mpvnet
 default = no
 filter  = mpvnet
-
 option  = yes
 option  = no
 
-[setting]
 name    = show-logo
 file    = mpvnet
 filter  = mpvnet
 default = yes
 help    = 是否显示mpv.net的徽标logo
-
 option  = yes
 option  = no
 
@@ -1790,34 +1545,27 @@ name = show-santa-logo
 file    = mpvnet
 default = yes
 filter  = mpvnet
-help = 在12月用圣诞老人帽子绘制蓝色mpv.net徽标
-
+help    = 在12月用圣诞老人帽子绘制蓝色mpv.net徽标
 option = yes
 option = no
 
-[setting]
 name    = dark-mode
 file    = mpvnet
 default = always
 filter  = mpvnet
 help    = 深色模式（重启程序以完全生效）
-
 option  = always              始终开启
 option  = never               始终关闭
 option  = system              跟随系统设置
 
-[setting]
 name    = dark-theme
 file    = mpvnet
 filter  = mpvnet
 help    = 深色模式中使用的颜色主题（重启程序以完全生效），默认：dark\n可选：bili
 url     = https://github.com/mpvnet-player/mpv.net/blob/master/docs/Manual_chs.md#配色主题
 
-[setting]
 name    = light-theme
 file    = mpvnet
 filter  = mpvnet
 help    = 浅色模式中使用的颜色主题（重启程序以完全生效），默认：light
 url     = https://github.com/mpvnet-player/mpv.net/blob/master/docs/Manual_chs.md#配色主题
-
-
