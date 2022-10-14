@@ -1,0 +1,28 @@
+name: update fork
+
+on:
+   repository_dispatch: 
+   workflow_dispatch:
+   schedule:
+     - cron: '00 00 * * *' #设置定时任务
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.WORKFLOW_TOKEN }}
+    - name: Set env
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    - name: Update fork master
+      run: |
+        git remote add upstream https://github.com/mpvnet-player/mpv.net.git
+        git remote -v
+        git fetch upstream
+        git checkout master
+        git rebase --strategy-option=ours upstream/master
+        git push -f origin master

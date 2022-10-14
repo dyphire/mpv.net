@@ -1,0 +1,41 @@
+name: mpvnet build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - ci
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '.gitattributes'
+      - 'docs/**'
+      - '.github/**'
+jobs:
+  build:
+    name: Build mpv.net
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1
+#      with:
+#        vs-version: '[16.4,16.5)'
+    - name: Build
+      shell: cmd
+      run: |
+        cd src
+        msbuild -restore
+        msbuild mpv.net.csproj /m /p:Configuration=Release /p:Platform=x64
+    - name: Get version
+      shell: bash
+      run: |
+        echo "version=$(cat src/Properties/AssemblyInfo.cs | grep -o 'AssemblyFileVersion.*' | grep -o '\([0-9]\+\.\)\+[0-9]\+')" >> $GITHUB_ENV
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: mpv.net_${{ env.version }}
+        path: src/bin/x64/Release
